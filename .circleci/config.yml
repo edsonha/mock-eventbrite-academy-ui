@@ -1,22 +1,5 @@
 version: 2.0
 jobs:
-  build:
-    docker:
-      - image: circleci/node:12.2.0
-    steps:
-      - checkout
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: Install dependencies
-          command: npm install
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-      - run:
-          name: Run unit tests
-          command: npm run build
   test:
     docker:
       - image: circleci/node:12.2.0
@@ -34,6 +17,23 @@ jobs:
       - run:
           name: Run unit tests
           command: npm test
+  build:
+    docker:
+      - image: circleci/node:12.2.0
+    steps:
+      - checkout
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+      - run:
+          name: Install dependencies
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run:
+          name: Run unit tests
+          command: npm run build
   deploy:
     docker:
       - image: circleci/node:12.2.0
@@ -49,9 +49,11 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - build
       - test
+      - build:
+        requires:
+          - test
       - deploy:
-          requires:
-            - build
-            - test
+        requires:
+          - build
+          - test
