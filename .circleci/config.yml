@@ -16,7 +16,7 @@ jobs:
             - node_modules
       - run:
           name: Run unit tests
-          command: npm run start
+          command: npm run build
   test:
     docker:
       - image: circleci/node:12.2.0
