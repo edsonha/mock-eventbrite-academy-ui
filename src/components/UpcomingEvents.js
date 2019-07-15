@@ -28,7 +28,7 @@ class UpcomingEvents extends React.Component {
           const timeDiffInMinutes =
             (moment.utc(event.time).toDate() - Date.now()) / 1000 / 60;
           // console.log(timeDiffInMinutes / 60);
-          return timeDiffInMinutes > 0;
+          return timeDiffInMinutes > 0 && event.availableSeats > 0;
         })
         .map(event => <EventCard key={uuid()} eventDetail={event} />);
       return (
