@@ -1,6 +1,6 @@
 import React from "react";
 // import { Card, CardTitle, CardSubtitle, Button, CardText } from "reactstrap";
-import EventCard from "./EventCard";
+// import EventCard from "./EventCard";
 
 class UpcomingEvents extends React.Component {
   constructor(props) {
