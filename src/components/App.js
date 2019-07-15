@@ -2,7 +2,7 @@ import React from "react";
 import Header from "./Header";
 import "../styles/App.css";
 import UpcomingEvents from "./UpcomingEvents";
-import mockEvents from "../__tests__/mockEvents.mockdata";
+import mockEvents from "../__mockData__/mockEvents.mockdata";
 
 function App() {
   return (

@@ -4,7 +4,7 @@ import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import "@testing-library/react/cleanup-after-each";
 import UpcomingEvents from "../components/UpcomingEvents";
-import mockEvents from "./mockEvents.mockdata";
+import mockEvents from "../__mockData__/mockEvents.mockdata";
 
 describe("Upcoming Events", () => {
   it("should show 'Stay tuned' message if there is no upcoming events.", () => {
@@ -13,7 +13,7 @@ describe("Upcoming Events", () => {
   });
 
   it("should contain the labels for the event summary", () => {
-    const { getByText, getAllByText } = render(
+    const { getByText } = render(
       <UpcomingEvents upcomingEvents={[mockEvents[0]]} />
     );
     expect(getByText("What is your Plan B?")).toBeInTheDocument();
