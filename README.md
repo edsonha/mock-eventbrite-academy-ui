@@ -1,1 +1,1 @@
-Frontend POC for Stashaway academy
+Frontend POC for Stashaway
