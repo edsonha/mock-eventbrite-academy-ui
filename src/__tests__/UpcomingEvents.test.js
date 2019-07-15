@@ -25,7 +25,7 @@ describe("Upcoming Events", () => {
   });
 
   it("should display two cards for two events", () => {
-    // console.log(mockEvents);
+    console.log(mockEvents);
     const { getByText, getAllByText } = render(
       <UpcomingEvents upcomingEvents={mockEvents} />
     );
@@ -45,5 +45,24 @@ describe("Upcoming Events", () => {
     expect(getByText("At: Wework Beach Rd")).toBeInTheDocument();
 
     expect(getAllByText("Register").length).toBe(2);
+  });
+
+  it("should show events whose event date is in the future.", () => {
+    const spy = jest.spyOn(global, "Date");
+    spy.mockImplementationOnce(() => new Date(2019, 7, 16, 12, 0, 0));
+    const { getByText, getAllByText } = render(
+      <UpcomingEvents upcomingEvents={mockEvents} />
+    );
+
+    expect(spy).toHaveBeenCalledTimes(1);
+    expect(getByText("Investing in ETFs")).toBeInTheDocument();
+    expect(getByText("Lorum Ipsum Blah Blah.")).toBeInTheDocument();
+    expect(getByText("By: Freddie")).toBeInTheDocument();
+    expect(
+      getByText("On: Wednesday, 17 July 2019, 7pm-9pm")
+    ).toBeInTheDocument();
+    expect(getByText("At: Wework Beach Rd")).toBeInTheDocument();
+
+    expect(getAllByText("Register").length).toBe(1);
   });
 });
