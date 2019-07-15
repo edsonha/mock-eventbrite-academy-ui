@@ -19,10 +19,11 @@ describe("Upcoming Events", () => {
     expect(getByText("Stay tuned for new events.")).toBeInTheDocument();
   });
 
-  it("should contain the labels for the event summary", () => {
+  it("should display one card for one event", () => {
     const { getByText } = render(
       <UpcomingEvents upcomingEvents={[mockEvents[0]]} />
     );
+
     expect(getByText("What is your Plan B?")).toBeInTheDocument();
     expect(getByText("Lorum Ipsum.")).toBeInTheDocument();
     expect(getByText("By: Michele Ferrario")).toBeInTheDocument();
@@ -63,9 +64,17 @@ describe("Upcoming Events", () => {
   it("should show events whose event date is in the future.", () => {
     mockDate.set("2019-08-16");
 
-    const { getByText, getAllByText } = render(
+    const { getByText, getAllByText, queryByText } = render(
       <UpcomingEvents upcomingEvents={mockEvents} />
     );
+    expect(queryByText("What is your Plan B?")).not.toBeInTheDocument();
+    expect(queryByText("Lorum Ipsum.")).not.toBeInTheDocument();
+    expect(queryByText("By: Michele Ferrario")).not.toBeInTheDocument();
+    expect(
+      queryByText("On: Thursday, August 15th 2019, 7:00 pm")
+    ).not.toBeInTheDocument();
+    expect(queryByText("Duration: 2hr")).not.toBeInTheDocument();
+    expect(queryByText("At: WeWork Robinson Rd")).not.toBeInTheDocument();
 
     expect(getByText("Investing in ETFs")).toBeInTheDocument();
     expect(getByText("Lorum Ipsum Blah Blah.")).toBeInTheDocument();
@@ -81,9 +90,17 @@ describe("Upcoming Events", () => {
   it("should show events whose event date is in the current day but the current time is before event time", () => {
     mockDate.set("2019-08-17T09:59:59Z");
 
-    const { getByText, getAllByText } = render(
+    const { getByText, getAllByText, queryByText } = render(
       <UpcomingEvents upcomingEvents={mockEvents} />
     );
+    expect(queryByText("What is your Plan B?")).not.toBeInTheDocument();
+    expect(queryByText("Lorum Ipsum.")).not.toBeInTheDocument();
+    expect(queryByText("By: Michele Ferrario")).not.toBeInTheDocument();
+    expect(
+      queryByText("On: Thursday, August 15th 2019, 7:00 pm")
+    ).not.toBeInTheDocument();
+    expect(queryByText("Duration: 2hr")).not.toBeInTheDocument();
+    expect(queryByText("At: WeWork Robinson Rd")).not.toBeInTheDocument();
 
     expect(getByText("Investing in ETFs")).toBeInTheDocument();
     expect(getByText("Lorum Ipsum Blah Blah.")).toBeInTheDocument();
@@ -99,9 +116,18 @@ describe("Upcoming Events", () => {
   it("should not show events whose event date is in the same day and the current time is after the event time", () => {
     mockDate.set("2019-08-15T11:00:01Z");
 
-    const { getByText, getAllByText } = render(
+    const { getByText, getAllByText, queryByText } = render(
       <UpcomingEvents upcomingEvents={mockEvents} />
     );
+
+    expect(queryByText("What is your Plan B?")).not.toBeInTheDocument();
+    expect(queryByText("Lorum Ipsum.")).not.toBeInTheDocument();
+    expect(queryByText("By: Michele Ferrario")).not.toBeInTheDocument();
+    expect(
+      queryByText("On: Thursday, August 15th 2019, 7:00 pm")
+    ).not.toBeInTheDocument();
+    expect(queryByText("Duration: 2hr")).not.toBeInTheDocument();
+    expect(queryByText("At: WeWork Robinson Rd")).not.toBeInTheDocument();
 
     expect(getByText("Investing in ETFs")).toBeInTheDocument();
     expect(getByText("Lorum Ipsum Blah Blah.")).toBeInTheDocument();
