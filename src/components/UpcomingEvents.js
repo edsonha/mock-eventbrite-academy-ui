@@ -1,5 +1,6 @@
 import React from "react";
 import EventCard from "./EventCard";
+import uuid from "uuid";
 
 class UpcomingEvents extends React.Component {
   constructor(props) {
@@ -17,9 +18,14 @@ class UpcomingEvents extends React.Component {
         </div>
       );
     } else {
-      const eventCards = this.state.upcomingEvents.map(event => (
-        <EventCard eventDetail={event} />
-      ));
+      const eventCards = this.state.upcomingEvents
+        .filter(event => {
+          const offsetInMilliSec = new Date().getTimezoneOffset() * 60 * 1000;
+          const timeDiffInMinutes =
+            (event.time.toDate() - Date.now() + offsetInMilliSec) / 1000 / 60;
+          return timeDiffInMinutes > 0;
+        })
+        .map(event => <EventCard key={uuid()} eventDetail={event} />);
       return (
         <div data-testid="upcoming-events">
           <h1>Upcoming Events</h1>

@@ -15,7 +15,7 @@ jobs:
           paths:
             - node_modules
       - run:
-          name: Run unit tests
+          name: Run build
           command: npm run build
   test:
     docker:
