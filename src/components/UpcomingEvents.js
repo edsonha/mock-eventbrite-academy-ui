@@ -1,6 +1,7 @@
 import React from "react";
 import EventCard from "./EventCard";
 import uuid from "uuid";
+import moment from "moment";
 
 class UpcomingEvents extends React.Component {
   constructor(props) {
@@ -20,9 +21,13 @@ class UpcomingEvents extends React.Component {
     } else {
       const eventCards = this.state.upcomingEvents
         .filter(event => {
-          const offsetInMilliSec = new Date().getTimezoneOffset() * 60 * 1000;
+          // const offsetInMilliSec = new Date().getTimezoneOffset() * 60 * 1000;
+          // console.log(event.title, moment.utc(event.time).toDate());
+          // console.log(Date(Date.now()).toString());
+
           const timeDiffInMinutes =
-            (event.time.toDate() - Date.now() + offsetInMilliSec) / 1000 / 60;
+            (moment.utc(event.time).toDate() - Date.now()) / 1000 / 60;
+          // console.log(timeDiffInMinutes / 60);
           return timeDiffInMinutes > 0;
         })
         .map(event => <EventCard key={uuid()} eventDetail={event} />);

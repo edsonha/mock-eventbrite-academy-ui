@@ -114,7 +114,7 @@ describe("Upcoming Events", () => {
   });
 
   it("should not show events whose event date is in the same day and the current time is after the event time", () => {
-    mockDate.set("2019-08-15T11:00:01Z");
+    mockDate.set("2019-08-15T11:01:00Z");
 
     const { getByText, getAllByText, queryByText } = render(
       <UpcomingEvents upcomingEvents={mockEvents} />
