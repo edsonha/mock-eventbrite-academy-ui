@@ -8,6 +8,8 @@ function App() {
     <div className="App">
       <Header />
       <UpcomingEvents />
+      Stashaway
+      <UpcomingEvents upcomingEvents={[]} />
     </div>
   );
 }
