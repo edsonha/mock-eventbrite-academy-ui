@@ -6,7 +6,7 @@ import "../styles/Header.css";
 const Header = () => {
   return (
     <Navbar className="navbar col" light expand="sm">
-      <NavbarBrand href="/">
+      <NavbarBrand>
         <Logo data-testid="logo-svg" />
       </NavbarBrand>
       <div className="button-wrapper">
