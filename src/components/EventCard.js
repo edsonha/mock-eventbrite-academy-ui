@@ -2,10 +2,11 @@ import React from "react";
 import { Card, CardTitle, CardSubtitle, Button, CardText } from "reactstrap";
 import { minToHour } from "../helper/minToHour";
 import moment from "moment";
+import "../styles/EventCard.css";
 
 const EventCard = props => {
   return (
-    <Card>
+    <Card className="event-card">
       <CardTitle>{props.eventDetail.title}</CardTitle>
       <CardText>{props.eventDetail.description}</CardText>
       <CardSubtitle>By: {props.eventDetail.speaker}</CardSubtitle>
@@ -19,7 +20,7 @@ const EventCard = props => {
         Duration: {minToHour(props.eventDetail.duration)}
       </CardSubtitle>
       <CardSubtitle>At: {props.eventDetail.location}</CardSubtitle>
-      <Button>Register</Button>
+      <Button className="register-button float-right">Register</Button>
     </Card>
   );
 };
