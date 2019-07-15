@@ -1,12 +1,12 @@
 import React from "react";
-// import logo from "../assets/logo.svg";
+import Header from "./Header";
 import "../styles/App.css";
 import UpcomingEvents from "./UpcomingEvents";
 
 function App() {
   return (
     <div className="App">
-      Stashaway
+      <Header />
       <UpcomingEvents />
     </div>
   );
