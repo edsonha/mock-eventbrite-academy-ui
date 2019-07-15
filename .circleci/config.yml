@@ -6,8 +6,7 @@ jobs:
     steps:
       - run:
           name: Placeholder Build Run
-          command: |
-            echo 'Hello World from stashaway-ui CI pipeline!'
+          command: npm run start
   test:
     docker:
       - image: circleci/node:12.2.0
