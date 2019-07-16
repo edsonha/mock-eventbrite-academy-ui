@@ -2,7 +2,7 @@ import React from "react";
 import EventCard from "./EventCard";
 import uuid from "uuid";
 import moment from "moment";
-import { Container, Row, Col } from "reactstrap";
+import { Container, Row } from "reactstrap";
 import "../styles/UpcomingEvents.css";
 
 class UpcomingEvents extends React.Component {
