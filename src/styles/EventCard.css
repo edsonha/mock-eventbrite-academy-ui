@@ -33,12 +33,17 @@
 
 .event-card-details {
   margin: 20px auto;
+  font-size: 12px;
 }
 
 .event-card-header {
   position: relative;
   text-align: center;
   color: white;
+}
+
+.event-card-header:hover {
+  filter: brightness(50%);
 }
 
 .event-card-header img {
@@ -52,4 +57,6 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  font-size: 25px;
+  font-weight: bold;
 }
