@@ -39,4 +39,15 @@ describe("user login", () => {
     goBtn = queryByText("Go!");
     expect(goBtn).toBeInTheDocument();
   });
+
+  it("should close Login modal when Go! button is clicked", () => {
+    const { getByText, queryByText } = render(<App />);
+    const loginBtn = getByText("Log In");
+    fireEvent.click(loginBtn);
+    let goBtn;
+    goBtn = getByText("Go!");
+    fireEvent.click(goBtn);
+    goBtn = queryByText("Go!");
+    expect(goBtn).not.toBeInTheDocument();
+  });
 });

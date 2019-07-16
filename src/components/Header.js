@@ -12,7 +12,7 @@ const Header = ({ isLoggedIn, loginToggle, modalToggle, modal, onChange }) => {
           <Logo data-testid="logo-svg" />
         </NavbarBrand>
         <div className="button-wrapper">
-          <h1>Test Text login as USER XXX</h1>
+          <h1>Welcome User</h1>
           <Button className="signup-button" onClick={loginToggle}>
             Log Out
           </Button>
