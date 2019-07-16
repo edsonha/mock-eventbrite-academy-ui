@@ -15,6 +15,7 @@ const EventCard = props => {
   return (
     <Col xs="12" sm="4">
       <Card className="event-card">
+        <img src={props.eventDetail.image} alt="Event" />
         <CardTitle>{props.eventDetail.title}</CardTitle>
         <CardText>{props.eventDetail.description}</CardText>
         <CardSubtitle>By: {props.eventDetail.speaker}</CardSubtitle>

@@ -23,14 +23,9 @@ class UpcomingEvents extends React.Component {
     } else {
       const eventCards = this.state.upcomingEvents
         .filter(event => {
-          // const offsetInMilliSec = new Date().getTimezoneOffset() * 60 * 1000;
-          // console.log(event.title, moment.utc(event.time).toDate());
-          // console.log(Date(Date.now()).toString());
-
           const timeDiffInMinutes =
             (moment.utc(event.time).toDate() - Date.now()) / 1000 / 60;
-          // console.log(timeDiffInMinutes / 60);
-          return timeDiffInMinutes > 0 && event.availableSeats > 0;
+          return timeDiffInMinutes > 0;
         })
         .map(event => <EventCard key={uuid()} eventDetail={event} />);
       return (
