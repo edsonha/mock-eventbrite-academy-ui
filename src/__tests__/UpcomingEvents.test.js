@@ -5,23 +5,31 @@ import "@testing-library/react/cleanup-after-each";
 import UpcomingEvents from "../components/UpcomingEvents";
 // import mockEvents from "../__mockData__/mockEvents.mockdata";
 import mockEventsWithSeats from "../__mockData__/mockEventsWithSeats.mockdata";
+import mockAxios from "jest-mock-axios";
 const mockDate = require("mockdate");
 
 describe("Upcoming Events Component", () => {
+  const backendURI = "dummy";
+
   beforeEach(() => {
     mockDate.set("2019-08-14");
   });
   afterEach(() => {
     mockDate.reset();
+    mockAxios.reset();
   });
 
   it("should display 'Upcoming Events' as section title", () => {
-    const { getByText } = render(<UpcomingEvents upcomingEvents={[]} />);
+    const { getByText } = render(<UpcomingEvents backendURI={backendURI} />);
     expect(getByText("Upcoming Events")).toBeInTheDocument();
   });
 
-  it("should show 'Stay tuned' message if there is no upcoming events.", () => {
-    const { getByText } = render(<UpcomingEvents upcomingEvents={[]} />);
+  it.only("should show 'Stay tuned' message if there is no upcoming events.", () => {
+    const { getByText } = render(<UpcomingEvents backendURI={backendURI} />);
+    const mockResponse = mockAxios.mockResponse({ data: [] });
+    console.log(mockResponse);
+
+    expect(mockAxios.get).toHaveBeenCalledWith("dummy/upcomingevents");
     expect(getByText("Stay tuned for new events.")).toBeInTheDocument();
   });
 

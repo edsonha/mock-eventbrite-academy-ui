@@ -28,6 +28,7 @@ class UpcomingEvents extends React.Component {
         console.log(err.message);
       }
     );
+    console.log(this.state.upcomingEvents);
   }
 
   render() {
