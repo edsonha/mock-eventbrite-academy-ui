@@ -1,5 +1,6 @@
 import React from "react";
 import EventCard from "./EventCard";
+import SectionTitle from "./SectionTitle";
 import uuid from "uuid";
 import moment from "moment";
 import { Container, Row } from "reactstrap";
@@ -16,7 +17,7 @@ class UpcomingEvents extends React.Component {
     if (this.state.upcomingEvents.length === 0) {
       return (
         <div data-testid="upcoming-events">
-          <h1>Upcoming Events</h1>
+          <SectionTitle sectionTitle={"Upcoming Events"} />
           <h3>Stay tuned for new events.</h3>
         </div>
       );
@@ -31,7 +32,7 @@ class UpcomingEvents extends React.Component {
       return (
         <Container data-testid="upcoming-events">
           <Row>
-            <h1>Upcoming Events</h1>
+            <SectionTitle sectionTitle={"Upcoming Events"} />
           </Row>
           <Row>{eventCards}</Row>
         </Container>

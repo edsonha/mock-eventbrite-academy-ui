@@ -7,7 +7,7 @@ const mockEventsWithSeats = [
     duration: 120,
     location: "Location 1",
     availableSeats: 100,
-    image: "https://via.placeholder.com/150.png?text=Event1"
+    image: "https://via.placeholder.com/150.png?text=_"
   },
   {
     title: "Event 2",
@@ -17,7 +17,7 @@ const mockEventsWithSeats = [
     duration: 120,
     location: "Location 2",
     availableSeats: 0,
-    image: "https://via.placeholder.com/150.png?text=Event2"
+    image: "https://via.placeholder.com/150.png?text=_"
   },
   {
     title: "Event 3",
@@ -27,7 +27,7 @@ const mockEventsWithSeats = [
     duration: 90,
     location: "Location 3",
     availableSeats: 100,
-    image: "https://via.placeholder.com/150.png?text=Event3"
+    image: "https://via.placeholder.com/150.png?text=_"
   },
   {
     title: "Event 4",
@@ -37,7 +37,7 @@ const mockEventsWithSeats = [
     duration: 90,
     location: "Location 4",
     availableSeats: 0,
-    image: "https://via.placeholder.com/150.png?text=Event4"
+    image: "https://via.placeholder.com/150.png?text=_"
   }
 ];
 

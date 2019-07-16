@@ -3,20 +3,19 @@
   border-color: white;
   border-radius: 4px;
   padding: 12px;
+  margin: 20px auto;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 .btn.btn-secondary.register-button {
-  display: flex;
-  justify-content: flex-end;
-  background-color: #139931;
+  background-color: #f99535;
+  border: none;
   border-radius: 3px;
   border-width: 1px;
   color: #ffffff;
   font-size: 16px;
   font-weight: bold;
-  display: inline-flex;
-  align-items: center;
+  text-align: center;
   margin: 12px;
   padding: 2px 16px;
   height: 30px;
@@ -25,4 +24,32 @@
 
 .btn.btn-secondary.register-button:hover {
   background-color: #d27f50;
+}
+
+.event-card-button {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.event-card-details {
+  margin: 20px auto;
+}
+
+.event-card-header {
+  position: relative;
+  text-align: center;
+  color: white;
+}
+
+.event-card-header img {
+  width: 100%;
+  height: auto;
+  background-size: 100% 100%;
+}
+
+.event-card-header-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
