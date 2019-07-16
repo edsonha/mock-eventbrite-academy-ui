@@ -1,0 +1,36 @@
+#login-content .modal-content {
+  background-color: #515d7c;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: regular;
+}
+
+.modal-header .close {
+  color: white;
+}
+
+/* #login-body .modal-body {
+  padding: 50px;
+} */
+/* #login-header .modal-header {
+  border-bottom: 50px solid red;
+} */
+
+#email-input {
+  margin-bottom: 23px;
+}
+
+#email-input-label,
+#password-input-label {
+  font-size: 14px;
+}
+
+.go-btn.btn.btn-secondary {
+  background-color: #f99535;
+  border-color: #ffffff;
+}
+
+.cancel-btn.btn.btn-secondary {
+  background-color: #515d7c;
+  border-color: #ffffff;
+}
