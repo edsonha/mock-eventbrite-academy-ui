@@ -2,8 +2,6 @@ import React from "react";
 import Header from "./Header";
 import "../styles/App.css";
 import UpcomingEvents from "./UpcomingEvents";
-// import mockEvents from "../__mockData__/mockEvents.mockdata";
-import mockEventsWithSeats from "../__mockData__/mockEventsWithSeats.mockdata";
 
 class App extends React.Component {
   constructor(props) {
@@ -14,6 +12,10 @@ class App extends React.Component {
       email: "",
       password: ""
     };
+    this.backendURI =
+      process.env.NODE_ENV === "production"
+        ? "https://stashaway-api.herokuapp.com/"
+        : "http://localhost:3001";
   }
 
   modalToggle = () => {
@@ -38,8 +40,7 @@ class App extends React.Component {
           modalToggle={this.modalToggle}
           modal={this.state.modal}
         />
-        {/* <UpcomingEvents upcomingEvents={mockEvents} /> */}
-        <UpcomingEvents upcomingEvents={mockEventsWithSeats} />
+        <UpcomingEvents backendURI={this.backendURI} />
       </div>
     );
   }

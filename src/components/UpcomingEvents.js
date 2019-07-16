@@ -5,15 +5,33 @@ import uuid from "uuid";
 import moment from "moment";
 import { Container, Row } from "reactstrap";
 import "../styles/UpcomingEvents.css";
+import axios from "axios";
 
 class UpcomingEvents extends React.Component {
   constructor(props) {
     super(props);
+    this.backendURI = props.backendURI;
     this.state = {
-      upcomingEvents: this.props.upcomingEvents
+      upcomingEvents: []
     };
   }
+
+  async componentDidMount() {
+    await axios.get(this.backendURI + "/upcomingevents").then(
+      res => {
+        if (res.status === 200) {
+          console.log("RESPONSE DATA:", res.data);
+          this.setState({ upcomingEvents: res.data });
+        }
+      },
+      err => {
+        console.log(err.message);
+      }
+    );
+  }
+
   render() {
+    console.log(this.state.upcomingEvents);
     if (this.state.upcomingEvents.length === 0) {
       return (
         <div className="no-upcoming-events" data-testid="upcoming-events">
