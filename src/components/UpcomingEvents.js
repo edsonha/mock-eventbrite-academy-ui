@@ -16,7 +16,7 @@ class UpcomingEvents extends React.Component {
   render() {
     if (this.state.upcomingEvents.length === 0) {
       return (
-        <div data-testid="upcoming-events">
+        <div className="no-upcoming-events" data-testid="upcoming-events">
           <SectionTitle sectionTitle={"Upcoming Events"} />
           <h3>Stay tuned for new events.</h3>
         </div>
