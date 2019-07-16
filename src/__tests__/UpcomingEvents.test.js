@@ -8,9 +8,9 @@ import mockEventsWithSeats from "../__mockData__/mockEventsWithSeats.mockdata";
 import mockAxios from "jest-mock-axios";
 const mockDate = require("mockdate");
 
-describe("Upcoming Events Component", () => {
-  const backendURI = "dummy";
+const backendURI = "dummy";
 
+describe("Upcoming Events Component", () => {
   beforeEach(() => {
     mockDate.set("2019-08-14");
   });
@@ -24,19 +24,17 @@ describe("Upcoming Events Component", () => {
     expect(getByText("Upcoming Events")).toBeInTheDocument();
   });
 
-  it.only("should show 'Stay tuned' message if there is no upcoming events.", () => {
+  it("should show 'Stay tuned' message if there is no upcoming events.", () => {
     const { getByText } = render(<UpcomingEvents backendURI={backendURI} />);
-    const mockResponse = mockAxios.mockResponse({ data: [] });
-    console.log(mockResponse);
+    mockAxios.mockResponse({ data: [] });
 
     expect(mockAxios.get).toHaveBeenCalledWith("dummy/upcomingevents");
     expect(getByText("Stay tuned for new events.")).toBeInTheDocument();
   });
 
   it("should display required event details for one event", () => {
-    const { getByText } = render(
-      <UpcomingEvents upcomingEvents={[mockEventsWithSeats[0]]} />
-    );
+    const { getByText } = render(<UpcomingEvents backendURI={[backendURI]} />);
+    mockAxios.mockResponse({ data: [mockEventsWithSeats[0]] });
 
     expect(getByText("Event 1")).toBeInTheDocument();
     expect(getByText("Lorum Ipsum 1.")).toBeInTheDocument();
@@ -51,8 +49,9 @@ describe("Upcoming Events Component", () => {
 
   it("should display required event details for more than one event", () => {
     const { getByText, getAllByText } = render(
-      <UpcomingEvents upcomingEvents={mockEventsWithSeats} />
+      <UpcomingEvents backendURI={backendURI} />
     );
+    mockAxios.mockResponse({ data: mockEventsWithSeats });
 
     expect(getByText("Event 1")).toBeInTheDocument();
     expect(getByText("Lorum Ipsum 1.")).toBeInTheDocument();
@@ -97,9 +96,9 @@ describe("Upcoming Event Display Logic", () => {
   });
 
   it("should display future events regardless of seats availability", () => {
-    const { getByText } = render(
-      <UpcomingEvents upcomingEvents={mockEventsWithSeats} />
-    );
+    const { getByText } = render(<UpcomingEvents backendURI={backendURI} />);
+    mockAxios.mockResponse({ data: mockEventsWithSeats });
+
     expect(getByText("Event 1")).toBeInTheDocument();
     expect(getByText("Event 2")).toBeInTheDocument();
     expect(getByText("Event 3")).toBeInTheDocument();
@@ -110,8 +109,10 @@ describe("Upcoming Event Display Logic", () => {
     mockDate.set("2019-08-16");
 
     const { getByText, queryByText } = render(
-      <UpcomingEvents upcomingEvents={mockEventsWithSeats} />
+      <UpcomingEvents backendURI={backendURI} />
     );
+    mockAxios.mockResponse({ data: mockEventsWithSeats });
+
     expect(queryByText("Event 1")).not.toBeInTheDocument();
     expect(queryByText("Event 2")).not.toBeInTheDocument();
     expect(getByText("Event 3")).toBeInTheDocument();
@@ -122,8 +123,10 @@ describe("Upcoming Event Display Logic", () => {
     mockDate.set("2019-08-17T09:59:59Z");
 
     const { getByText, queryByText } = render(
-      <UpcomingEvents upcomingEvents={mockEventsWithSeats} />
+      <UpcomingEvents backendURI={backendURI} />
     );
+    mockAxios.mockResponse({ data: mockEventsWithSeats });
+
     expect(queryByText("Event 1")).not.toBeInTheDocument();
     expect(queryByText("Event 2")).not.toBeInTheDocument();
     expect(getByText("Event 3")).toBeInTheDocument();
@@ -134,8 +137,10 @@ describe("Upcoming Event Display Logic", () => {
     mockDate.set("2019-08-15T11:01:00Z");
 
     const { getByText, queryByText } = render(
-      <UpcomingEvents upcomingEvents={mockEventsWithSeats} />
+      <UpcomingEvents backendURI={backendURI} />
     );
+    mockAxios.mockResponse({ data: mockEventsWithSeats });
+
     expect(queryByText("Event 1")).not.toBeInTheDocument();
     expect(queryByText("Event 2")).not.toBeInTheDocument();
     expect(getByText("Event 3")).toBeInTheDocument();

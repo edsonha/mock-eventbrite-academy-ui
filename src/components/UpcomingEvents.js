@@ -20,7 +20,6 @@ class UpcomingEvents extends React.Component {
     await axios.get(this.backendURI + "/upcomingevents").then(
       res => {
         if (res.status === 200) {
-          console.log("RESPONSE DATA:", res.data);
           this.setState({ upcomingEvents: res.data });
         }
       },
@@ -28,11 +27,9 @@ class UpcomingEvents extends React.Component {
         console.log(err.message);
       }
     );
-    console.log(this.state.upcomingEvents);
   }
 
   render() {
-    console.log(this.state.upcomingEvents);
     if (this.state.upcomingEvents.length === 0) {
       return (
         <div className="no-upcoming-events" data-testid="upcoming-events">
