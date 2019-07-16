@@ -6,6 +6,8 @@
 }
 
 .btn.btn-secondary.register-button {
+  display: flex;
+  justify-content: flex-end;
   background-color: #139931;
   border-radius: 3px;
   border-width: 1px;
