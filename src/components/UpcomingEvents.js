@@ -2,6 +2,7 @@ import React from "react";
 import EventCard from "./EventCard";
 import uuid from "uuid";
 import moment from "moment";
+import { Container, Row, Col } from "reactstrap";
 import "../styles/UpcomingEvents.css";
 
 class UpcomingEvents extends React.Component {
@@ -33,10 +34,12 @@ class UpcomingEvents extends React.Component {
         })
         .map(event => <EventCard key={uuid()} eventDetail={event} />);
       return (
-        <div data-testid="upcoming-events">
-          <h1>Upcoming Events</h1>
-          {eventCards}
-        </div>
+        <Container data-testid="upcoming-events">
+          <Row>
+            <h1>Upcoming Events</h1>
+          </Row>
+          <Row>{eventCards}</Row>
+        </Container>
       );
     }
   }

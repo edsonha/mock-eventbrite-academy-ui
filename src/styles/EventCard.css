@@ -1,7 +1,8 @@
 .card.event-card {
   background-color: #ffffff;
-  border-color: #ffffff;
+  border-color: gray;
   border-radius: 4px;
+  padding: 12px;
 }
 
 .btn.btn-secondary.register-button {
@@ -11,9 +12,10 @@
   color: #ffffff;
   font-size: 16px;
   font-weight: bold;
-  text-align: right;
+  display: inline-flex;
+  align-items: center;
   margin: 12px;
-  padding: 2px;
+  padding: 2px 16px;
   height: 30px;
   width: 100px;
 }
@@ -21,14 +23,3 @@
 .btn.btn-secondary.register-button:hover {
   background-color: #d27f50;
 }
-
-/* orientation - below the event card container, right aligned
-distance from event card container - 12 px
-size - 30 x 30 px
-background colour - 139931
-text - Register
-font size - 10 px
-font colour - FFFFFF
-font style - Lato
-font weight - Bold
-border radius - 3 px */
