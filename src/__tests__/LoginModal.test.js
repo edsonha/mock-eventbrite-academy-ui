@@ -1,21 +1,38 @@
 import React from "react";
-import Header from "../components/Header";
-import LoginModal from "../components/LoginModal";
+
 import "@testing-library/react/cleanup-after-each";
 import "@testing-library/jest-dom/extend-expect";
 import { render, fireEvent } from "@testing-library/react";
+import LoginModal from "../components/LoginModal";
 
-describe("user login", () => {
-  it("should open up Login modal when Login button is clicked", () => {
-    const { getByText, queryByText } = render(<Header />);
+describe("starting UI", () => {
+  it("should render modal component", () => {
+    const { getByText, getByLabelText } = render(<LoginModal isOpen={true} />);
 
-    const loginBtn = getByText("Log In");
-    let goBtn;
-    goBtn = queryByText("Go!");
-    expect(goBtn).not.toBeInTheDocument();
-
-    fireEvent.click(loginBtn);
-    goBtn = queryByText("Go!");
+    const emailInput = getByLabelText("Email");
+    const passwordInput = getByLabelText("Password");
+    const goBtn = getByText("Go!");
+    const cancelBtn = getByText("Cancel");
+    expect(emailInput).toBeInTheDocument();
+    expect(passwordInput).toBeInTheDocument();
     expect(goBtn).toBeInTheDocument();
+    expect(cancelBtn).toBeInTheDocument();
+  });
+
+  it("should clear inputs when Cancel button is clicked", () => {
+    const { getByText, getByPlaceholderText } = render(
+      <LoginModal isOpen={true} />
+    );
+
+    const emailInput = getByPlaceholderText("myemail@email.com");
+    const passwordInput = getByPlaceholderText("********");
+    fireEvent.change(emailInput, { target: { value: "john@gmail.com" } });
+    fireEvent.change(passwordInput, { target: { value: "abcdefgh" } });
+    expect(emailInput).toHaveAttribute("value", "john@gmail.com");
+    expect(passwordInput).toHaveAttribute("value", "abcdefgh");
+    const cancelBtn = getByText("Cancel");
+    fireEvent.click(cancelBtn);
+    expect(emailInput).toHaveAttribute("value", "");
+    expect(passwordInput).toHaveAttribute("value", "");
   });
 });

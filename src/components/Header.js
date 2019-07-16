@@ -4,44 +4,41 @@ import { Navbar, NavbarBrand, Button } from "reactstrap";
 import LoginModal from "./LoginModal";
 import "../styles/Header.css";
 
-class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      modal: false
-    };
-
-    this.toggle = this.toggle.bind(this);
-  }
-
-  toggle() {
-    this.setState(prevState => ({
-      modal: !prevState.modal
-    }));
-  }
-
-  render() {
+const Header = ({ isLoggedIn, loginToggle, modalToggle, modal, onChange }) => {
+  if (isLoggedIn) {
     return (
       <Navbar className="navbar col" light expand="sm">
         <NavbarBrand>
           <Logo data-testid="logo-svg" />
         </NavbarBrand>
         <div className="button-wrapper">
-          <Button className="login-button" onClick={this.toggle}>
-            Log In
-          </Button>
-          <LoginModal
-            data-testid="login-modal"
-            isOpen={this.state.modal}
-            toggle={this.toggle}
-          />
-          <Button className="signup-button" href="/">
-            Sign Up
+          <h1>Test Text login as USER XXX</h1>
+          <Button className="signup-button" onClick={loginToggle}>
+            Log Out
           </Button>
         </div>
       </Navbar>
     );
+  } else {
+    return (
+      <Navbar className="navbar col" light expand="sm">
+        <NavbarBrand>
+          <Logo data-testid="logo-svg" />
+        </NavbarBrand>
+        <div className="button-wrapper">
+          <Button className="login-button" onClick={modalToggle}>
+            Log In
+          </Button>
+          <LoginModal
+            loginToggle={loginToggle}
+            isOpen={modal}
+            modalToggle={modalToggle}
+          />
+          <Button className="signup-button">Sign Up</Button>
+        </div>
+      </Navbar>
+    );
   }
-}
+};
 
 export default Header;
