@@ -23,10 +23,8 @@ class App extends React.Component {
   };
 
   loginToggle = () => {
-    if (this.state.isLoggedIn) {
-      this.modalToggle();
-    }
     this.setState(prevState => ({
+      modal: false,
       isLoggedIn: !prevState.isLoggedIn
     }));
   };
