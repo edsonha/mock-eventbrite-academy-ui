@@ -133,13 +133,4 @@ describe("Upcoming Event Display Logic", () => {
     expect(getByText("Event 3")).toBeInTheDocument();
     expect(getByText("Event 4")).toBeInTheDocument();
   });
-
-  it.only("should display the events in chronological order", () => {
-    const { queryByText } = render(
-      <UpcomingEvents upcomingEvents={mockEventsWithSeats} />
-    );
-
-    const eventDates = queryByText(/On:/);
-    console.log(eventDates);
-  });
 });
