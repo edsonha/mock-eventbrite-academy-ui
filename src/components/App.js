@@ -24,6 +24,7 @@ class App extends React.Component {
             loginToggle={this.loginToggle}
             modalToggle={this.modalToggle}
             modal={this.state.modal}
+            backendURI={this.backendURI}
           />
           <Switch>
             <Route
