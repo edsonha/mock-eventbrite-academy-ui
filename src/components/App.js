@@ -33,11 +33,7 @@ class App extends React.Component {
                 <UpcomingEvents backendURI={this.backendURI} {...props} />
               )}
             />
-            <Route
-              path="/event"
-              // path="/event/:id"
-              render={() => <EventDescriptionPage />}
-            />
+            <Route path="/event/:id" render={() => <EventDescriptionPage />} />
           </Switch>
         </div>
       </BrowserRouter>
