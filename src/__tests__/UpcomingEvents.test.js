@@ -32,6 +32,16 @@ describe("Upcoming Events Component", () => {
     expect(getByText("Stay tuned for new events.")).toBeInTheDocument();
   });
 
+  it("should show 'Try again' message if there is an error with the api call", () => {
+    const { getByText } = render(<UpcomingEvents backendURI={backendURI} />);
+    mockAxios.mockError();
+
+    expect(mockAxios.get).toHaveBeenCalledWith("dummy/upcomingevents");
+    expect(
+      getByText("Oops, something went wrong. Please try again later")
+    ).toBeInTheDocument();
+  });
+
   it("should display required event details for one event", () => {
     const { getByText } = render(<UpcomingEvents backendURI={[backendURI]} />);
     mockAxios.mockResponse({ data: [mockEventsWithSeats[0]] });

@@ -12,25 +12,32 @@ class UpcomingEvents extends React.Component {
     super(props);
     this.backendURI = props.backendURI;
     this.state = {
-      upcomingEvents: []
+      upcomingEvents: [],
+      errorLoading: false
     };
   }
 
   async componentDidMount() {
     await axios.get(this.backendURI + "/upcomingevents").then(
       res => {
-        if (res.status === 200) {
-          this.setState({ upcomingEvents: res.data });
-        }
+        this.setState({ upcomingEvents: res.data, errorLoading: false });
       },
       err => {
         console.log(err.message);
+        this.setState({ errorLoading: true });
       }
     );
   }
 
   render() {
-    if (this.state.upcomingEvents.length === 0) {
+    if (this.state.errorLoading) {
+      return (
+        <div className="no-upcoming-events" data-testid="upcoming-events">
+          <SectionTitle sectionTitle={"Upcoming Events"} />
+          <h3>Oops, something went wrong. Please try again later</h3>
+        </div>
+      );
+    } else if (this.state.upcomingEvents.length === 0) {
       return (
         <div className="no-upcoming-events" data-testid="upcoming-events">
           <SectionTitle sectionTitle={"Upcoming Events"} />
@@ -45,6 +52,7 @@ class UpcomingEvents extends React.Component {
           return timeDiffInMinutes > 0;
         })
         .map(event => <EventCard key={uuid()} eventDetail={event} />);
+
       return (
         <Container data-testid="upcoming-events">
           <Row>

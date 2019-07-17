@@ -6,16 +6,13 @@ import UpcomingEvents from "./UpcomingEvents";
 class App extends React.Component {
   constructor(props) {
     super(props);
+    this.backendURI = process.env.API_URI;
     this.state = {
       isLoggedIn: false,
       modal: false,
       email: "",
       password: ""
     };
-    this.backendURI =
-      process.env.NODE_ENV === "production"
-        ? "https://stashaway-api.herokuapp.com/"
-        : "http://localhost:3001";
   }
 
   modalToggle = () => {
