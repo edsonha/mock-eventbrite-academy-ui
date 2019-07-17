@@ -22,10 +22,25 @@ class Header extends React.Component {
   };
 
   loginToggle = data => {
+    if (!this.state.isLoggedIn) {
+      const nameArray = data.split(" ");
+      let initials = "";
+
+      for (let word of nameArray) {
+        initials += word[0];
+        if (initials.length === 2) {
+          break;
+        }
+      }
+
+      this.setState({
+        user: initials
+      });
+    }
+
     this.setState(prevState => ({
       modal: false,
-      isLoggedIn: !prevState.isLoggedIn,
-      user: data
+      isLoggedIn: !prevState.isLoggedIn
     }));
   };
 
@@ -37,9 +52,8 @@ class Header extends React.Component {
             <Logo data-testid="logo-svg" />
           </NavbarBrand>
           <div className="button-wrapper">
-            <Button className="welcome-msg">{`Welcome, ${
-              this.state.user
-            }`}</Button>
+            <div className="welcome-msg">{`${this.state.user}`}</div>
+
             <Button className="logout-button" onClick={this.loginToggle}>
               Log Out
             </Button>

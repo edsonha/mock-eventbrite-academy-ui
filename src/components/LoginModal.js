@@ -44,7 +44,7 @@ class LoginModal extends React.Component {
         this.props.loginToggle(res.data.name);
       })
       .catch(err => {
-        console.log(err.response);
+        console.log(err.response.data.message);
       });
   };
 

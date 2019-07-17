@@ -61,7 +61,7 @@ describe("login functionality", () => {
     fireEvent.change(passwordInput, { target: { value: "abcdefgh" } });
     fireEvent.click(goBtn);
 
-    mockAxios.mockResponse({ data: { name: "John" } });
+    mockAxios.mockResponse({ data: { name: "John Wick" } });
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
     expect(mockAxios.post).toHaveBeenCalledWith("dummy/login", {
       email: "john@gmail.com",
@@ -69,7 +69,7 @@ describe("login functionality", () => {
     });
 
     const logOutBtn = getByText("Log Out");
-    const welcomeMessage = getByText("Welcome, John");
+    const welcomeMessage = getByText("JW");
     expect(emailInput).not.toBeInTheDocument();
 
     expect(welcomeMessage).toBeInTheDocument();
@@ -90,9 +90,39 @@ describe("login functionality", () => {
     fireEvent.change(passwordInput, { target: { value: "password" } });
     fireEvent.click(goBtn);
 
-    mockAxios.mockError({ data: { message: "Wrong credentials" } });
+    mockAxios.mockError({
+      response: { data: { message: "Wrong credentials" } }
+    });
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
 
     expect(goBtn).toBeInTheDocument();
+  });
+});
+
+describe("logout functionality", () => {
+  afterEach(() => {
+    mockAxios.reset();
+  });
+
+  it("should return to default ui after logout", () => {
+    const { getByText } = render(<Header backendURI={backendURI} />);
+
+    let headerLoginBtn = getByText("Log In");
+    let headerSignupBtn = getByText("Sign Up");
+
+    fireEvent.click(headerLoginBtn);
+    const goBtn = getByText("Go!");
+    fireEvent.click(goBtn);
+
+    mockAxios.mockResponse({ data: { name: "John Wick" } });
+    expect(headerLoginBtn).not.toBeInTheDocument();
+    expect(headerSignupBtn).not.toBeInTheDocument();
+
+    const logOutBtn = getByText("Log Out");
+    fireEvent.click(logOutBtn);
+    headerLoginBtn = getByText("Log In");
+    headerSignupBtn = getByText("Sign Up");
+    expect(headerLoginBtn).toBeInTheDocument();
+    expect(headerSignupBtn).toBeInTheDocument();
   });
 });
