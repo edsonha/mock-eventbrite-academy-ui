@@ -12,6 +12,10 @@
   display: flex;
 }
 
+.welcome-msg {
+  pointer-events: none;
+}
+
 .btn.btn-secondary.login-button {
   background-color: #485169;
   border-color: #ffffff;
@@ -27,7 +31,8 @@
   background-color: #d27f50;
 }
 
-.btn.btn-secondary.signup-button {
+.btn.btn-secondary.signup-button,
+.btn.btn-secondary.logout-button {
   background-color: #f99535;
   border-color: #ffffff;
   border-radius: 4px;
@@ -47,7 +52,8 @@
     width: 100%;
   }
   .btn.btn-secondary.login-button,
-  .btn.btn-secondary.signup-button {
+  .btn.btn-secondary.signup-button,
+  .btn.btn-secondary.logout-button {
     height: 80%;
     width: 100%;
   }
@@ -56,5 +62,9 @@
     width: 100%;
     display: flex;
     padding: 5% 25%;
+  }
+  .welcome-msg {
+    width: 100%;
+    max-height: 40px;
   }
 }

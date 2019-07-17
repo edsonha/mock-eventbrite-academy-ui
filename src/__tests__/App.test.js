@@ -4,6 +4,7 @@ import App from "../components/App";
 import { render, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import "@testing-library/react/cleanup-after-each";
+import mockAxios from "jest-mock-axios";
 
 describe("Jest works", () => {
   it("renders without crashing", () => {
@@ -26,6 +27,10 @@ describe("App", () => {
 });
 
 describe("user login", () => {
+  afterEach(() => {
+    mockAxios.reset();
+  });
+
   it("should open up Login modal when Login button is clicked", () => {
     const { getByText, queryByText } = render(<App />);
 
@@ -39,16 +44,4 @@ describe("user login", () => {
     goBtn = queryByText("Go!");
     expect(goBtn).toBeInTheDocument();
   });
-
-  it("should close Login modal when Go! button is clicked", () => {
-    const { getByText, queryByText } = render(<App />);
-    const loginBtn = getByText("Log In");
-    fireEvent.click(loginBtn);
-    let goBtn;
-    goBtn = getByText("Go!");
-    fireEvent.click(goBtn);
-    goBtn = queryByText("Go!");
-    expect(goBtn).not.toBeInTheDocument();
-  });
-
 });

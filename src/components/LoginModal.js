@@ -11,10 +11,12 @@ import {
   Row
 } from "reactstrap";
 import "../styles/LoginModal.css";
+import axios from "axios";
 
 class LoginModal extends React.Component {
   constructor(props) {
     super(props);
+    this.backendURI = props.backendURI;
     this.state = {
       email: "",
       password: ""
@@ -32,9 +34,29 @@ class LoginModal extends React.Component {
     this.setState({ email: "", password: "" });
   };
 
+  userLogin = async () => {
+    await axios
+      .post(this.backendURI + "/login", {
+        email: this.state.email,
+        password: this.state.password
+      })
+      .then(res => {
+        this.props.loginToggle(res.data.name);
+      })
+      .catch(err => {
+        console.log(err.response);
+      });
+  };
+
   render() {
     const closeBtn = (
-      <button className="close" onClick={this.props.modalToggle}>
+      <button
+        className="close"
+        onClick={() => {
+          this.clearInput();
+          this.props.modalToggle();
+        }}
+      >
         &times;
       </button>
     );
@@ -85,7 +107,7 @@ class LoginModal extends React.Component {
             <Button className="cancel-btn" onClick={this.clearInput}>
               Cancel
             </Button>
-            <Button className="go-btn" onClick={this.props.loginToggle}>
+            <Button className="go-btn" onClick={this.userLogin}>
               Go!
             </Button>
           </ModalFooter>

@@ -13,12 +13,13 @@
     "uuid": "^3.3.2"
   },
   "scripts": {
+    "clear_jest": "jest --clearCache",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "coverage": "CI=true react-scripts test --env=jsdom --coverage --watchAll=false",
-    "local:coverage": "react-scripts test --env=jsdom --coverage --watchAll=false"
+    "local:coverage": "react-scripts test --env=jsdom --coverage --watchAll=false --runInBand"
   },
   "eslintConfig": {
     "extends": "react-app"
