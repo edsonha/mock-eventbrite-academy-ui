@@ -6,7 +6,7 @@ import UpcomingEvents from "./UpcomingEvents";
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.backendURI = process.env.API_URI;
+    this.backendURI = process.env.REACT_APP_REST_API_LOCATION;
     this.state = {
       isLoggedIn: false,
       modal: false,
