@@ -14,7 +14,11 @@ import "../styles/EventCard.css";
 const EventCard = props => {
   return (
     <Col xs="12" sm="6" md="4">
-      <Card className="event-card">
+      <Card
+        className="event-card"
+        data-testid="event-card"
+        onClick={() => props.eventDescriptionPageHandler(props.eventDetail._id)}
+      >
         <div className="event-card-header">
           <CardTitle className="event-card-header-text">
             {props.eventDetail.title}

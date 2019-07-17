@@ -7,7 +7,8 @@ const mockEventsWithSeats = [
     duration: 120,
     location: "Location 1",
     availableSeats: 100,
-    image: "https://via.placeholder.com/150.png?text=_"
+    image: "https://via.placeholder.com/150.png?text=_",
+    _id: "5d2edb6e0217642ef2524581"
   },
   {
     title: "Event 2",
@@ -17,7 +18,8 @@ const mockEventsWithSeats = [
     duration: 120,
     location: "Location 2",
     availableSeats: 0,
-    image: "https://via.placeholder.com/150.png?text=_"
+    image: "https://via.placeholder.com/150.png?text=_",
+    _id: "5d2edb6e0217642ef2524582"
   },
   {
     title: "Event 3",
@@ -27,7 +29,8 @@ const mockEventsWithSeats = [
     duration: 90,
     location: "Location 3",
     availableSeats: 100,
-    image: "https://via.placeholder.com/150.png?text=_"
+    image: "https://via.placeholder.com/150.png?text=_",
+    _id: "5d2edb6e0217642ef2524583"
   },
   {
     title: "Event 4",
@@ -37,7 +40,8 @@ const mockEventsWithSeats = [
     duration: 90,
     location: "Location 4",
     availableSeats: 0,
-    image: "https://via.placeholder.com/150.png?text=_"
+    image: "https://via.placeholder.com/150.png?text=_",
+    _id: "5d2edb6e0217642ef2524584"
   }
 ];
 

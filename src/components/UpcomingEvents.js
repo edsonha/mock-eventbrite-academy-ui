@@ -1,7 +1,6 @@
 import React from "react";
 import EventCard from "./EventCard";
 import SectionTitle from "./SectionTitle";
-import uuid from "uuid";
 import moment from "moment";
 import { Container, Row } from "reactstrap";
 import "../styles/UpcomingEvents.css";
@@ -16,6 +15,10 @@ class UpcomingEvents extends React.Component {
       errorLoading: false
     };
   }
+
+  eventDescriptionPageHandler = id => {
+    this.props.history.push("/event/" + id);
+  };
 
   async componentDidMount() {
     await axios.get(this.backendURI + "/upcomingevents").then(
@@ -51,7 +54,13 @@ class UpcomingEvents extends React.Component {
             (moment.utc(event.time).toDate() - Date.now()) / 1000 / 60;
           return timeDiffInMinutes > 0;
         })
-        .map(event => <EventCard key={uuid()} eventDetail={event} />);
+        .map(event => (
+          <EventCard
+            key={event._id}
+            eventDetail={event}
+            eventDescriptionPageHandler={this.eventDescriptionPageHandler}
+          />
+        ));
 
       return (
         <Container data-testid="upcoming-events">
