@@ -36,6 +36,32 @@
   font-size: 12px;
 }
 
+.event-desc {
+  margin: 20px 0;
+  overflow: hidden;
+  position: relative;
+  line-height: 1.3em;
+  max-height: 3.9em;
+  text-align: left;
+}
+
+.event-desc:before {
+  content: "...";
+  position: absolute;
+  right: 0;
+  bottom: 0;
+}
+
+.event-desc:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  width: 1em;
+  height: 1em;
+  margin-top: 0.2em;
+  background: white;
+}
+
 .event-card-header {
   position: relative;
   text-align: center;

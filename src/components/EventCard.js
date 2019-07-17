@@ -26,7 +26,9 @@ const EventCard = props => {
           <img src={props.eventDetail.image} alt="Event" />
         </div>
         <div className="event-card-details">
-          <CardText>{props.eventDetail.description}</CardText>
+          <div className="event-desc">
+            <CardText>{props.eventDetail.description}</CardText>
+          </div>
           <CardSubtitle>By: {props.eventDetail.speaker}</CardSubtitle>
           <CardSubtitle>
             On:{" "}
