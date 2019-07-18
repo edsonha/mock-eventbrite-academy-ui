@@ -1,11 +1,11 @@
 import React from "react";
 import Header from "./Header";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, BrowserRouter } from "react-router-dom";
 import UpcomingEvents from "./UpcomingEvents";
 import EventDescriptionPage from "./EventDescriptionPage";
 import "../styles/App.css";
 
-class App extends React.Component {
+export class App extends React.Component {
   constructor(props) {
     super(props);
     this.backendURI = process.env.REACT_APP_REST_API_LOCATION;
@@ -40,4 +40,9 @@ class App extends React.Component {
   }
 }
 
-export default App;
+const MainApp = () => (
+  <BrowserRouter>
+    <App />
+  </BrowserRouter>
+);
+export default MainApp;
