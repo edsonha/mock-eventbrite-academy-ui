@@ -20,7 +20,7 @@ const EventCard = props => {
             {props.eventDetail.title}
           </CardTitle>
           <img
-            src={props.eventDetail.image || "/eventDefault2.png"}
+            src={props.eventDetail.image || "/eventDefault.png"}
             alt="Event"
             className="event-card-img"
             data-testid="event-image"
