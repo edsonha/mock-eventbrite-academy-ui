@@ -18,7 +18,7 @@ describe("Event Description Page", () => {
     mockAxios.reset();
   });
 
-  it("should navigate to the Event Description page when I click on any area in the card", () => {
+  it("should navigate to the Event Description page when I click on the image in the card", () => {
     const history = createMemoryHistory({ initialEntries: ["/"] });
 
     const { queryAllByTestId, getByTestId } = render(
@@ -28,7 +28,7 @@ describe("Event Description Page", () => {
     );
     mockAxios.mockResponse({ data: mockEventsWithSeats });
 
-    const eventCards = queryAllByTestId("event-card");
+    const eventCards = queryAllByTestId("event-image");
     fireEvent.click(eventCards[0]);
     expect(getByTestId("event-description-page")).toBeInTheDocument();
   });

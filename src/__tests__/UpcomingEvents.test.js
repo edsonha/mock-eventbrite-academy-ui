@@ -48,12 +48,10 @@ describe("Upcoming Events Component", () => {
 
     expect(getByText("Event 1")).toBeInTheDocument();
     expect(getByText("Lorum Ipsum 1.")).toBeInTheDocument();
-    expect(getByText("By: Speaker 1")).toBeInTheDocument();
-    expect(
-      getByText("On: Thursday, August 15th 2019, 7:00 pm")
-    ).toBeInTheDocument();
-    expect(getByText("Duration: 2hr")).toBeInTheDocument();
-    expect(getByText("At: Location 1")).toBeInTheDocument();
+    expect(getByText("Speaker 1")).toBeInTheDocument();
+    expect(getByText(/Thu, Aug 15th 2019, 7:00 pm/i)).toBeInTheDocument();
+    expect(getByText(/2hr/i)).toBeInTheDocument();
+    expect(getByText("Location 1")).toBeInTheDocument();
     expect(getByText("Register")).toBeInTheDocument();
   });
 
@@ -65,33 +63,29 @@ describe("Upcoming Events Component", () => {
 
     expect(getByText("Event 1")).toBeInTheDocument();
     expect(getByText("Lorum Ipsum 1.")).toBeInTheDocument();
-    expect(getByText("By: Speaker 1")).toBeInTheDocument();
-    expect(getByText("At: Location 1")).toBeInTheDocument();
+    expect(getByText("Speaker 1")).toBeInTheDocument();
+    expect(getByText("Location 1")).toBeInTheDocument();
 
     expect(getByText("Event 2")).toBeInTheDocument();
     expect(getByText("Lorum Ipsum 2.")).toBeInTheDocument();
-    expect(getByText("By: Speaker 2")).toBeInTheDocument();
-    expect(getByText("At: Location 2")).toBeInTheDocument();
+    expect(getByText("Speaker 2")).toBeInTheDocument();
+    expect(getByText("Location 2")).toBeInTheDocument();
 
-    expect(getAllByText("Duration: 2hr").length).toBe(2);
-    expect(getAllByText("On: Thursday, August 15th 2019, 7:00 pm").length).toBe(
-      2
-    );
+    expect(getAllByText(/2hr/i).length).toBe(2);
+    expect(getAllByText(/Thu, Aug 15th 2019, 7:00 pm/i).length).toBe(2);
 
     expect(getByText("Event 3")).toBeInTheDocument();
     expect(getByText("Lorum Ipsum 3.")).toBeInTheDocument();
-    expect(getByText("By: Speaker 3")).toBeInTheDocument();
+    expect(getByText("Speaker 3")).toBeInTheDocument();
 
-    expect(getByText("At: Location 3")).toBeInTheDocument();
+    expect(getByText("Location 3")).toBeInTheDocument();
     expect(getByText("Event 4")).toBeInTheDocument();
     expect(getByText("Lorum Ipsum 4.")).toBeInTheDocument();
-    expect(getByText("By: Speaker 4")).toBeInTheDocument();
-    expect(getByText("At: Location 4")).toBeInTheDocument();
+    expect(getByText("Speaker 4")).toBeInTheDocument();
+    expect(getByText("Location 4")).toBeInTheDocument();
 
-    expect(getAllByText("Duration: 1.5hr").length).toBe(2);
-    expect(getAllByText("On: Saturday, August 17th 2019, 6:00 pm").length).toBe(
-      2
-    );
+    expect(getAllByText(/1.5hr/i).length).toBe(2);
+    expect(getAllByText(/Sat, Aug 17th 2019, 6:00 pm/i).length).toBe(2);
 
     expect(getAllByText("Register").length).toBe(4);
   });
