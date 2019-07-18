@@ -9,7 +9,7 @@ describe("starting UI", () => {
   it("should render modal component", () => {
     const { getByText, getByLabelText } = render(<LoginModal isOpen={true} />);
 
-    const emailInput = getByLabelText("Email");
+    const emailInput = getByLabelText("E-mail");
     const passwordInput = getByLabelText("Password");
     const goBtn = getByText("Go!");
     const cancelBtn = getByText("Cancel");

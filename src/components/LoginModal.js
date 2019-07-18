@@ -74,7 +74,7 @@ class LoginModal extends React.Component {
           <ModalBody id="login-body">
             <Row>
               <Label id="email-input-label" for="email-input" sm={2}>
-                Email
+                E-mail
               </Label>
               <Col sm={10}>
                 <Input
