@@ -1,6 +1,6 @@
 import React from "react";
 import Header from "./Header";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import UpcomingEvents from "./UpcomingEvents";
 import EventDescriptionPage from "./EventDescriptionPage";
 import "../styles/App.css";
@@ -17,27 +17,25 @@ class App extends React.Component {
 
   render() {
     return (
-      <BrowserRouter>
-        <div className="App">
-          <Header
-            isLoggedIn={this.state.isLoggedIn}
-            loginToggle={this.loginToggle}
-            modalToggle={this.modalToggle}
-            modal={this.state.modal}
-            backendURI={this.backendURI}
+      <div className="App">
+        <Header
+          isLoggedIn={this.state.isLoggedIn}
+          loginToggle={this.loginToggle}
+          modalToggle={this.modalToggle}
+          modal={this.state.modal}
+          backendURI={this.backendURI}
+        />
+        <Switch>
+          <Route
+            exact
+            path="/"
+            render={props => (
+              <UpcomingEvents backendURI={this.backendURI} {...props} />
+            )}
           />
-          <Switch>
-            <Route
-              exact
-              path="/"
-              render={props => (
-                <UpcomingEvents backendURI={this.backendURI} {...props} />
-              )}
-            />
-            <Route path="/event/:id" render={() => <EventDescriptionPage />} />
-          </Switch>
-        </div>
-      </BrowserRouter>
+          <Route path="/event/:id" render={() => <EventDescriptionPage />} />
+        </Switch>
+      </div>
     );
   }
 }

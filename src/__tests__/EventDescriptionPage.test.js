@@ -32,4 +32,19 @@ describe("Event Description Page", () => {
     fireEvent.click(eventCards[0]);
     expect(getByTestId("event-description-page")).toBeInTheDocument();
   });
+
+  it("should navigate to the Event Description page when I click Learn more in the card", () => {
+    const history = createMemoryHistory({ initialEntries: ["/"] });
+
+    const { queryAllByTestId, getByTestId } = render(
+      <Router history={history}>
+        <App />
+      </Router>
+    );
+    mockAxios.mockResponse({ data: mockEventsWithSeats });
+
+    const eventCards = queryAllByTestId("event-learnmore");
+    fireEvent.click(eventCards[0]);
+    expect(getByTestId("event-description-page")).toBeInTheDocument();
+  });
 });

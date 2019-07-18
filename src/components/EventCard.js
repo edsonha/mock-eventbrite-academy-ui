@@ -45,7 +45,16 @@ const EventCard = props => {
           <CardSubtitle>{props.eventDetail.location}</CardSubtitle>
         </div>
         <div className="event-card-button">
-          <Button className="register-button float-right">Register</Button>
+          <Button
+            className="register-button"
+            data-testid="event-learnmore"
+            onClick={() =>
+              props.eventDescriptionPageHandler(props.eventDetail._id)
+            }
+          >
+            Learn More
+          </Button>
+          <Button className="register-button">Register</Button>
         </div>
       </Card>
     </Col>
