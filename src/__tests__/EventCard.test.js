@@ -13,4 +13,16 @@ describe("Event Card", () => {
 
     expect(getByAltText("Event")).toBeInTheDocument();
   });
+
+  it("should display placeholder image if image does not exit", () => {
+    const eventWithoutImage = Object.assign({}, mockEventsWithSeats[0]);
+    delete eventWithoutImage.image;
+    const { getByTestId } = render(
+      <EventCard eventDetail={mockEventsWithSeats} />
+    );
+    expect(getByTestId("event-image")).toHaveAttribute(
+      "src",
+      "/eventDefault.png"
+    );
+  });
 });

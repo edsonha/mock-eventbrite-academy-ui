@@ -5,7 +5,7 @@ import {
   CardSubtitle,
   Button,
   CardText,
-  Col
+  Col,
 } from "reactstrap";
 import { minToHour } from "../helper/minToHour";
 import moment from "moment";
@@ -20,7 +20,7 @@ const EventCard = props => {
             {props.eventDetail.title}
           </CardTitle>
           <img
-            src={props.eventDetail.image}
+            src={props.eventDetail.image || "/eventDefault.png"}
             alt="Event"
             className="event-card-img"
             data-testid="event-image"
