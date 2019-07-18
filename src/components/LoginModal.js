@@ -36,7 +36,7 @@ class LoginModal extends React.Component {
 
   userLogin = async () => {
     await axios
-      .post(this.backendURI + "/login", {
+      .post(this.backendURI + "/users/login", {
         email: this.state.email,
         password: this.state.password
       })

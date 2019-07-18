@@ -40,6 +40,40 @@ describe("starting UI", () => {
     expect(emailInput).toHaveAttribute("value", "");
     expect(passwordInput).toHaveAttribute("value", "");
   });
+
+  it("should clear inputs and close Signup Modal when X button is clicked", () => {
+    const { getByPlaceholderText, getByText, getByLabelText } = render(
+      <Header />
+    );
+
+    let headerSignupBtn = getByText("Sign Up");
+    fireEvent.click(headerSignupBtn);
+    const nameInput = getByLabelText("Name");
+    const emailInput = getByPlaceholderText("myemail@email.com");
+    const passwordInput = getByLabelText("Password");
+    const passwordConfirmationInput = getByLabelText("Confirm Password");
+    fireEvent.change(nameInput, { target: { value: "Sally" } });
+    fireEvent.change(emailInput, { target: { value: "sally@hotmail.com" } });
+    fireEvent.change(passwordInput, { target: { value: "password123!@#" } });
+    fireEvent.change(passwordConfirmationInput, {
+      target: { value: "password123!@#" }
+    });
+    expect(nameInput).toHaveAttribute("value", "Sally");
+    expect(emailInput).toHaveAttribute("value", "sally@hotmail.com");
+    expect(passwordInput).toHaveAttribute("value", "password123!@#");
+    expect(passwordConfirmationInput).toHaveAttribute(
+      "value",
+      "password123!@#"
+    );
+
+    const closeBtn = getByText("×");
+    fireEvent.click(closeBtn);
+    fireEvent.click(headerSignupBtn);
+    expect(nameInput).toHaveAttribute("value", "");
+    expect(emailInput).toHaveAttribute("value", "");
+    expect(passwordInput).toHaveAttribute("value", "");
+    expect(passwordConfirmationInput).toHaveAttribute("value", "");
+  });
 });
 
 describe("login functionality", () => {
@@ -47,7 +81,7 @@ describe("login functionality", () => {
     mockAxios.reset();
   });
 
-  it('should login user when correct info is given and the header will show "Welcome John" and "Log Out" button', async () => {
+  it('should login user when correct info is given and the header will show "Welcome John" and "Log Out" button', () => {
     const { getByText, getAllByText, getByPlaceholderText } = render(
       <Header backendURI={backendURI} />
     );
@@ -63,7 +97,7 @@ describe("login functionality", () => {
 
     mockAxios.mockResponse({ data: { name: "John Wick" } });
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
-    expect(mockAxios.post).toHaveBeenCalledWith("dummy/login", {
+    expect(mockAxios.post).toHaveBeenCalledWith("dummy/users/login", {
       email: "john@gmail.com",
       password: "abcdefgh"
     });
@@ -124,5 +158,76 @@ describe("logout functionality", () => {
     headerSignupBtn = getByText("Sign Up");
     expect(headerLoginBtn).toBeInTheDocument();
     expect(headerSignupBtn).toBeInTheDocument();
+  });
+});
+
+describe("sign up functionlaity", () => {
+  afterEach(() => {
+    mockAxios.reset();
+  });
+  it("should display 'Account created! when registration succeeds", () => {
+    const {
+      getByText,
+      getAllByText,
+      getByPlaceholderText,
+      getByLabelText
+    } = render(<Header backendURI={backendURI} />);
+    const headerSignupBtn = getAllByText("Sign Up")[0];
+    fireEvent.click(headerSignupBtn);
+
+    const goBtn = getByText("Go!");
+    const nameInput = getByPlaceholderText("username");
+    const emailInput = getByPlaceholderText("myemail@email.com");
+    const passwordInput = getByLabelText("Password");
+    const passwordConfirmationInput = getByLabelText("Confirm Password");
+
+    fireEvent.change(nameInput, { target: { value: "Sally" } });
+    fireEvent.change(emailInput, { target: { value: "sally@hotmail.com" } });
+    fireEvent.change(passwordInput, { target: { value: "password123!@#" } });
+    fireEvent.change(passwordConfirmationInput, {
+      target: { value: "password123!@#" }
+    });
+    fireEvent.click(goBtn);
+
+    mockAxios.mockResponse({ data: { message: "Account created!" } });
+    expect(mockAxios.post).toHaveBeenCalledTimes(1);
+    expect(mockAxios.post).toHaveBeenCalledWith("dummy/users/register", {
+      name: "Sally",
+      email: "sally@hotmail.com",
+      password: "password123!@#",
+      passwordConfirmation: "password123!@#"
+    });
+    // expect(goBtn).not.toBeInTheDocument();
+    // const messageBox = getByText("Account created!");
+    // expect(messageBox).toBeInTheDocument();
+  });
+
+  it("should deny register when input is invalid", async () => {
+    const { getByText, getByPlaceholderText, getByLabelText } = render(
+      <Header backendURI={backendURI} />
+    );
+
+    const headerSignupBtn = getByText("Sign Up");
+    fireEvent.click(headerSignupBtn);
+    const goBtn = getByText("Go!");
+    const nameInput = getByLabelText("Name");
+    const emailInput = getByPlaceholderText("myemail@email.com");
+    const passwordInput = getByLabelText("Password");
+    const passwordConfirmationInput = getByLabelText("Confirm Password");
+    fireEvent.change(nameInput, { target: { value: "Sally" } });
+    fireEvent.change(emailInput, { target: { value: "sally@hotmail.com" } });
+    fireEvent.change(passwordInput, { target: { value: "password1" } });
+    fireEvent.change(passwordConfirmationInput, {
+      target: { value: "password" }
+    });
+
+    fireEvent.click(goBtn);
+
+    mockAxios.mockError({
+      response: { data: { message: "Cannot create account" } }
+    });
+    expect(mockAxios.post).toHaveBeenCalledTimes(1);
+
+    expect(goBtn).toBeInTheDocument();
   });
 });

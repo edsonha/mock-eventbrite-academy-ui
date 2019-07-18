@@ -2,22 +2,30 @@ import React from "react";
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { Navbar, NavbarBrand, Button } from "reactstrap";
 import LoginModal from "./LoginModal";
+import SignupModal from "./SignupModal";
 import "../styles/Header.css";
 
 class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      modal: false,
+      loginModal: false,
+      signupModal: false,
       isLoggedIn: false,
       user: ""
     };
     this.backendURI = props.backendURI;
   }
 
-  modalToggle = () => {
+  loginModalToggle = () => {
     this.setState(prevState => ({
-      modal: !prevState.modal
+      loginModal: !prevState.loginModal
+    }));
+  };
+
+  signupModalToggle = () => {
+    this.setState(prevState => ({
+      signupModal: !prevState.signupModal
     }));
   };
 
@@ -39,7 +47,7 @@ class Header extends React.Component {
     }
 
     this.setState(prevState => ({
-      modal: false,
+      loginModal: false,
       isLoggedIn: !prevState.isLoggedIn
     }));
   };
@@ -67,16 +75,23 @@ class Header extends React.Component {
             <Logo data-testid="logo-svg" />
           </NavbarBrand>
           <div className="button-wrapper">
-            <Button className="login-button" onClick={this.modalToggle}>
+            <Button className="login-button" onClick={this.loginModalToggle}>
               Log In
             </Button>
             <LoginModal
               loginToggle={this.loginToggle}
-              isOpen={this.state.modal}
-              modalToggle={this.modalToggle}
+              isOpen={this.state.loginModal}
+              modalToggle={this.loginModalToggle}
               backendURI={this.backendURI}
             />
-            <Button className="signup-button">Sign Up</Button>
+            <Button className="signup-button" onClick={this.signupModalToggle}>
+              Sign Up
+            </Button>
+            <SignupModal
+              isOpen={this.state.signupModal}
+              modalToggle={this.signupModalToggle}
+              backendURI={this.backendURI}
+            />
           </div>
         </Navbar>
       );
