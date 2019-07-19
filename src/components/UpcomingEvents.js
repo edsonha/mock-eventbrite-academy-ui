@@ -41,24 +41,40 @@ class UpcomingEvents extends React.Component {
   render() {
     if (this.state.isLoading) {
       return (
-        <div className="upcoming-events-loader" data-testid="upcoming-events">
-          <SectionTitle sectionTitle={"Upcoming Events"} />
-          <Spinner size="lg" color="primary" />
-        </div>
+        <Container>
+          <Row>
+            <SectionTitle sectionTitle={"Upcoming Events"} />
+          </Row>
+          <div className="upcoming-events-loader" data-testid="upcoming-events">
+            <Spinner size="lg" color="primary" />
+          </div>
+        </Container>
       );
     } else if (this.state.errorLoading) {
       return (
-        <div className="no-upcoming-events" data-testid="upcoming-events">
-          <SectionTitle sectionTitle={"Upcoming Events"} />
-          <h3>Oops, something went wrong. Please try again later</h3>
-        </div>
+        <Container>
+          <div className="no-upcoming-events" data-testid="upcoming-events">
+            <Row>
+              <SectionTitle sectionTitle={"Upcoming Events"} />
+            </Row>
+            <Row>
+              <h3>Oops, something went wrong. Please try again later</h3>
+            </Row>
+          </div>
+        </Container>
       );
     } else if (this.state.upcomingEvents.length === 0) {
       return (
-        <div className="no-upcoming-events" data-testid="upcoming-events">
-          <SectionTitle sectionTitle={"Upcoming Events"} />
-          <h3>Stay tuned for new events.</h3>
-        </div>
+        <Container>
+          <div className="no-upcoming-events" data-testid="upcoming-events">
+            <Row>
+              <SectionTitle sectionTitle={"Upcoming Events"} />
+            </Row>
+            <Row>
+              <h3>Stay tuned for new events.</h3>
+            </Row>
+          </div>
+        </Container>
       );
     } else {
       const eventCards = this.state.upcomingEvents
