@@ -1,0 +1,26 @@
+#signup-form .modal-content {
+  background-color: #515d7c;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: regular;
+}
+
+#signup-name-input,
+#signup-email-input,
+#signup-password-input {
+}
+
+#signup-password-cfm-input-label {
+  /* padding-top: 0px; */
+  margin-top: -6px;
+  line-height: 1.2rem;
+}
+
+.signup-form-row {
+  align-items: center;
+  margin-bottom: 23px;
+}
+
+.signup-form-row-pcfm {
+  margin-top: 0px;
+}
