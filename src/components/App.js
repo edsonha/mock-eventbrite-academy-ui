@@ -33,7 +33,15 @@ export class App extends React.Component {
               <UpcomingEvents backendURI={this.backendURI} {...props} />
             )}
           />
-          <Route path="/event/:id" render={() => <EventDescriptionPage />} />
+          <Route
+            path="/event/:id"
+            render={({ match }) => (
+              <EventDescriptionPage
+                eventId={match.params.id}
+                backendURI={this.backendURI}
+              />
+            )}
+          />
         </Switch>
       </div>
     );
