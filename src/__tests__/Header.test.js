@@ -2,7 +2,7 @@ import React from "react";
 import Header from "../components/Header";
 import "@testing-library/react/cleanup-after-each";
 import "@testing-library/jest-dom/extend-expect";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, queryByAltText } from "@testing-library/react";
 
 import mockAxios from "jest-mock-axios";
 
@@ -19,10 +19,13 @@ describe("starting UI", () => {
     expect(logo).toBeInTheDocument();
   });
 
-  it("should clear inputs and close Login Modal when X button is clicked", () => {
-    const { getAllByText, getByPlaceholderText, getByText } = render(
-      <Header isLoggedIn={false} />
-    );
+  it("should clear inputs and close Login Modal when X button is clicked", async () => {
+    const {
+      getAllByText,
+      getByPlaceholderText,
+      getByText,
+      queryByTestId
+    } = render(<Header isLoggedIn={false} />);
 
     const headerLoginBtn = getAllByText("Log In")[0];
     fireEvent.click(headerLoginBtn);
@@ -36,15 +39,16 @@ describe("starting UI", () => {
 
     const closeBtn = getByText("×");
     fireEvent.click(closeBtn);
-    fireEvent.click(headerLoginBtn);
-    expect(emailInput).toHaveAttribute("value", "");
-    expect(passwordInput).toHaveAttribute("value", "");
+    expect(await queryByTestId("login-modal")).toBe(null);
   });
 
-  it("should clear inputs and close Signup Modal when X button is clicked", () => {
-    const { getByPlaceholderText, getByText, getByLabelText } = render(
-      <Header />
-    );
+  it("should clear inputs and close Signup Modal when X button is clicked", async () => {
+    const {
+      getByPlaceholderText,
+      getByText,
+      getByLabelText,
+      queryByTestId
+    } = render(<Header />);
 
     let headerSignupBtn = getByText("Sign Up");
     fireEvent.click(headerSignupBtn);
@@ -68,11 +72,7 @@ describe("starting UI", () => {
 
     const closeBtn = getByText("×");
     fireEvent.click(closeBtn);
-    fireEvent.click(headerSignupBtn);
-    expect(nameInput).toHaveAttribute("value", "");
-    expect(emailInput).toHaveAttribute("value", "");
-    expect(passwordInput).toHaveAttribute("value", "");
-    expect(passwordConfirmationInput).toHaveAttribute("value", "");
+    expect(await queryByTestId("signup-header")).toBe(null);
   });
 });
 
@@ -167,12 +167,13 @@ describe("sign up functionlaity", () => {
   });
 
   it("should display 'Account created! when registration succeeds", () => {
+    const container = render(<Header backendURI={backendURI} />);
     const {
       getByText,
       getAllByText,
       getByPlaceholderText,
       getByLabelText
-    } = render(<Header backendURI={backendURI} />);
+    } = container;
     const headerSignupBtn = getAllByText("Sign Up")[0];
     fireEvent.click(headerSignupBtn);
 
@@ -198,9 +199,7 @@ describe("sign up functionlaity", () => {
       password: "password123!@#",
       passwordConfirmation: "password123!@#"
     });
-    // expect(goBtn).not.toBeInTheDocument();
     const messageBox = getByText("Account created!");
-    // const messageBox = getByTestId("message-box");
     expect(messageBox).toBeInTheDocument();
   });
 

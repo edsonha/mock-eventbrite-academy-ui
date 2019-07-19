@@ -16,12 +16,8 @@ describe("Jest works", () => {
 
 describe("App", () => {
   it("renders the upcoming events component", () => {
-    const { getByTestId } = render(
-      <React.Fragment>
-        <App />
-      </React.Fragment>
-    );
-    const upcomingEvents = getByTestId("upcoming-events");
+    const container = render(<App />);
+    const upcomingEvents = container.getByText("Upcoming Events");
     expect(upcomingEvents).toBeInTheDocument();
   });
 });
@@ -31,17 +27,9 @@ describe("user login", () => {
     mockAxios.reset();
   });
 
-  it("should open up Login modal when Login button is clicked", () => {
-    const { getByText, queryByText } = render(<App />);
+  it("should render header", () => {
+    const { getByTestId } = render(<App />);
 
-    const loginBtn = getByText("Log In");
-
-    let goBtn;
-    goBtn = queryByText("Go!");
-    expect(goBtn).not.toBeInTheDocument();
-
-    fireEvent.click(loginBtn);
-    goBtn = queryByText("Go!");
-    expect(goBtn).toBeInTheDocument();
+    expect(getByTestId("app-header")).toBeInTheDocument();
   });
 });

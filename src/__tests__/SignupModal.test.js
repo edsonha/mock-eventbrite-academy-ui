@@ -13,19 +13,22 @@ describe("starting UI", () => {
     const passwordInput = getByLabelText("Password");
     const confirmPasswordInput = getByLabelText("Confirm Password");
     const goBtn = getByText("Go!");
-    const clearBtn = getByText("Clear");
+    const cancelBtn = getByText("Cancel");
     expect(nameInput).toBeInTheDocument();
     expect(emailInput).toBeInTheDocument();
     expect(passwordInput).toBeInTheDocument();
     expect(confirmPasswordInput).toBeInTheDocument();
     expect(goBtn).toBeInTheDocument();
-    expect(clearBtn).toBeInTheDocument();
+    expect(cancelBtn).toBeInTheDocument();
   });
 
-  it("should clear inputs when Clear button is clicked", () => {
-    const { getByText, getByPlaceholderText, getByLabelText } = render(
-      <SignupModal isOpen={true} />
-    );
+  it("should close sign up modal when Cancel button is clicked", async () => {
+    const {
+      getByText,
+      getByPlaceholderText,
+      getByLabelText,
+      queryByTestId
+    } = render(<SignupModal isOpen={true} />);
 
     const nameInput = getByLabelText("Name");
     const emailInput = getByPlaceholderText("myemail@email.com");
@@ -41,11 +44,8 @@ describe("starting UI", () => {
     expect(emailInput).toHaveAttribute("value", "sally@gmail.com");
     expect(passwordInput).toHaveAttribute("value", "password123!@#");
     expect(confirmPasswordInput).toHaveAttribute("value", "password123!@#");
-    const clearBtn = getByText("Clear");
-    fireEvent.click(clearBtn);
-    expect(nameInput).toHaveAttribute("value", "");
-    expect(emailInput).toHaveAttribute("value", "");
-    expect(passwordInput).toHaveAttribute("value", "");
-    expect(confirmPasswordInput).toHaveAttribute("value", "");
+
+    fireEvent.click(await getByText("Cancel"));
+    expect(queryByTestId("signup-form")).toBe(null);
   });
 });

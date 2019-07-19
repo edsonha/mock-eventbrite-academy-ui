@@ -53,12 +53,12 @@ class Header extends React.Component {
   };
 
   render() {
-    if (this.state.isLoggedIn) {
-      return (
-        <Navbar className="navbar col" light expand="sm">
-          <NavbarBrand>
-            <Logo data-testid="logo-svg" />
-          </NavbarBrand>
+    return (
+      <Navbar data-testid="app-header" className="navbar col" light expand="sm">
+        <NavbarBrand>
+          <Logo data-testid="logo-svg" />
+        </NavbarBrand>
+        {this.state.isLoggedIn && (
           <div className="button-wrapper">
             <div className="welcome-msg">{`${this.state.user}`}</div>
 
@@ -66,14 +66,8 @@ class Header extends React.Component {
               Log Out
             </Button>
           </div>
-        </Navbar>
-      );
-    } else {
-      return (
-        <Navbar className="navbar col" light expand="sm">
-          <NavbarBrand>
-            <Logo data-testid="logo-svg" />
-          </NavbarBrand>
+        )}
+        {!this.state.isLoggedIn && (
           <div className="button-wrapper">
             <Button className="login-button" onClick={this.loginModalToggle}>
               Log In
@@ -81,21 +75,22 @@ class Header extends React.Component {
             <LoginModal
               loginToggle={this.loginToggle}
               isOpen={this.state.loginModal}
-              modalToggle={this.loginModalToggle}
+              loginModalToggle={this.loginModalToggle}
               backendURI={this.backendURI}
             />
+
             <Button className="signup-button" onClick={this.signupModalToggle}>
               Sign Up
             </Button>
             <SignupModal
               isOpen={this.state.signupModal}
-              modalToggle={this.signupModalToggle}
+              signupModalToggle={this.signupModalToggle}
               backendURI={this.backendURI}
             />
           </div>
-        </Navbar>
-      );
-    }
+        )}
+      </Navbar>
+    );
   }
 }
 

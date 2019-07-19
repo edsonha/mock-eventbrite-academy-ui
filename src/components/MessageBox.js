@@ -10,10 +10,6 @@ class MessageBox extends React.Component {
     };
   }
 
-  // closeMessageBox = () => {
-  //   this.setState({ message: "", visible: false });
-  // };
-
   componentDidUpdate(prevProps) {
     if (prevProps.message !== this.props.message) {
       this.setState({
@@ -25,11 +21,7 @@ class MessageBox extends React.Component {
 
   render() {
     return (
-      <Alert
-        className="message-box"
-        isOpen={this.state.visible}
-        toggle={this.closeMessageBox}
-      >
+      <Alert className="message-box" isOpen={this.state.visible}>
         {this.state.message}
       </Alert>
     );

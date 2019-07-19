@@ -54,7 +54,7 @@ class LoginModal extends React.Component {
         className="close"
         onClick={() => {
           this.clearInput();
-          this.props.modalToggle();
+          this.props.loginModalToggle();
         }}
       >
         &times;
@@ -62,56 +62,63 @@ class LoginModal extends React.Component {
     );
 
     return (
-      <div data-testid="login-modal">
-        <Modal isOpen={this.props.isOpen} id="login-content">
-          <ModalHeader
-            toggle={this.props.modalToggle}
-            close={closeBtn}
-            id="login-header"
-          >
-            Log In
-          </ModalHeader>
-          <ModalBody id="login-body">
-            <Row>
-              <Label id="email-input-label" for="email-input" sm={2}>
-                E-mail
-              </Label>
-              <Col sm={10}>
-                <Input
-                  type="email"
-                  name="email"
-                  id="email-input"
-                  placeholder="myemail@email.com"
-                  value={this.state.email}
-                  onChange={this.onChange}
-                />
-              </Col>
-            </Row>
-            <Row>
-              <Label id="password-input-label" for="password-input" sm={2}>
-                Password
-              </Label>
-              <Col sm={10}>
-                <Input
-                  type="password"
-                  name="password"
-                  id="password-input"
-                  placeholder="********"
-                  value={this.state.password}
-                  onChange={this.onChange}
-                />
-              </Col>
-            </Row>
-          </ModalBody>
-          <ModalFooter>
-            <Button className="cancel-btn" onClick={this.clearInput}>
-              Clear
-            </Button>
-            <Button className="go-btn" onClick={this.userLogin}>
-              Go!
-            </Button>
-          </ModalFooter>
-        </Modal>
+      <div>
+        {this.props.isOpen && (
+          <div data-testid="login-modal">
+            <Modal isOpen={this.props.isOpen} id="login-content">
+              <ModalHeader
+                toggle={this.props.modalToggle}
+                close={closeBtn}
+                id="login-header"
+              >
+                Log In
+              </ModalHeader>
+              <ModalBody id="login-body">
+                <Row>
+                  <Label id="email-input-label" for="email-input" sm={2}>
+                    E-mail
+                  </Label>
+                  <Col sm={10}>
+                    <Input
+                      type="email"
+                      name="email"
+                      id="email-input"
+                      placeholder="myemail@email.com"
+                      value={this.state.email}
+                      onChange={this.onChange}
+                    />
+                  </Col>
+                </Row>
+                <Row>
+                  <Label id="password-input-label" for="password-input" sm={2}>
+                    Password
+                  </Label>
+                  <Col sm={10}>
+                    <Input
+                      type="password"
+                      name="password"
+                      id="password-input"
+                      placeholder="********"
+                      value={this.state.password}
+                      onChange={this.onChange}
+                    />
+                  </Col>
+                </Row>
+              </ModalBody>
+              <ModalFooter>
+                <Button
+                  className="cancel-btn"
+                  onClick={this.props.loginModalToggle}
+                >
+                  Cancel
+                </Button>
+                <Button className="go-btn" onClick={this.userLogin}>
+                  Go!
+                </Button>
+              </ModalFooter>
+            </Modal>
+          </div>
+        )}
       </div>
     );
   }
