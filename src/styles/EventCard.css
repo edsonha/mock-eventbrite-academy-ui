@@ -76,6 +76,7 @@
 
 .event-card-header:hover {
   filter: brightness(50%);
+  cursor: pointer;
 }
 
 .event-card-header img {
