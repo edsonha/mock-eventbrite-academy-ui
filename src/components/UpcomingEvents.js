@@ -2,7 +2,7 @@ import React from "react";
 import EventCard from "./EventCard";
 import SectionTitle from "./SectionTitle";
 import moment from "moment";
-import { Container, Row } from "reactstrap";
+import { Container, Row, Spinner } from "reactstrap";
 import "../styles/UpcomingEvents.css";
 import axios from "axios";
 
@@ -12,7 +12,8 @@ class UpcomingEvents extends React.Component {
     this.backendURI = props.backendURI;
     this.state = {
       upcomingEvents: [],
-      errorLoading: false
+      errorLoading: false,
+      isLoading: true
     };
   }
 
@@ -21,19 +22,31 @@ class UpcomingEvents extends React.Component {
   };
 
   async componentDidMount() {
+    this.setState({ isLoading: true });
     await axios.get(this.backendURI + "/upcomingevents").then(
       res => {
-        this.setState({ upcomingEvents: res.data, errorLoading: false });
+        this.setState({
+          upcomingEvents: res.data,
+          errorLoading: false,
+          isLoading: false
+        });
       },
       err => {
         console.log(err.message);
-        this.setState({ errorLoading: true });
+        this.setState({ errorLoading: true, isLoading: false });
       }
     );
   }
 
   render() {
-    if (this.state.errorLoading) {
+    if (this.state.isLoading) {
+      return (
+        <div className="upcoming-events-loader" data-testid="upcoming-events">
+          <SectionTitle sectionTitle={"Upcoming Events"} />
+          <Spinner size="lg" color="primary" />
+        </div>
+      );
+    } else if (this.state.errorLoading) {
       return (
         <div className="no-upcoming-events" data-testid="upcoming-events">
           <SectionTitle sectionTitle={"Upcoming Events"} />
