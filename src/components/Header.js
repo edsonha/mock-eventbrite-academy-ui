@@ -24,11 +24,9 @@ class Header extends React.Component {
   };
 
   signupModalToggle = () => {
-    if (process.env.NODE_ENV !== "production") {
-      this.setState(prevState => ({
-        signupModal: !prevState.signupModal
-      }));
-    }
+    this.setState(prevState => ({
+      signupModal: !prevState.signupModal
+    }));
   };
 
   loginToggle = data => {

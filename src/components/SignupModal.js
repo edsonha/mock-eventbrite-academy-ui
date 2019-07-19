@@ -12,6 +12,7 @@ import {
 } from "reactstrap";
 import MessageBox from "./MessageBox";
 import axios from "axios";
+import "../styles/SignupModal.css";
 
 class SignupModal extends React.Component {
   constructor(props) {
@@ -57,7 +58,6 @@ class SignupModal extends React.Component {
           result: res.data.message,
           messageBoxIsOpen: true
         });
-        console.log(this.state);
         this.clearInput();
       })
       .catch(err => {
@@ -95,7 +95,7 @@ class SignupModal extends React.Component {
               isOpen={this.state.messageBoxIsOpen}
               message={this.state.result}
             />
-            <Row>
+            <Row className="signup-form-row">
               <Label
                 id="signup-name-input-label"
                 for="signup-name-input"
@@ -114,7 +114,7 @@ class SignupModal extends React.Component {
                 />
               </Col>
             </Row>
-            <Row>
+            <Row className="signup-form-row">
               <Label
                 id="signup-email-input-label"
                 for="signup-email-input"
@@ -133,7 +133,7 @@ class SignupModal extends React.Component {
                 />
               </Col>
             </Row>
-            <Row>
+            <Row className="signup-form-row">
               <Label
                 id="signup-password-input-label"
                 for="signup-password-input"
@@ -152,7 +152,7 @@ class SignupModal extends React.Component {
                 />
               </Col>
             </Row>
-            <Row>
+            <Row className="signup-form-row-pcfm">
               <Label
                 id="signup-password-cfm-input-label"
                 for="signup-password-cfm-input"
