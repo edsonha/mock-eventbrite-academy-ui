@@ -53,6 +53,7 @@ describe("Upcoming Events Component", () => {
     expect(getByText(/2hr/i)).toBeInTheDocument();
     expect(getByText("Location 1")).toBeInTheDocument();
     expect(getByText("Register")).toBeInTheDocument();
+    expect(getByText("Learn More")).toBeInTheDocument();
   });
 
   it("should display required event details for more than one event", () => {
@@ -88,6 +89,7 @@ describe("Upcoming Events Component", () => {
     expect(getAllByText(/Sat, Aug 17th 2019, 6:00 pm/i).length).toBe(2);
 
     expect(getAllByText("Register").length).toBe(4);
+    expect(getAllByText("Learn More").length).toBe(4);
   });
 });
 
