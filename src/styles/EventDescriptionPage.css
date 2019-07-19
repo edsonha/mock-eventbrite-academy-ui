@@ -1,0 +1,42 @@
+.jumbotron {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 20px 0 0 0;
+  height: 250px;
+  background-size: cover;
+}
+
+.jumbotron .banner-title {
+  display: flex;
+  color: white;
+  width: 60%;
+  align-items: center;
+  justify-content: center;
+}
+
+.jumbotron .banner-title h1 {
+  font-size: 50px;
+  font-weight: bold;
+}
+
+.jumbotron .banner-description {
+  display: flex;
+  color: white;
+  width: 40%;
+  align-items: center;
+  justify-content: center;
+}
+
+.container-below-jumbtron {
+  display: flex;
+  flex-direction: row;
+}
+
+.event-full-description {
+  width: 60%;
+}
+
+.event-detail-summary {
+  width: 40%;
+}
