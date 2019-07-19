@@ -18,7 +18,6 @@ const mockEventsWithSeats = [
     duration: 120,
     location: "Location 2",
     availableSeats: 0,
-    image: "https://via.placeholder.com/150.png?text=_",
     _id: "5d2edb6e0217642ef2524582"
   },
   {

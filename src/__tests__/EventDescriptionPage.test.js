@@ -50,7 +50,7 @@ describe("Event Description Page", () => {
   });
 
   it("should show the event title on the Event Description page", () => {
-    const { getAllByText, getByText } = render(
+    const { getAllByText } = render(
       <EventDescriptionPage
         backendURI={"dummy"}
         eventId={"5d2edb6e0217642ef2524582"}

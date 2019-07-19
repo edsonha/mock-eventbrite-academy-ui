@@ -35,8 +35,20 @@
 
 .event-full-description {
   width: 60%;
+  margin: 0px 60px 30px 30px;
+  justify-content: center;
+}
+
+.event-full-description h5 {
+  margin: 0 0 20px 0;
 }
 
 .event-detail-summary {
   width: 40%;
+  margin: 0 0 0 40px;
+}
+
+.upcoming-events-loader {
+  text-align: center;
+  margin: 125px;
 }
