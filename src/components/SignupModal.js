@@ -10,6 +10,7 @@ import {
   Input,
   Row
 } from "reactstrap";
+import MessageBox from "./MessageBox";
 import axios from "axios";
 
 class SignupModal extends React.Component {
@@ -21,7 +22,8 @@ class SignupModal extends React.Component {
       email: "",
       password: "",
       passwordConfirmation: "",
-      result: ""
+      result: "",
+      messageBoxIsOpen: false
     };
   }
 
@@ -52,8 +54,10 @@ class SignupModal extends React.Component {
       })
       .then(res => {
         this.setState({
-          result: res.data.message
+          result: res.data.message,
+          messageBoxIsOpen: true
         });
+        console.log(this.state);
         this.clearInput();
       })
       .catch(err => {
@@ -87,6 +91,10 @@ class SignupModal extends React.Component {
             Sign Up
           </ModalHeader>
           <ModalBody id="signup-body">
+            <MessageBox
+              isOpen={this.state.messageBoxIsOpen}
+              message={this.state.result}
+            />
             <Row>
               <Label
                 id="signup-name-input-label"
@@ -166,7 +174,7 @@ class SignupModal extends React.Component {
           </ModalBody>
           <ModalFooter>
             <Button className="cancel-btn" onClick={this.clearInput}>
-              Cancel
+              Clear
             </Button>
             <Button className="go-btn" onClick={this.userRegister}>
               Go!

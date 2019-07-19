@@ -105,7 +105,7 @@ class LoginModal extends React.Component {
           </ModalBody>
           <ModalFooter>
             <Button className="cancel-btn" onClick={this.clearInput}>
-              Cancel
+              Clear
             </Button>
             <Button className="go-btn" onClick={this.userLogin}>
               Go!

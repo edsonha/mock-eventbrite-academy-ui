@@ -13,16 +13,16 @@ describe("starting UI", () => {
     const passwordInput = getByLabelText("Password");
     const confirmPasswordInput = getByLabelText("Confirm Password");
     const goBtn = getByText("Go!");
-    const cancelBtn = getByText("Cancel");
+    const clearBtn = getByText("Clear");
     expect(nameInput).toBeInTheDocument();
     expect(emailInput).toBeInTheDocument();
     expect(passwordInput).toBeInTheDocument();
     expect(confirmPasswordInput).toBeInTheDocument();
     expect(goBtn).toBeInTheDocument();
-    expect(cancelBtn).toBeInTheDocument();
+    expect(clearBtn).toBeInTheDocument();
   });
 
-  it("should clear inputs when Cancel button is clicked", () => {
+  it("should clear inputs when Clear button is clicked", () => {
     const { getByText, getByPlaceholderText, getByLabelText } = render(
       <SignupModal isOpen={true} />
     );
@@ -41,8 +41,8 @@ describe("starting UI", () => {
     expect(emailInput).toHaveAttribute("value", "sally@gmail.com");
     expect(passwordInput).toHaveAttribute("value", "password123!@#");
     expect(confirmPasswordInput).toHaveAttribute("value", "password123!@#");
-    const cancelBtn = getByText("Cancel");
-    fireEvent.click(cancelBtn);
+    const clearBtn = getByText("Clear");
+    fireEvent.click(clearBtn);
     expect(nameInput).toHaveAttribute("value", "");
     expect(emailInput).toHaveAttribute("value", "");
     expect(passwordInput).toHaveAttribute("value", "");

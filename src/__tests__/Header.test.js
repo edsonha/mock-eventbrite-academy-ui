@@ -165,6 +165,7 @@ describe("sign up functionlaity", () => {
   afterEach(() => {
     mockAxios.reset();
   });
+
   it("should display 'Account created! when registration succeeds", () => {
     const {
       getByText,
@@ -198,8 +199,9 @@ describe("sign up functionlaity", () => {
       passwordConfirmation: "password123!@#"
     });
     // expect(goBtn).not.toBeInTheDocument();
-    // const messageBox = getByText("Account created!");
-    // expect(messageBox).toBeInTheDocument();
+    const messageBox = getByText("Account created!");
+    // const messageBox = getByTestId("message-box");
+    expect(messageBox).toBeInTheDocument();
   });
 
   it("should deny register when input is invalid", async () => {
