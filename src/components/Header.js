@@ -1,6 +1,7 @@
 import React from "react";
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { Navbar, NavbarBrand, Button } from "reactstrap";
+import { Link } from "react-router-dom";
 import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
 import "../styles/Header.css";
@@ -55,9 +56,9 @@ class Header extends React.Component {
   render() {
     return (
       <Navbar data-testid="app-header" className="navbar col" light expand="sm">
-        <NavbarBrand>
+        <Link to="/">
           <Logo data-testid="logo-svg" />
-        </NavbarBrand>
+        </Link>
         {this.state.isLoggedIn && (
           <div className="button-wrapper">
             <div className="welcome-msg">{`${this.state.user}`}</div>

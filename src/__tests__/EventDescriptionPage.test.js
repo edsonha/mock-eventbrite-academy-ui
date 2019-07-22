@@ -19,36 +19,6 @@ describe("Event Description Page", () => {
     mockAxios.reset();
   });
 
-  it("should navigate to the Event Description page when I click on the image in the card", () => {
-    const history = createMemoryHistory({ initialEntries: ["/"] });
-
-    const { queryAllByTestId, getByTestId } = render(
-      <Router history={history}>
-        <App />
-      </Router>
-    );
-    mockAxios.mockResponse({ data: mockEventsWithSeats });
-
-    const eventCards = queryAllByTestId("event-image");
-    fireEvent.click(eventCards[0]);
-    expect(getByTestId("event-description-page")).toBeInTheDocument();
-  });
-
-  it("should navigate to the Event Description page when I click Learn more in the card", () => {
-    const history = createMemoryHistory({ initialEntries: ["/"] });
-
-    const { queryAllByTestId, getByTestId } = render(
-      <Router history={history}>
-        <App />
-      </Router>
-    );
-    mockAxios.mockResponse({ data: mockEventsWithSeats });
-
-    const eventCards = queryAllByTestId("event-learnmore");
-    fireEvent.click(eventCards[0]);
-    expect(getByTestId("event-description-page")).toBeInTheDocument();
-  });
-
   it("should show the event title on the Event Description page", () => {
     const { getAllByText } = render(
       <EventDescriptionPage
