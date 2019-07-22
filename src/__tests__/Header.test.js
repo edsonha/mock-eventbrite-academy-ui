@@ -102,13 +102,6 @@ describe("login functionality", () => {
     mockAxios.mockResponse({ data: { name: "John Wick" } });
 
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
-    expect(mockAxios.post).toHaveBeenCalledWith(
-      "http://localhost:3001/users/login",
-      {
-        email: "john@gmail.com",
-        password: "abcdefgh"
-      }
-    );
 
     const logOutBtn = getByText("Log Out");
     const welcomeMessage = getByText("JW");
