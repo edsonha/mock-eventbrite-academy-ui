@@ -11,26 +11,63 @@ export class App extends React.Component {
     this.backendURI = process.env.REACT_APP_REST_API_LOCATION;
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      loginModal: false,
+      isLoggedIn: false,
+      user: ""
     };
   }
+
+  loginModalToggle = () => {
+    this.setState(prevState => ({
+      loginModal: !prevState.loginModal
+    }));
+  };
+
+  loginToggle = data => {
+    if (!this.state.isLoggedIn) {
+      const nameArray = data.split(" ");
+      let initials = "";
+
+      for (let word of nameArray) {
+        initials += word[0];
+        if (initials.length === 2) {
+          break;
+        }
+      }
+
+      this.setState({
+        user: initials
+      });
+    }
+
+    this.setState(prevState => ({
+      loginModal: false,
+      isLoggedIn: !prevState.isLoggedIn
+    }));
+  };
 
   render() {
     return (
       <div className="App">
         <Header
           isLoggedIn={this.state.isLoggedIn}
-          loginToggle={this.loginToggle}
-          modalToggle={this.modalToggle}
-          modal={this.state.modal}
           backendURI={this.backendURI}
+          loginModal={this.state.loginModal}
+          loginModalToggle={this.loginModalToggle}
+          loginToggle={this.loginToggle}
+          user={this.state.user}
         />
         <Switch>
           <Route
             exact
             path="/"
             render={props => (
-              <UpcomingEvents backendURI={this.backendURI} {...props} />
+              <UpcomingEvents
+                backendURI={this.backendURI}
+                loginModalToggle={this.loginModalToggle}
+                {...props}
+              />
             )}
           />
           <Route

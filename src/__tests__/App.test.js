@@ -15,8 +15,6 @@ describe("App", () => {
     mockAxios.reset();
   });
   it("renders the upcoming events component", () => {
-    // const history = createMemoryHistory({ initialEntries: ["/"] });
-
     const { getByText } = render(<MainApp />);
     const upcomingEvents = getByText("Upcoming Events");
     expect(upcomingEvents).toBeInTheDocument();
@@ -99,5 +97,17 @@ describe("routing for event description page", () => {
     const eventCards = queryAllByTestId("event-learnmore");
     fireEvent.click(eventCards[0]);
     expect(getByTestId("event-description-page")).toBeInTheDocument();
+  });
+});
+
+describe("registering for courses", () => {
+  it("should prompt user login when user is not logged in if user clicks on Register", () => {
+    const { getByTestId, getAllByText } = render(<MainApp />);
+    mockAxios.mockResponse({ data: mockEventsWithSeats });
+
+    const registerBtn = getAllByText("Register")[0];
+    fireEvent.click(registerBtn);
+    const loginModal = getByTestId("login-modal");
+    expect(loginModal).toBeInTheDocument();
   });
 });

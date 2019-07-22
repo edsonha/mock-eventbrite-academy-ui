@@ -10,46 +10,14 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loginModal: false,
-      signupModal: false,
-      isLoggedIn: false,
-      user: ""
+      signupModal: false
     };
     this.backendURI = props.backendURI;
   }
 
-  loginModalToggle = () => {
-    this.setState(prevState => ({
-      loginModal: !prevState.loginModal
-    }));
-  };
-
   signupModalToggle = () => {
     this.setState(prevState => ({
       signupModal: !prevState.signupModal
-    }));
-  };
-
-  loginToggle = data => {
-    if (!this.state.isLoggedIn) {
-      const nameArray = data.split(" ");
-      let initials = "";
-
-      for (let word of nameArray) {
-        initials += word[0];
-        if (initials.length === 2) {
-          break;
-        }
-      }
-
-      this.setState({
-        user: initials
-      });
-    }
-
-    this.setState(prevState => ({
-      loginModal: false,
-      isLoggedIn: !prevState.isLoggedIn
     }));
   };
 
@@ -59,24 +27,27 @@ class Header extends React.Component {
         <Link to="/">
           <Logo data-testid="logo-svg" />
         </Link>
-        {this.state.isLoggedIn && (
+        {this.props.isLoggedIn && (
           <div className="button-wrapper">
-            <div className="welcome-msg">{`${this.state.user}`}</div>
+            <div className="welcome-msg">{`${this.props.user}`}</div>
 
-            <Button className="logout-button" onClick={this.loginToggle}>
+            <Button className="logout-button" onClick={this.props.loginToggle}>
               Log Out
             </Button>
           </div>
         )}
-        {!this.state.isLoggedIn && (
+        {!this.props.isLoggedIn && (
           <div className="button-wrapper">
-            <Button className="login-button" onClick={this.loginModalToggle}>
+            <Button
+              className="login-button"
+              onClick={this.props.loginModalToggle}
+            >
               Log In
             </Button>
             <LoginModal
-              loginToggle={this.loginToggle}
-              isOpen={this.state.loginModal}
-              loginModalToggle={this.loginModalToggle}
+              loginToggle={this.props.loginToggle}
+              isOpen={this.props.loginModal}
+              loginModalToggle={this.props.loginModalToggle}
               backendURI={this.backendURI}
             />
 

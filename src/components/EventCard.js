@@ -54,7 +54,9 @@ const EventCard = props => {
           >
             Learn More
           </Button>
-          <Button className="register-button">Register</Button>
+          <Button className="register-button" onClick={props.loginModalToggle}>
+            Register
+          </Button>
         </div>
       </Card>
     </Col>
