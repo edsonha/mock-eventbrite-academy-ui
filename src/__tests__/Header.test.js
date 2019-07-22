@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../components/Header";
+import { HeaderWithRouter } from "../components/Header";
 import "@testing-library/react/cleanup-after-each";
 import "@testing-library/jest-dom/extend-expect";
 import { render, fireEvent, queryByAltText } from "@testing-library/react";
@@ -10,7 +10,9 @@ const backendURI = "dummy";
 
 describe("starting UI", () => {
   it("should show Stashaway logo, Login and Sign Up buttons when you are not logged in", () => {
-    const { getByText, getByTestId } = render(<Header isLoggedIn={false} />);
+    const { getByText, getByTestId } = render(
+      <HeaderWithRouter isLoggedIn={false} />
+    );
     const loginBtn = getByText("Log In");
     const signUpBtn = getByText("Sign Up");
     const logo = getByTestId("logo-svg");
@@ -25,7 +27,7 @@ describe("starting UI", () => {
       getByPlaceholderText,
       getByText,
       queryByTestId
-    } = render(<Header isLoggedIn={false} />);
+    } = render(<HeaderWithRouter isLoggedIn={false} />);
 
     const headerLoginBtn = getAllByText("Log In")[0];
     fireEvent.click(headerLoginBtn);
@@ -48,7 +50,7 @@ describe("starting UI", () => {
       getByText,
       getByLabelText,
       queryByTestId
-    } = render(<Header />);
+    } = render(<HeaderWithRouter />);
 
     let headerSignupBtn = getByText("Sign Up");
     fireEvent.click(headerSignupBtn);
@@ -83,7 +85,7 @@ describe("login functionality", () => {
 
   it('should login user when correct info is given and the header will show "Welcome John" and "Log Out" button', () => {
     const { getByText, getAllByText, getByPlaceholderText } = render(
-      <Header backendURI={backendURI} />
+      <HeaderWithRouter backendURI={backendURI} />
     );
 
     const headerLoginBtn = getAllByText("Log In")[0];
@@ -112,7 +114,7 @@ describe("login functionality", () => {
 
   it("should deny login when credentials are wrong", async () => {
     const { getByText, getAllByText, getByPlaceholderText } = render(
-      <Header backendURI={backendURI} />
+      <HeaderWithRouter backendURI={backendURI} />
     );
 
     const headerLoginBtn = getAllByText("Log In")[0];
@@ -139,7 +141,7 @@ describe("logout functionality", () => {
   });
 
   it("should return to default ui after logout", () => {
-    const { getByText } = render(<Header backendURI={backendURI} />);
+    const { getByText } = render(<HeaderWithRouter backendURI={backendURI} />);
 
     let headerLoginBtn = getByText("Log In");
     let headerSignupBtn = getByText("Sign Up");
@@ -167,7 +169,7 @@ describe("sign up functionlaity", () => {
   });
 
   it("should display 'Account created! when registration succeeds", () => {
-    const container = render(<Header backendURI={backendURI} />);
+    const container = render(<HeaderWithRouter backendURI={backendURI} />);
     const {
       getByText,
       getAllByText,
@@ -205,7 +207,7 @@ describe("sign up functionlaity", () => {
 
   it("should deny register when input is invalid", async () => {
     const { getByText, getByPlaceholderText, getByLabelText } = render(
-      <Header backendURI={backendURI} />
+      <HeaderWithRouter backendURI={backendURI} />
     );
 
     const headerSignupBtn = getByText("Sign Up");
@@ -237,7 +239,7 @@ describe("sign up functionlaity", () => {
 
   it("should show 'Cannot create account in case of server error", async () => {
     const { getByText, getByPlaceholderText, getByLabelText } = render(
-      <Header backendURI={backendURI} />
+      <HeaderWithRouter backendURI={backendURI} />
     );
 
     const headerSignupBtn = getByText("Sign Up");
@@ -263,5 +265,30 @@ describe("sign up functionlaity", () => {
     const messageBox = getByText("Something went wrong, please try again");
     expect(messageBox).toBeInTheDocument();
     expect(goBtn).toBeInTheDocument();
+  });
+
+  it("should close login modal when Cancel button is clicked", async () => {
+    const container = render(<HeaderWithRouter />);
+    const {
+      getByText,
+      getByPlaceholderText,
+      getByTestId,
+      queryByTestId
+    } = container;
+
+    fireEvent.click(getByText("Log In"));
+
+    expect(await getByTestId("login-modal")).toBeInTheDocument();
+
+    const emailInput = getByPlaceholderText("myemail@email.com");
+    const passwordInput = getByPlaceholderText("********");
+    fireEvent.change(emailInput, { target: { value: "john@gmail.com" } });
+    fireEvent.change(passwordInput, { target: { value: "abcdefgh" } });
+
+    expect(emailInput).toHaveAttribute("value", "john@gmail.com");
+    expect(passwordInput).toHaveAttribute("value", "abcdefgh");
+
+    fireEvent.click(getByText("×"));
+    expect(await queryByTestId("login-modal")).toBe(null);
   });
 });

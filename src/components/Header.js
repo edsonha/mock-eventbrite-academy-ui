@@ -1,7 +1,7 @@
 import React from "react";
 import { ReactComponent as Logo } from "../assets/logo.svg";
-import { Navbar, NavbarBrand, Button } from "reactstrap";
-import { Link } from "react-router-dom";
+import { Navbar, Button } from "reactstrap";
+import { BrowserRouter, Link } from "react-router-dom";
 import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
 import "../styles/Header.css";
@@ -93,6 +93,14 @@ class Header extends React.Component {
       </Navbar>
     );
   }
+}
+
+export function HeaderWithRouter(props) {
+  return (
+    <BrowserRouter>
+      <Header backendURI={props.backendURI} />
+    </BrowserRouter>
+  );
 }
 
 export default Header;

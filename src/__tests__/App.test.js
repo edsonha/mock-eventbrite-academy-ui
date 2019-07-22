@@ -1,6 +1,7 @@
 import React from "react";
 import { createMemoryHistory } from "history";
 import { Router } from "react-router-dom";
+import MainApp from "../components/App";
 import { App } from "../components/App";
 import { render, fireEvent } from "@testing-library/react";
 import mockEventsWithSeats from "../__mockData__/mockEventsWithSeats.mockdata";
@@ -14,13 +15,9 @@ describe("App", () => {
     mockAxios.reset();
   });
   it("renders the upcoming events component", () => {
-    const history = createMemoryHistory({ initialEntries: ["/"] });
+    // const history = createMemoryHistory({ initialEntries: ["/"] });
 
-    const { getByText } = render(
-      <Router history={history}>
-        <App />
-      </Router>
-    );
+    const { getByText } = render(<MainApp />);
     const upcomingEvents = getByText("Upcoming Events");
     expect(upcomingEvents).toBeInTheDocument();
   });
@@ -46,6 +43,7 @@ describe("routing of the stashaway icon header to the landing page", () => {
   afterEach(() => {
     mockAxios.reset();
   });
+
   it("routing of the stashaway icon header to the landing page", () => {
     const history = createMemoryHistory({
       initialEntries: ["/event/5d2edb6e0217642ef2524581"]
