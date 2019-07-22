@@ -78,11 +78,7 @@ class UpcomingEvents extends React.Component {
       );
     } else {
       const eventCards = this.state.upcomingEvents
-        .filter(event => {
-          const timeDiffInMinutes =
-            (moment.utc(event.time).toDate() - Date.now()) / 1000 / 60;
-          return timeDiffInMinutes > 0;
-        })
+        .filter(event => moment.utc(event.time).toDate() - Date.now() > 0)
         .map(event => (
           <EventCard
             key={event._id}
