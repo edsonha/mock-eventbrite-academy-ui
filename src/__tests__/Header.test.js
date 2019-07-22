@@ -224,11 +224,44 @@ describe("sign up functionlaity", () => {
 
     fireEvent.click(goBtn);
 
-    mockAxios.mockError({
-      response: { data: { message: "Cannot create account" } }
-    });
+    // mockAxios.mockError({
+    //   response: { data: { message: "Cannot create account" } }
+    // });
+    mockAxios.mockResponse({ data: { message: "Cannot create account" } });
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
 
+    const messageBox = getByText("Cannot create account");
+    expect(messageBox).toBeInTheDocument();
+    expect(goBtn).toBeInTheDocument();
+  });
+
+  it("should show 'Cannot create account in case of server error", async () => {
+    const { getByText, getByPlaceholderText, getByLabelText } = render(
+      <Header backendURI={backendURI} />
+    );
+
+    const headerSignupBtn = getByText("Sign Up");
+    fireEvent.click(headerSignupBtn);
+
+    const goBtn = getByText("Go!");
+    const nameInput = getByLabelText("Name");
+    const emailInput = getByPlaceholderText("myemail@email.com");
+    const passwordInput = getByLabelText("Password");
+    const passwordConfirmationInput = getByLabelText("Confirm Password");
+
+    fireEvent.change(nameInput, { target: { value: "Sally" } });
+    fireEvent.change(emailInput, { target: { value: "sally@hotmail.com" } });
+    fireEvent.change(passwordInput, { target: { value: "password123!@#" } });
+    fireEvent.change(passwordConfirmationInput, {
+      target: { value: "password123!@#" }
+    });
+    fireEvent.click(goBtn);
+    mockAxios.mockError({
+      response: { data: { message: "Something went wrong, please try again" } }
+    });
+
+    const messageBox = getByText("Something went wrong, please try again");
+    expect(messageBox).toBeInTheDocument();
     expect(goBtn).toBeInTheDocument();
   });
 });

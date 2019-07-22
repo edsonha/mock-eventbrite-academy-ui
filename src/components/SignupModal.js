@@ -23,8 +23,8 @@ class SignupModal extends React.Component {
       email: "",
       password: "",
       passwordConfirmation: "",
-      result: "Account created!",
-      messageBoxIsOpen: true
+      result: "",
+      messageBoxIsOpen: false
     };
   }
 
@@ -62,7 +62,8 @@ class SignupModal extends React.Component {
       })
       .catch(err => {
         this.setState({
-          result: err.response.data.message
+          result: err.response.data.message,
+          messageBoxIsOpen: true
         });
       });
   };
