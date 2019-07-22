@@ -198,15 +198,7 @@ describe("sign up functionlaity", () => {
 
     mockAxios.mockResponse({ data: { message: "Account created!" } });
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
-    expect(mockAxios.post).toHaveBeenCalledWith(
-      "http://localhost:3001/users/register",
-      {
-        name: "Sally",
-        email: "sally@hotmail.com",
-        password: "password123!@#",
-        passwordConfirmation: "password123!@#"
-      }
-    );
+
     const messageBox = getByText("Account created!");
     expect(messageBox).toBeInTheDocument();
   });
