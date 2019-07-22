@@ -203,6 +203,37 @@ describe("sign up functionlaity", () => {
     expect(messageBox).toBeInTheDocument();
   });
 
+  xit("should log user in when registration succeeds", () => {
+    const container = render(<MainApp />);
+    mockAxios.mockResponse({ data: mockEventsWithSeats });
+
+    const {
+      getByText,
+      getAllByText,
+      getByPlaceholderText,
+      getByLabelText
+    } = container;
+    const headerSignupBtn = getAllByText("Sign Up")[0];
+    fireEvent.click(headerSignupBtn);
+
+    const goBtn = getByText("Go!");
+    const nameInput = getByPlaceholderText("username");
+    const emailInput = getByPlaceholderText("myemail@email.com");
+    const passwordInput = getByLabelText("Password");
+    const passwordConfirmationInput = getByLabelText("Confirm Password");
+
+    fireEvent.change(nameInput, { target: { value: "Sally" } });
+    fireEvent.change(emailInput, { target: { value: "sally@hotmail.com" } });
+    fireEvent.change(passwordInput, { target: { value: "password123!@#" } });
+    fireEvent.change(passwordConfirmationInput, {
+      target: { value: "password123!@#" }
+    });
+    fireEvent.click(goBtn);
+
+    expect(goBtn).not.toBeInTheDocument();
+    expect(getByText("Log Out")).toBeInTheDocument();
+  });
+
   it("should deny register when input is invalid", async () => {
     const { getByText, getByPlaceholderText, getByLabelText } = render(
       <MainApp />
@@ -216,6 +247,7 @@ describe("sign up functionlaity", () => {
     const emailInput = getByPlaceholderText("myemail@email.com");
     const passwordInput = getByLabelText("Password");
     const passwordConfirmationInput = getByLabelText("Confirm Password");
+
     fireEvent.change(nameInput, { target: { value: "Sally" } });
     fireEvent.change(emailInput, { target: { value: "sally@hotmail.com" } });
     fireEvent.change(passwordInput, { target: { value: "password1" } });
@@ -292,5 +324,37 @@ describe("sign up functionlaity", () => {
 
     fireEvent.click(getByText("×"));
     expect(await queryByTestId("login-modal")).toBe(null);
+  });
+
+  it("should close sign up modal when Cancel button is clicked", async () => {
+    const container = render(<MainApp />);
+    mockAxios.mockResponse({ data: mockEventsWithSeats });
+
+    const {
+      getByText,
+      getByPlaceholderText,
+      getByLabelText,
+      queryByTestId
+    } = container;
+
+    fireEvent.click(getByText("Sign Up"));
+
+    const nameInput = getByLabelText("Name");
+    const emailInput = getByPlaceholderText("myemail@email.com");
+    const passwordInput = getByLabelText("Password");
+    const confirmPasswordInput = getByLabelText("Confirm Password");
+    fireEvent.change(nameInput, { target: { value: "Sally" } });
+    fireEvent.change(emailInput, { target: { value: "sally@gmail.com" } });
+    fireEvent.change(passwordInput, { target: { value: "password123!@#" } });
+    fireEvent.change(confirmPasswordInput, {
+      target: { value: "password123!@#" }
+    });
+    expect(nameInput).toHaveAttribute("value", "Sally");
+    expect(emailInput).toHaveAttribute("value", "sally@gmail.com");
+    expect(passwordInput).toHaveAttribute("value", "password123!@#");
+    expect(confirmPasswordInput).toHaveAttribute("value", "password123!@#");
+
+    fireEvent.click(await getByText("Cancel"));
+    expect(queryByTestId("signup-form")).toBe(null);
   });
 });

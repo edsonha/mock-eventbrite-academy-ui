@@ -22,30 +22,30 @@ describe("starting UI", () => {
     expect(cancelBtn).toBeInTheDocument();
   });
 
-  it("should close sign up modal when Cancel button is clicked", async () => {
-    const {
-      getByText,
-      getByPlaceholderText,
-      getByLabelText,
-      queryByTestId
-    } = render(<SignupModal isOpen={true} />);
+  // xit("should close sign up modal when Cancel button is clicked", async () => {
+  //   const {
+  //     getByText,
+  //     getByPlaceholderText,
+  //     getByLabelText,
+  //     queryByTestId
+  //   } = render(<SignupModal isOpen={true} />);
 
-    const nameInput = getByLabelText("Name");
-    const emailInput = getByPlaceholderText("myemail@email.com");
-    const passwordInput = getByLabelText("Password");
-    const confirmPasswordInput = getByLabelText("Confirm Password");
-    fireEvent.change(nameInput, { target: { value: "Sally" } });
-    fireEvent.change(emailInput, { target: { value: "sally@gmail.com" } });
-    fireEvent.change(passwordInput, { target: { value: "password123!@#" } });
-    fireEvent.change(confirmPasswordInput, {
-      target: { value: "password123!@#" }
-    });
-    expect(nameInput).toHaveAttribute("value", "Sally");
-    expect(emailInput).toHaveAttribute("value", "sally@gmail.com");
-    expect(passwordInput).toHaveAttribute("value", "password123!@#");
-    expect(confirmPasswordInput).toHaveAttribute("value", "password123!@#");
+  //   const nameInput = getByLabelText("Name");
+  //   const emailInput = getByPlaceholderText("myemail@email.com");
+  //   const passwordInput = getByLabelText("Password");
+  //   const confirmPasswordInput = getByLabelText("Confirm Password");
+  //   fireEvent.change(nameInput, { target: { value: "Sally" } });
+  //   fireEvent.change(emailInput, { target: { value: "sally@gmail.com" } });
+  //   fireEvent.change(passwordInput, { target: { value: "password123!@#" } });
+  //   fireEvent.change(confirmPasswordInput, {
+  //     target: { value: "password123!@#" }
+  //   });
+  //   expect(nameInput).toHaveAttribute("value", "Sally");
+  //   expect(emailInput).toHaveAttribute("value", "sally@gmail.com");
+  //   expect(passwordInput).toHaveAttribute("value", "password123!@#");
+  //   expect(confirmPasswordInput).toHaveAttribute("value", "password123!@#");
 
-    fireEvent.click(await getByText("Cancel"));
-    expect(queryByTestId("signup-form")).toBe(null);
-  });
+  //   fireEvent.click(await getByText("Cancel"));
+  //   expect(queryByTestId("signup-form")).toBe(null);
+  // });
 });

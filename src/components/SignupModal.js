@@ -40,7 +40,9 @@ class SignupModal extends React.Component {
       name: "",
       email: "",
       password: "",
-      passwordConfirmation: ""
+      passwordConfirmation: "",
+      result: "",
+      messageBoxIsOpen: false
     });
   };
 
@@ -58,7 +60,6 @@ class SignupModal extends React.Component {
           result: res.data.message,
           messageBoxIsOpen: true
         });
-        this.clearInput();
       })
       .catch(err => {
         this.setState({
@@ -179,7 +180,11 @@ class SignupModal extends React.Component {
             <ModalFooter>
               <Button
                 className="cancel-btn"
-                onClick={this.props.signupModalToggle}
+                // onClick={this.props.signupModalToggle}
+                onClick={() => {
+                  this.props.signupModalToggle();
+                  this.clearInput();
+                }}
               >
                 Cancel
               </Button>
