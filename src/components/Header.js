@@ -24,7 +24,7 @@ class Header extends React.Component {
   render() {
     return (
       <Navbar data-testid="app-header" className="navbar col" light expand="sm">
-        <Link to="/">
+        <Link className="logo-wrapper" to="/">
           <Logo data-testid="logo-svg" />
         </Link>
         {this.props.isLoggedIn && (
