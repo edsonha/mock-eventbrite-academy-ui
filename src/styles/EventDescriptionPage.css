@@ -48,6 +48,7 @@
 
 .event-full-description {
   flex: 3;
+  text-align: justify;
 }
 
 .event-detail-summary {
