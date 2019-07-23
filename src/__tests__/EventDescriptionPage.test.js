@@ -1,8 +1,5 @@
 import React from "react";
-import { createMemoryHistory } from "history";
-import { Router } from "react-router-dom";
-import { App } from "../components/App";
-import { render, fireEvent } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import mockEventsWithSeats from "../__mockData__/mockEventsWithSeats.mockdata";
 import mockAxios from "jest-mock-axios";
 import "@testing-library/jest-dom/extend-expect";
@@ -19,7 +16,7 @@ describe("Event Description Page", () => {
     mockAxios.reset();
   });
 
-  it("should show the event title on the Event Description page", () => {
+  it("should show the event description on the Event Description page", () => {
     const { getAllByText } = render(
       <EventDescriptionPage
         backendURI={"dummy"}
@@ -27,7 +24,7 @@ describe("Event Description Page", () => {
       />
     );
     mockAxios.mockResponse({ data: mockEventsWithSeats[1] });
-    expect(getAllByText(/event 2/i).length).toBeGreaterThan(0);
+    expect(getAllByText(/Lorum Ipsum 2./i).length).toBeGreaterThan(0);
   });
 
   it("should show 'Try again' message if there is an error with the api call", () => {
@@ -45,5 +42,16 @@ describe("Event Description Page", () => {
     expect(
       getByText("Oops, something went wrong. Please try again later")
     ).toBeInTheDocument();
+  });
+
+  it("should show placeholder image with title if event has no image", () => {
+    const { getByText } = render(
+      <EventDescriptionPage
+        backendURI={"dummy"}
+        eventId={"5d2edb6e0217642ef2524582"}
+      />
+    );
+    mockAxios.mockResponse({ data: mockEventsWithSeats[1] });
+    expect(getByText(/Event 2/i)).toBeInTheDocument();
   });
 });

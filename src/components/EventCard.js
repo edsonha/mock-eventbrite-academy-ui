@@ -16,9 +16,11 @@ const EventCard = props => {
     <Col xs="12" sm="6">
       <Card className="event-card">
         <div className="event-card-header">
-          <CardTitle className="event-card-header-text">
-            {props.eventDetail.title}
-          </CardTitle>
+          {props.eventDetail.image ? null : (
+            <CardTitle className="event-card-header-text">
+              {props.eventDetail.title}
+            </CardTitle>
+          )}
           <img
             src={props.eventDetail.image || "/eventDefault.png"}
             alt="Event"

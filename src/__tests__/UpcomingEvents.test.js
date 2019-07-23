@@ -46,7 +46,6 @@ describe("Upcoming Events Component", () => {
     const { getByText } = render(<UpcomingEvents backendURI={[backendURI]} />);
     mockAxios.mockResponse({ data: [mockEventsWithSeats[0]] });
 
-    expect(getByText("Event 1")).toBeInTheDocument();
     expect(getByText("Lorum Ipsum 1.")).toBeInTheDocument();
     expect(getByText("Speaker 1")).toBeInTheDocument();
     expect(getByText(/Thu, Aug 15th 2019, 7:00 pm/i)).toBeInTheDocument();
@@ -62,12 +61,10 @@ describe("Upcoming Events Component", () => {
     );
     mockAxios.mockResponse({ data: mockEventsWithSeats });
 
-    expect(getByText("Event 1")).toBeInTheDocument();
     expect(getByText("Lorum Ipsum 1.")).toBeInTheDocument();
     expect(getByText("Speaker 1")).toBeInTheDocument();
     expect(getByText("Location 1")).toBeInTheDocument();
 
-    expect(getByText("Event 2")).toBeInTheDocument();
     expect(getByText("Lorum Ipsum 2.")).toBeInTheDocument();
     expect(getByText("Speaker 2")).toBeInTheDocument();
     expect(getByText("Location 2")).toBeInTheDocument();
@@ -75,12 +72,10 @@ describe("Upcoming Events Component", () => {
     expect(getAllByText(/2hr/i).length).toBe(2);
     expect(getAllByText(/Thu, Aug 15th 2019, 7:00 pm/i).length).toBe(2);
 
-    expect(getByText("Event 3")).toBeInTheDocument();
     expect(getByText("Lorum Ipsum 3.")).toBeInTheDocument();
     expect(getByText("Speaker 3")).toBeInTheDocument();
 
     expect(getByText("Location 3")).toBeInTheDocument();
-    expect(getByText("Event 4")).toBeInTheDocument();
     expect(getByText("Lorum Ipsum 4.")).toBeInTheDocument();
     expect(getByText("Speaker 4")).toBeInTheDocument();
     expect(getByText("Location 4")).toBeInTheDocument();
@@ -105,10 +100,10 @@ describe("Upcoming Event Display Logic", () => {
     const { getByText } = render(<UpcomingEvents backendURI={backendURI} />);
     mockAxios.mockResponse({ data: mockEventsWithSeats });
 
-    expect(getByText("Event 1")).toBeInTheDocument();
-    expect(getByText("Event 2")).toBeInTheDocument();
-    expect(getByText("Event 3")).toBeInTheDocument();
-    expect(getByText("Event 4")).toBeInTheDocument();
+    expect(getByText(/Lorum Ipsum 1/i)).toBeInTheDocument();
+    expect(getByText(/Lorum Ipsum 2/i)).toBeInTheDocument();
+    expect(getByText(/Lorum Ipsum 3/i)).toBeInTheDocument();
+    expect(getByText(/Lorum Ipsum 4/i)).toBeInTheDocument();
   });
 
   it("should NOT display past events regardless of seat availability", () => {
@@ -119,10 +114,10 @@ describe("Upcoming Event Display Logic", () => {
     );
     mockAxios.mockResponse({ data: mockEventsWithSeats });
 
-    expect(queryByText("Event 1")).not.toBeInTheDocument();
-    expect(queryByText("Event 2")).not.toBeInTheDocument();
-    expect(getByText("Event 3")).toBeInTheDocument();
-    expect(getByText("Event 4")).toBeInTheDocument();
+    expect(queryByText(/Lorum Ipsum 1/i)).not.toBeInTheDocument();
+    expect(queryByText(/Lorum Ipsum 2/i)).not.toBeInTheDocument();
+    expect(getByText(/Lorum Ipsum 3/i)).toBeInTheDocument();
+    expect(getByText(/Lorum Ipsum 4/i)).toBeInTheDocument();
   });
 
   it("should display today's events that are not started regardless of seat availability", () => {
@@ -133,10 +128,10 @@ describe("Upcoming Event Display Logic", () => {
     );
     mockAxios.mockResponse({ data: mockEventsWithSeats });
 
-    expect(queryByText("Event 1")).not.toBeInTheDocument();
-    expect(queryByText("Event 2")).not.toBeInTheDocument();
-    expect(getByText("Event 3")).toBeInTheDocument();
-    expect(getByText("Event 4")).toBeInTheDocument();
+    expect(queryByText(/Lorum Ipsum 1/i)).not.toBeInTheDocument();
+    expect(queryByText(/Lorum Ipsum 2/i)).not.toBeInTheDocument();
+    expect(getByText(/Lorum Ipsum 3/i)).toBeInTheDocument();
+    expect(getByText(/Lorum Ipsum 4/i)).toBeInTheDocument();
   });
 
   it("should NOT display today's events that are started regardless of seat availability", () => {
@@ -146,10 +141,9 @@ describe("Upcoming Event Display Logic", () => {
       <UpcomingEvents backendURI={backendURI} />
     );
     mockAxios.mockResponse({ data: mockEventsWithSeats });
-
-    expect(queryByText("Event 1")).not.toBeInTheDocument();
-    expect(queryByText("Event 2")).not.toBeInTheDocument();
-    expect(getByText("Event 3")).toBeInTheDocument();
-    expect(getByText("Event 4")).toBeInTheDocument();
+    expect(queryByText(/Lorum Ipsum 1/i)).not.toBeInTheDocument();
+    expect(queryByText(/Lorum Ipsum 2/i)).not.toBeInTheDocument();
+    expect(getByText(/Lorum Ipsum 3/i)).toBeInTheDocument();
+    expect(getByText(/Lorum Ipsum 4/i)).toBeInTheDocument();
   });
 });
