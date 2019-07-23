@@ -1,12 +1,12 @@
 const self = this;
-const cacheVersion = "0.0.1";
-const curCacheName = `sa-cache${cacheVersion}`;
+const cacheVersion = "0.0.2";
+const appShellCacheName = `sa-origin-cache${cacheVersion}`;
 
 self.addEventListener("install", () => {
   console.log("installing service worker");
 });
 
-const deleteOutdatedCache = curCacheName => {
+const deleteCacheOtherThan = curCacheName => () => {
   const cacheWhitelist = [curCacheName];
 
   return caches.keys().then(cacheNames => {
@@ -21,9 +21,20 @@ const deleteOutdatedCache = curCacheName => {
   });
 };
 
+const deleteOutdatedCache = deleteCacheOtherThan(appShellCacheName);
+
 self.addEventListener("activate", event => {
   console.log("activating service worker");
-  event.waitUntil(deleteOutdatedCache(curCacheName));
+  event.waitUntil(deleteOutdatedCache());
+});
+
+self.addEventListener("message", event => {
+  switch (event.data) {
+    case "logout":
+      deleteOutdatedCache();
+      break;
+    default:
+  }
 });
 
 const isImageToCache = url => {
@@ -47,7 +58,7 @@ const cacheFirstStrategy = request => {
         return networkResponse;
       }
 
-      return caches.open(curCacheName).then(cache => {
+      return caches.open(appShellCacheName).then(cache => {
         cache.put(request.url, networkResponse.clone());
         return networkResponse;
       });
@@ -55,8 +66,43 @@ const cacheFirstStrategy = request => {
   });
 };
 
+const networkFirstStrategyFactory = cacheName => request => {
+  return fetch(request)
+    .then(networkResponse => {
+      if (!networkResponse.ok) {
+        throw new Error();
+      }
+      return networkResponse;
+    })
+    .then(networkResponse => {
+      return caches.open(cacheName).then(cache => {
+        cache.put(request.url, networkResponse.clone());
+        return networkResponse;
+      });
+    })
+    .catch(() => {
+      return caches.match(request);
+    });
+};
+
+const shellStrategy = networkFirstStrategyFactory(appShellCacheName);
+
+const isShellInfo = urlToFetch => {
+  return (
+    urlToFetch.startsWith(self.origin) || urlToFetch.endsWith("/upcomingevents")
+  );
+};
+
 self.addEventListener("fetch", event => {
-  if (isImageToCache(event.request.url)) {
-    event.respondWith(cacheFirstStrategy(event.request));
+  const request = event.request;
+  const urlToFetch = event.request.url;
+
+  let strategy;
+  if (isImageToCache(urlToFetch)) {
+    strategy = cacheFirstStrategy(request);
+  } else if (isShellInfo(urlToFetch)) {
+    strategy = shellStrategy(request);
   }
+
+  strategy && event.respondWith(strategy);
 });
