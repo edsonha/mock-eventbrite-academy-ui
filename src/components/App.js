@@ -76,6 +76,7 @@ export class App extends React.Component {
               <EventDescriptionPage
                 eventId={match.params.id}
                 backendURI={this.backendURI}
+                loginModalToggle={this.loginModalToggle}
               />
             )}
           />

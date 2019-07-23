@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import { minToHour } from "../helper/minToHour";
 import moment from "moment";
-import { Container, Spinner } from "reactstrap";
+import { Button, Container, Spinner } from "reactstrap";
 import "../styles/EventDescriptionPage.css";
 
 class EventDescriptionPage extends React.Component {
@@ -117,6 +117,13 @@ class EventDescriptionPage extends React.Component {
               <p>{location}</p>
               <p>Available Seats: {availableSeats}</p>
             </div>
+            <Button
+              data-testid="register-button"
+              className="register-button"
+              onClick={this.props.loginModalToggle}
+            >
+              Register
+            </Button>
           </Container>
         </div>
       );
