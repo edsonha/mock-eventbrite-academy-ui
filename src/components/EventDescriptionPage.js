@@ -54,7 +54,9 @@ class EventDescriptionPage extends React.Component {
       const {
         title,
         speaker,
+        speakerBio,
         description,
+        fullDescription,
         time,
         duration,
         location,
@@ -84,26 +86,9 @@ class EventDescriptionPage extends React.Component {
           <Container className="event-descriptions-detail">
             <div className="event-full-description">
               <h5>Description</h5>
-              <p>
-                What’s the buzz about passive investing and ETFs really about?
-                Well, approximately 95% of active fund managers globally
-                UNDERPERFORM the market index, and so investors are looking for
-                ways to improve their performance. Enter, Exchange-traded Funds
-                (ETFs) and passive investing. Join StashAway Co-founder and CEO,
-                Michele Ferrario, in this event before you head off to brunch,
-                as he takes you through the world of ETFs and how you can use
-                these investment vehicles to your advantage. By registering for
-                this event, you are giving permission to receive occasional
-                email communications from StashAway on our products, marketing
-                and events. We promise to send only good stuff. However, if you
-                ever wish to opt out, you can easily unsubscribe using the
-                Unsubscribe feature included in the emails. We may also share
-                your personal details with third parties in relation to
-                conducting this seminar. This may include the event hosts to
-                enable us to expedite your entry into the building. Your
-                personal data will not be used for any other purposes.
-              </p>
-              <p>Speaker Bio: {speaker}</p>
+              <p>{fullDescription}</p>
+              <p>{speaker}</p>
+              <p>{speakerBio}</p>
             </div>
             <div className="event-detail-summary">
               <h5>Date and Time</h5>
@@ -126,69 +111,6 @@ class EventDescriptionPage extends React.Component {
               </Button>
             </div>
           </Container>
-
-          {/* <div className="container">
-            <Col xs="12" sm="7">
-              <img
-                src={image || "/eventDefault.png"}
-                alt="Event"
-                className="event-desc-img"
-              />
-              { {image ? null : (
-                <div className="banner-title">
-                  <h1>{title}</h1>
-                </div>
-              )} }
-            </Col>
-            <Col xs="12" sm="5">
-              <h5>{description}</h5>
-            </Col>
-          </div>
-          <Container className="container-below-image">
-            <div className="event-full-description">
-              <h5>Description</h5>
-              <p>
-                What’s the buzz about passive investing and ETFs really about?
-                Well, approximately 95% of active fund managers globally
-                UNDERPERFORM the market index, and so investors are looking for
-                ways to improve their performance. Enter, Exchange-traded Funds
-                (ETFs) and passive investing. Join StashAway Co-founder and CEO,
-                Michele Ferrario, in this event before you head off to brunch,
-                as he takes you through the world of ETFs and how you can use
-                these investment vehicles to your advantage. By registering for
-                this event, you are giving permission to receive occasional
-                email communications from StashAway on our products, marketing
-                and events. We promise to send only good stuff. However, if you
-                ever wish to opt out, you can easily unsubscribe using the
-                Unsubscribe feature included in the emails. We may also share
-                your personal details with third parties in relation to
-                conducting this seminar. This may include the event hosts to
-                enable us to expedite your entry into the building. Your
-                personal data will not be used for any other purposes.
-              </p>
-              <p>Speaker Bio: {speaker}</p>
-            </div>
-            <div className="event-detail-summary">
-              <h5>Date and Time</h5>
-              <p>
-                {" "}
-                {moment.parseZone(time).format("ddd, MMM Do YYYY, h:mm a") +
-                  " (" +
-                  minToHour(duration) +
-                  ")"}
-              </p>
-              <h5>Location</h5>
-              <p>{location}</p>
-              <p>Available Seats: {availableSeats}</p>
-              <Button
-                data-testid="register-button"
-                className="register-button"
-                onClick={this.props.loginModalToggle}
-              >
-                Register
-              </Button>
-            </div>
-          </Container> */}
         </Container>
       );
     }
