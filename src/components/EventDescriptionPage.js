@@ -87,6 +87,7 @@ class EventDescriptionPage extends React.Component {
             <div className="event-full-description">
               <h5>Description</h5>
               <p>{fullDescription}</p>
+              <h5>About The Speaker</h5>
               <p>{speaker}</p>
               <p>{speakerBio}</p>
             </div>
