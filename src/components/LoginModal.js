@@ -42,6 +42,7 @@ class LoginModal extends React.Component {
       })
       .then(res => {
         this.props.loginToggle(res.data.name);
+        sessionStorage.setItem("JWT", res.data.jwtToken);
       })
       .catch(err => {
         console.log(err.response.data.message);

@@ -60,6 +60,10 @@ class SignupModal extends React.Component {
           result: res.data.message,
           messageBoxIsOpen: true
         });
+
+        if (res.data.message === "Account created!") {
+          sessionStorage.setItem("JWT", res.data.jwtToken);
+        }
       })
       .catch(err => {
         this.setState({

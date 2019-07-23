@@ -31,7 +31,14 @@ class Header extends React.Component {
           <div className="button-wrapper">
             <div className="welcome-msg">{`${this.props.user}`}</div>
 
-            <Button className="logout-button" onClick={this.props.loginToggle}>
+            {/* <Button className="logout-button" onClick={this.props.loginToggle}> */}
+            <Button
+              className="logout-button"
+              onClick={() => {
+                this.props.loginToggle();
+                sessionStorage.removeItem("JWT");
+              }}
+            >
               Log Out
             </Button>
           </div>
