@@ -1,4 +1,4 @@
-.container.image-container {
+`.container.image-container {
   display: flex;
   margin-top: 10px;
   padding: 0;
@@ -108,4 +108,9 @@
     font-size: 30px;
     font-weight: bold;
   }
+}
+
+.something-went-wrong {
+  margin: 30px;
+  text-align: center;
 }

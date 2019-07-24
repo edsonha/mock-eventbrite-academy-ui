@@ -29,3 +29,13 @@
 .curriculum-description {
   margin: 10px 30px 40px 10px;
 }
+
+.courses-spinner {
+  text-align: center;
+  margin: 125px;
+}
+
+.cannot-find-courses {
+  margin: 100px;
+  text-align: center;
+}

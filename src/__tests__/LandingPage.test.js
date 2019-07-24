@@ -34,14 +34,18 @@ describe("ui", () => {
 
   it("should display four levels of courses", () => {
     const { getAllByText } = render(<LandingPage backendURI={backendURI} />);
-    expect(getAllByText(/Basic/i).length).toBe(1);
+    mockAxios.mockResponse({ data: mockEvents });
+    mockAxios.mockResponse({ data: mockCourses });
+    expect(getAllByText(/Basic/i).length).toBe(3);
     expect(getAllByText(/Intermediate/i).length).toBe(2);
-    expect(getAllByText(/Advanced/i).length).toBe(1);
+    expect(getAllByText(/Advanced/i).length).toBe(2);
     expect(getAllByText(/Electives/i).length).toBe(1);
   });
 
   it("should display button to see upcoming events", () => {
     const { getAllByText } = render(<LandingPage backendURI={backendURI} />);
+    mockAxios.mockResponse({ data: mockEvents });
+    mockAxios.mockResponse({ data: mockCourses });
     expect(getAllByText("See All Upcoming Events").length).toBe(4);
   });
 
@@ -61,5 +65,15 @@ describe("ui", () => {
       getByText("How to Start a Business...That Lasts")
     ).toBeInTheDocument();
     expect(getByText("StashAway: An Inside Look")).toBeInTheDocument();
+  });
+
+  it("should display something went wrong if api call fails", () => {
+    const { getByText } = render(<LandingPage backendURI={backendURI} />);
+    mockAxios.mockResponse({ data: mockEvents });
+    mockAxios.mockError();
+
+    expect(
+      getByText("Could not find courses. Please try again later")
+    ).toBeInTheDocument();
   });
 });

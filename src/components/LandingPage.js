@@ -4,7 +4,7 @@ import CourseWrapper from "./CourseWrapper";
 import SectionTitle from "./SectionTitle";
 import axios from "axios";
 import "../styles/LandingPage.css";
-import { Container, Row } from "reactstrap";
+import { Container, Row, Spinner } from "reactstrap";
 
 class LandingPage extends React.Component {
   constructor(props) {
@@ -12,7 +12,9 @@ class LandingPage extends React.Component {
     this.backendURI = props.backendURI;
     this.state = {
       courses: [],
-      levels: ["basic", "intermediate", "advanced", "electives"]
+      levels: ["basic", "intermediate", "advanced", "electives"],
+      isLoading: true,
+      errorLoading: false
     };
   }
 
@@ -20,9 +22,16 @@ class LandingPage extends React.Component {
     await axios
       .get(this.backendURI + "/courses")
       .then(res => {
-        this.setState({ courses: res.data });
+        this.setState({
+          courses: res.data,
+          isLoading: false,
+          errorLoading: false
+        });
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.log(err);
+        this.setState({ isLoading: false, errorLoading: true });
+      });
   }
 
   render() {
@@ -52,6 +61,7 @@ class LandingPage extends React.Component {
             beginners, intermediate learners, and even professionals.
           </p>
         </Container>
+
         <Container className="curriculum">
           <Row>
             <SectionTitle sectionTitle={"Stashaway Academy Curriculum"} />
@@ -61,7 +71,23 @@ class LandingPage extends React.Component {
             the courses that you feel you need.
           </h5>
         </Container>
-        <Container>{courseWrappers}</Container>
+
+        {this.state.isLoading && (
+          <div className="courses-spinner">
+            <Spinner size="lg" color="primary" />
+          </div>
+        )}
+
+        {this.state.errorLoading && (
+          <h3 className="cannot-find-courses">
+            Could not find courses. Please try again later
+          </h3>
+        )}
+
+        {!this.state.isLoading && !this.state.errorLoading && (
+          <Container>{courseWrappers}</Container>
+        )}
+
         <UpcomingEvents
           backendURI={this.props.backendURI}
           history={this.props.history}

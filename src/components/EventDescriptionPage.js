@@ -53,7 +53,9 @@ class EventDescriptionPage extends React.Component {
     } else if (this.state.errorLoading) {
       return (
         <div data-testid="event-description-page">
-          <h3>Oops, something went wrong. Please try again later</h3>
+          <h3 className="something-went-wrong">
+            Oops, something went wrong. Please try again later
+          </h3>
         </div>
       );
     } else {
