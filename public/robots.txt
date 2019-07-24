@@ -1,26 +1,38 @@
-User-agent: Googlebot
-Disallow:
+User-agent: Googlebot:
+allow: /
+
+User-agent: Googlebot-News
+allow: /
+
+User-agent: Googlebot-Image
+allow: /
+
+User-agent: Mediapartners-Google
+allow: /
 
 User-agent: Bingbot
-Disallow:
+allow: /
 
 User-agent: Slurp
-Disallow:
+allow: /
 
 User-agent: DuckDuckBot
-Disallow:
+allow: /
 
 User-agent: Baiduspider
-Disallow:
+allow: /
 
-User-agent: YandexBot
-Disallow:
+User-agent: Yandex
+allow: /
 
-User-agent: facebot
-Disallow:
+User-agent: Facebot
+allow: /
+
+User-agent: Twitterbot
+allow: /
 
 User-agent: ia_archiver
-Disallow:
+allow: /
 
 User-agent: *
 Disallow: /
