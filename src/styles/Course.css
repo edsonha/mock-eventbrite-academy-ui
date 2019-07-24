@@ -1,15 +1,28 @@
+.course-details {
+  text-align: justify;
+  padding: 10px;
+  /* margin: 0 2px; */
+}
+
 .course-name {
   border-top: 2px solid rgb(56, 132, 217);
   padding-top: 30px;
   font-weight: bold;
+  font-size: 16px;
 }
 
 .course-objective {
   list-style-position: outside;
   margin-left: 20px;
+  color: rgb(102, 102, 102);
+}
+
+.objective-header {
+  font-size: 16px;
+  color: rgb(102, 102, 102);
+  font-weight: bold;
 }
 
 .course-description {
-  text-align: justify;
-  padding: 10px;
+  color: rgb(102, 102, 102);
 }

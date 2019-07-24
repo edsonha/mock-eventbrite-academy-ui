@@ -10,10 +10,10 @@ function Course(props) {
   ));
 
   return (
-    <Col xs="12" sm="6" className="course-description">
+    <Col xs="12" sm="6" className="course-details">
       <h5 className="course-name">{props.details.title}</h5>
-      <p>{props.details.description}</p>
-      <h5>{props.details.objectiveHeader}</h5>
+      <p className="course-description">{props.details.description}</p>
+      <h5 className="objective-header">{props.details.objectiveHeader}</h5>
       <ul>{courseObjectives}</ul>
     </Col>
   );
