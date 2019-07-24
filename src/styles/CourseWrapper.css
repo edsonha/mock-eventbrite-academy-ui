@@ -1,0 +1,26 @@
+.course-wrapper {
+  text-align: center;
+}
+
+.see-events-btn {
+  margin: 20px 0;
+}
+
+.course-title {
+  text-align: left;
+  font-weight: bold;
+  font-size: 2em;
+}
+
+#basic,
+#electives {
+  color: #c36e61;
+}
+
+#intermediate {
+  color: #42b3b0;
+}
+
+#advanced {
+  color: #12293f;
+}

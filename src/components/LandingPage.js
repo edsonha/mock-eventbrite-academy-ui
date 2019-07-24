@@ -1,7 +1,10 @@
 import React from "react";
 import UpcomingEvents from "./UpcomingEvents";
 import CourseWrapper from "./CourseWrapper";
+import SectionTitle from "./SectionTitle";
 import axios from "axios";
+import "../styles/LandingPage.css";
+import { Container, Row } from "reactstrap";
 
 class LandingPage extends React.Component {
   constructor(props) {
@@ -30,9 +33,35 @@ class LandingPage extends React.Component {
 
     return (
       <div>
-        <h1>Personal Finance Course on Your Terms</h1>
-        <h5>Stashaway Academy Curriculum</h5>
-        {courseWrappers}
+        <div className="title-banner">
+          <h1>Personal Finance Course on Your Terms</h1>
+        </div>
+
+        <Container className="stashaway-academy-description">
+          <p>
+            We understand that managing your personal finances can be a daunting
+            task. With so many topics to cover such as retirement, budgeting and
+            investing your wealth, it can be very confusing for those who have
+            no proper guidance.
+          </p>
+
+          <p>
+            At StashAway, we have set up our very own academy in order to share
+            our knowledge with people like you: those who want to take control
+            of their finances. We provide education and training programmes for
+            beginners, intermediate learners, and even professionals.
+          </p>
+        </Container>
+        <Container className="curriculum">
+          <Row>
+            <SectionTitle sectionTitle={"Stashaway Academy Curriculum"} />
+          </Row>
+          <h5 className="curriculum-description">
+            Start from the beginning and build your way up, or pick and choose
+            the courses that you feel you need.
+          </h5>
+        </Container>
+        <Container>{courseWrappers}</Container>
         <UpcomingEvents
           backendURI={this.props.backendURI}
           history={this.props.history}

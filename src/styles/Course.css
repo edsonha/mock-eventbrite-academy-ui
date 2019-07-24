@@ -1,0 +1,15 @@
+.course-name {
+  border-top: 2px solid rgb(56, 132, 217);
+  padding-top: 30px;
+  font-weight: bold;
+}
+
+.course-objective {
+  list-style-position: outside;
+  margin-left: 20px;
+}
+
+.course-description {
+  text-align: justify;
+  padding: 10px;
+}

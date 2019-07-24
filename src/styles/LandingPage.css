@@ -1,0 +1,30 @@
+.title-banner {
+  display: flex;
+  height: 50vh;
+  width: 100%;
+  background-color: #515d7c;
+  background-image: url("https://sa-sg-production-website-cms.s3.amazonaws.com/documents/background-line.svg");
+  color: white;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 1em;
+}
+
+.title-banner h1 {
+  font-size: 3.5em;
+  font-weight: bold;
+}
+
+.stashaway-academy-description {
+  padding: 1.5em;
+  text-align: justify;
+}
+
+.curriculum .container {
+  padding: 0px;
+}
+
+.curriculum-description {
+  margin: 10px 30px 40px 10px;
+}

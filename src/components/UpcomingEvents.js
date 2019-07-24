@@ -89,7 +89,7 @@ class UpcomingEvents extends React.Component {
         ));
 
       return (
-        <Container data-testid="upcoming-events">
+        <Container data-testid="upcoming-events" id="upcoming-events">
           <Row>
             <SectionTitle sectionTitle={"Upcoming Events"} />
           </Row>

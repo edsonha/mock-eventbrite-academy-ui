@@ -1,6 +1,7 @@
 import React from "react";
 import Course from "./Course";
-import { Button } from "reactstrap";
+import { Button, Row, Container, Col } from "reactstrap";
+import "../styles/CourseWrapper.css";
 
 function CourseWrapper(props) {
   const filteredAndMappedCourses = props.courses
@@ -10,11 +11,23 @@ function CourseWrapper(props) {
     });
 
   return (
-    <React.Fragment>
-      <Button>See All Upcoming Events</Button>
-      <h5>{props.level}</h5>
-      <div>{filteredAndMappedCourses}</div>
-    </React.Fragment>
+    <div className="course-wrapper">
+      <Col>
+        <Button className="see-events-btn" href="#upcoming-events">
+          See All Upcoming Events
+        </Button>
+      </Col>
+      <h5 id={props.level} className="course-title">
+        {props.level === "electives"
+          ? "Electives"
+          : props.level[0].toUpperCase() +
+            props.level.substring(1) +
+            " Courses"}
+      </h5>
+      <Container>
+        <Row>{filteredAndMappedCourses}</Row>
+      </Container>
+    </div>
   );
 }
 

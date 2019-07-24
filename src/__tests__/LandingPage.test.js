@@ -35,7 +35,7 @@ describe("ui", () => {
   it("should display four levels of courses", () => {
     const { getAllByText } = render(<LandingPage backendURI={backendURI} />);
     expect(getAllByText(/Basic/i).length).toBe(1);
-    expect(getAllByText(/Intermediate/i).length).toBe(1);
+    expect(getAllByText(/Intermediate/i).length).toBe(2);
     expect(getAllByText(/Advanced/i).length).toBe(1);
     expect(getAllByText(/Electives/i).length).toBe(1);
   });
