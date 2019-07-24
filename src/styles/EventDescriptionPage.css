@@ -1,4 +1,4 @@
-`.container.image-container {
+.container.image-container {
   display: flex;
   margin-top: 10px;
   padding: 0;
@@ -61,6 +61,11 @@
   margin: 125px;
 }
 
+.something-went-wrong {
+  margin: 30px;
+  text-align: center;
+}
+
 @media only screen and (max-width: 768px) {
   .container.image-container {
     flex-direction: column;
@@ -108,9 +113,4 @@
     font-size: 30px;
     font-weight: bold;
   }
-}
-
-.something-went-wrong {
-  margin: 30px;
-  text-align: center;
 }
