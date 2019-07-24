@@ -5,6 +5,7 @@ import "@testing-library/jest-dom/extend-expect";
 import { render, fireEvent } from "@testing-library/react";
 import MainApp from "../../src/components/App";
 import mockEventsWithSeats from "../../src/__mockData__/mockEventsWithSeats.mockdata";
+import mockCourses from "../../src/__mockData__/mockCourses.mockdata";
 import mockAxios from "jest-mock-axios";
 
 describe("starting UI", () => {
@@ -90,6 +91,7 @@ describe("login functionality", () => {
       <MainApp />
     );
     mockAxios.mockResponse({ data: mockEventsWithSeats });
+    mockAxios.mockResponse({ data: mockCourses });
 
     const headerLoginBtn = getAllByText("Log In")[0];
     fireEvent.click(headerLoginBtn);
@@ -116,6 +118,7 @@ describe("login functionality", () => {
       <MainApp />
     );
     mockAxios.mockResponse({ data: mockEventsWithSeats });
+    mockAxios.mockResponse({ data: mockCourses });
     const spySessionStorageSetItem = jest.spyOn(
       window.sessionStorage.__proto__,
       "setItem"
@@ -144,6 +147,7 @@ describe("login functionality", () => {
       <MainApp />
     );
     mockAxios.mockResponse({ data: mockEventsWithSeats });
+    mockAxios.mockResponse({ data: mockCourses });
 
     const headerLoginBtn = getAllByText("Log In")[0];
     fireEvent.click(headerLoginBtn);
@@ -171,6 +175,7 @@ describe("logout functionality", () => {
   it("should return to default ui after logout", () => {
     const { getByText } = render(<MainApp />);
     mockAxios.mockResponse({ data: mockEventsWithSeats });
+    mockAxios.mockResponse({ data: mockCourses });
 
     let headerLoginBtn = getByText("Log In");
     let headerSignupBtn = getByText("Sign Up");
@@ -196,6 +201,7 @@ describe("logout functionality", () => {
       <MainApp />
     );
     mockAxios.mockResponse({ data: mockEventsWithSeats });
+    mockAxios.mockResponse({ data: mockCourses });
     const spySessionStorageSetItem = jest.spyOn(
       window.sessionStorage.__proto__,
       "setItem"
@@ -235,6 +241,7 @@ describe("sign up functionlaity", () => {
   it("should display 'Account created! when registration succeeds", () => {
     const container = render(<MainApp />);
     mockAxios.mockResponse({ data: mockEventsWithSeats });
+    mockAxios.mockResponse({ data: mockCourses });
 
     const {
       getByText,
@@ -302,6 +309,7 @@ describe("sign up functionlaity", () => {
       <MainApp />
     );
     mockAxios.mockResponse({ data: mockEventsWithSeats });
+    mockAxios.mockResponse({ data: mockCourses });
 
     const headerSignupBtn = getByText("Sign Up");
     fireEvent.click(headerSignupBtn);
@@ -333,6 +341,7 @@ describe("sign up functionlaity", () => {
       <MainApp />
     );
     mockAxios.mockResponse({ data: mockEventsWithSeats });
+    mockAxios.mockResponse({ data: mockCourses });
 
     const headerSignupBtn = getByText("Sign Up");
     fireEvent.click(headerSignupBtn);
@@ -362,6 +371,7 @@ describe("sign up functionlaity", () => {
   it("should close login modal when Cancel button is clicked", async () => {
     const container = render(<MainApp />);
     mockAxios.mockResponse({ data: mockEventsWithSeats });
+    mockAxios.mockResponse({ data: mockCourses });
 
     const {
       getByText,
@@ -389,6 +399,7 @@ describe("sign up functionlaity", () => {
   it("should close sign up modal when Cancel button is clicked", async () => {
     const container = render(<MainApp />);
     mockAxios.mockResponse({ data: mockEventsWithSeats });
+    mockAxios.mockResponse({ data: mockCourses });
 
     const {
       getByText,

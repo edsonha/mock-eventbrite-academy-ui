@@ -14,7 +14,6 @@
     "reactstrap": "^8.0.1"
   },
   "scripts": {
-    "clear_jest": "jest --clearCache",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

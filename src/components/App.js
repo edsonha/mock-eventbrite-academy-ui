@@ -1,7 +1,7 @@
 import React from "react";
 import Header from "./Header";
 import { Switch, Route, BrowserRouter } from "react-router-dom";
-import UpcomingEvents from "./UpcomingEvents";
+import LandingPage from "./LandingPage";
 import EventDescriptionPage from "./EventDescriptionPage";
 import "../styles/App.css";
 import HttpsRedirect from "react-https-redirect";
@@ -64,7 +64,7 @@ export class App extends React.Component {
             exact
             path="/"
             render={props => (
-              <UpcomingEvents
+              <LandingPage
                 backendURI={this.backendURI}
                 loginModalToggle={this.loginModalToggle}
                 {...props}

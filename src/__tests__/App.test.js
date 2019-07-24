@@ -8,6 +8,7 @@ import mockEventsWithSeats from "../__mockData__/mockEventsWithSeats.mockdata";
 import mockAxios from "jest-mock-axios";
 import "@testing-library/jest-dom/extend-expect";
 import "@testing-library/react/cleanup-after-each";
+import mockCourses from "../__mockData__/mockCourses.mockdata";
 const mockDate = require("mockdate");
 
 describe("App", () => {
@@ -78,6 +79,7 @@ describe("routing for event description page", () => {
       </Router>
     );
     mockAxios.mockResponse({ data: mockEventsWithSeats });
+    mockAxios.mockResponse({ data: mockCourses });
 
     const eventCards = queryAllByTestId("event-image");
     fireEvent.click(eventCards[0]);
@@ -104,6 +106,7 @@ describe("registering for courses", () => {
   it("should prompt user login when user is not logged in if user clicks on Register", () => {
     const { getByTestId, getAllByText } = render(<MainApp />);
     mockAxios.mockResponse({ data: mockEventsWithSeats });
+    mockAxios.mockResponse({ data: mockCourses });
 
     const registerBtn = getAllByText("Register")[0];
     fireEvent.click(registerBtn);
