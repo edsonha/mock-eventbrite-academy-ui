@@ -43,7 +43,7 @@ class LandingPage extends React.Component {
     return (
       <div>
         <div className="title-banner">
-          <h1>Personal Finance Course on Your Terms</h1>
+          <h1>Personal Finance Courses on Your Terms</h1>
         </div>
 
         <Container className="stashaway-academy-description">
