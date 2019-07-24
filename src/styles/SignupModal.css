@@ -5,13 +5,7 @@
   font-weight: regular;
 }
 
-#signup-name-input,
-#signup-email-input,
-#signup-password-input {
-}
-
 #signup-password-cfm-input-label {
-  /* padding-top: 0px; */
   margin-top: -6px;
   line-height: 1.2rem;
 }
@@ -23,4 +17,41 @@
 
 .signup-form-row-pcfm {
   margin-top: 0px;
+}
+
+.go-btn.btn.btn-secondary {
+  background-color: #f99535;
+  border-color: #ffffff;
+  margin: 5px 5px;
+}
+
+.cancel-btn.btn.btn-secondary {
+  background-color: #515d7c;
+  border-color: #ffffff;
+  margin: 5px 5px;
+}
+
+#signup-footer-content.modal-footer {
+  justify-content: space-between;
+}
+
+.signup-modal-footer-btn {
+  width: 40%;
+  text-align: right;
+}
+
+.login-reminder {
+  width: 60%;
+}
+
+.login-reminder button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  text-decoration-line: underline;
+  margin-left: 10px;
+}
+
+.login-reminder button:hover {
+  font-weight: bold;
 }

@@ -165,6 +165,21 @@ describe("login functionality", () => {
 
     expect(goBtn).toBeInTheDocument();
   });
+
+  it("should open up sign up modal when sign up link is clicked", async () => {
+    const { getByText, getAllByText, getByLabelText } = render(<MainApp />);
+    mockAxios.mockResponse({ data: mockEventsWithSeats });
+    mockAxios.mockResponse({ data: mockCourses });
+
+    const headerLoginBtn = getAllByText("Log In")[0];
+    fireEvent.click(headerLoginBtn);
+
+    const linkToSignUp = getByText("Sign up!");
+    fireEvent.click(linkToSignUp);
+
+    const confirmPassword = getByLabelText("Confirm Password");
+    expect(confirmPassword).toBeInTheDocument();
+  });
 });
 
 describe("logout functionality", () => {
@@ -258,7 +273,7 @@ describe("sign up functionlaity", () => {
     const passwordInput = getByLabelText("Password");
     const passwordConfirmationInput = getByLabelText("Confirm Password");
 
-    fireEvent.change(nameInput, { target: { value: "Sally" } });
+    fireEvent.change(nameInput, { target: { value: "Sally Yang" } });
     fireEvent.change(emailInput, { target: { value: "sally@hotmail.com" } });
     fireEvent.change(passwordInput, { target: { value: "password123!@#" } });
     fireEvent.change(passwordConfirmationInput, {
@@ -266,11 +281,13 @@ describe("sign up functionlaity", () => {
     });
     fireEvent.click(goBtn);
 
-    mockAxios.mockResponse({ data: { message: "Account created!" } });
+    mockAxios.mockResponse({
+      data: { message: "Account created!", name: "Sally Yang" }
+    });
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
 
-    const messageBox = getByText("Account created!");
-    expect(messageBox).toBeInTheDocument();
+    // const messageBox = getByText("Account created!");
+    // expect(messageBox).toBeInTheDocument();
   });
 
   // it("should log user in when registration succeeds", () => {
@@ -427,5 +444,20 @@ describe("sign up functionlaity", () => {
 
     fireEvent.click(await getByText("Cancel"));
     expect(queryByTestId("signup-form")).toBe(null);
+  });
+
+  it("should open up log in modal when log in link is clicked", async () => {
+    const { getByText, getAllByText } = render(<MainApp />);
+    mockAxios.mockResponse({ data: mockEventsWithSeats });
+    mockAxios.mockResponse({ data: mockCourses });
+
+    const headerSignupBtn = getAllByText("Sign Up")[0];
+    fireEvent.click(headerSignupBtn);
+
+    const linkToLogIn = getByText("Log In!");
+    fireEvent.click(linkToLogIn);
+
+    const signupReminder = getByText("Don't have an account yet?");
+    expect(signupReminder).toBeInTheDocument();
   });
 });

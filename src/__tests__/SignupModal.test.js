@@ -12,12 +12,14 @@ describe("starting UI", () => {
     const emailInput = getByLabelText("E-mail");
     const passwordInput = getByLabelText("Password");
     const confirmPasswordInput = getByLabelText("Confirm Password");
+    const loginReminder = getByText("Already have an account?");
     const goBtn = getByText("Go!");
     const cancelBtn = getByText("Cancel");
     expect(nameInput).toBeInTheDocument();
     expect(emailInput).toBeInTheDocument();
     expect(passwordInput).toBeInTheDocument();
     expect(confirmPasswordInput).toBeInTheDocument();
+    expect(loginReminder).toBeInTheDocument();
     expect(goBtn).toBeInTheDocument();
     expect(cancelBtn).toBeInTheDocument();
   });

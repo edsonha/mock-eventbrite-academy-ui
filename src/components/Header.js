@@ -79,6 +79,7 @@ class Header extends React.Component {
               setLoginState={this.props.setLoginState}
               isOpen={this.state.isLoginModalOpen}
               showLoginModal={this.showLoginModal}
+              showSignupModal={this.showSignupModal}
               backendURI={this.backendURI}
             />
 
@@ -89,8 +90,11 @@ class Header extends React.Component {
               Sign Up
             </Button>
             <SignupModal
+              setUsername={this.setUsername}
               isOpen={this.state.isSignupModalOpen}
+              showLoginModal={this.showLoginModal}
               showSignupModal={this.showSignupModal}
+              setLoginState={this.props.setLoginState}
               backendURI={this.backendURI}
             />
           </div>

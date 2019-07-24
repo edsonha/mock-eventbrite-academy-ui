@@ -108,16 +108,29 @@ class LoginModal extends React.Component {
                   </Col>
                 </Row>
               </ModalBody>
-              <ModalFooter>
-                <Button
-                  className="cancel-btn"
-                  onClick={() => this.props.showLoginModal(false)}
-                >
-                  Cancel
-                </Button>
-                <Button className="go-btn" onClick={this.userLogin}>
-                  Go!
-                </Button>
+              <ModalFooter id="login-footer-content">
+                <div className="signup-reminder">
+                  Don't have an account yet?
+                  <button
+                    onClick={() => {
+                      this.props.showSignupModal(true);
+                      this.props.showLoginModal(false);
+                    }}
+                  >
+                    Sign up!
+                  </button>
+                </div>
+                <div className="login-modal-footer-btn">
+                  <Button
+                    className="cancel-btn"
+                    onClick={() => this.props.showLoginModal(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button className="go-btn" onClick={this.userLogin}>
+                    Go!
+                  </Button>
+                </div>
               </ModalFooter>
             </Modal>
           </div>

@@ -60,8 +60,10 @@ class SignupModal extends React.Component {
           result: res.data.message,
           messageBoxIsOpen: true
         });
-
         if (res.data.message === "Account created!") {
+          this.props.setUsername(res.data.name);
+          this.props.setLoginState(true);
+          this.props.showSignupModal(false);
           sessionStorage.setItem("JWT", res.data.jwtToken);
         }
       })
@@ -102,7 +104,6 @@ class SignupModal extends React.Component {
               <MessageBox
                 isOpen={this.state.messageBoxIsOpen}
                 message={this.state.result}
-                // callerToggle={this.props.signupModalToggle}
               />
               <Row className="signup-form-row">
                 <Label
@@ -181,20 +182,32 @@ class SignupModal extends React.Component {
                 </Col>
               </Row>
             </ModalBody>
-            <ModalFooter>
-              <Button
-                className="cancel-btn"
-                // onClick={this.props.signupModalToggle}
-                onClick={() => {
-                  this.props.showSignupModal(false);
-                  this.clearInput();
-                }}
-              >
-                Cancel
-              </Button>
-              <Button className="go-btn" onClick={this.userRegister}>
-                Go!
-              </Button>
+            <ModalFooter id="signup-footer-content">
+              <div className="login-reminder">
+                Already have an account?
+                <button
+                  onClick={() => {
+                    this.props.showSignupModal(false);
+                    this.props.showLoginModal(true);
+                  }}
+                >
+                  Log In!
+                </button>
+              </div>
+              <div className="signup-modal-footer-btn">
+                <Button
+                  className="cancel-btn"
+                  onClick={() => {
+                    this.props.showSignupModal(false);
+                    this.clearInput();
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button className="go-btn" onClick={this.userRegister}>
+                  Go!
+                </Button>
+              </div>
             </ModalFooter>
           </Modal>
         )}

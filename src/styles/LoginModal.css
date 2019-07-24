@@ -21,9 +21,36 @@
 .go-btn.btn.btn-secondary {
   background-color: #f99535;
   border-color: #ffffff;
+  margin: 5px 5px;
 }
 
 .cancel-btn.btn.btn-secondary {
   background-color: #515d7c;
   border-color: #ffffff;
+  margin: 5px 5px;
+}
+
+#login-footer-content.modal-footer {
+  justify-content: space-between;
+}
+
+.login-modal-footer-btn {
+  width: 40%;
+  text-align: right;
+}
+
+.signup-reminder {
+  width: 60%;
+}
+
+.signup-reminder button {
+  background-color: transparent;
+  border: none;
+  color: white;
+  text-decoration-line: underline;
+  margin-left: 10px;
+}
+
+.signup-reminder button:hover {
+  font-weight: bold;
 }
