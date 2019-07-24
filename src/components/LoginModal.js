@@ -41,7 +41,9 @@ class LoginModal extends React.Component {
         password: this.state.password
       })
       .then(res => {
-        this.props.loginToggle(res.data.name);
+        this.props.setUsername(res.data.name);
+        this.props.setLoginState(true);
+        this.props.showLoginModal(false);
         sessionStorage.setItem("JWT", res.data.jwtToken);
       })
       .catch(err => {
@@ -55,7 +57,7 @@ class LoginModal extends React.Component {
         className="close"
         onClick={() => {
           this.clearInput();
-          this.props.loginModalToggle();
+          this.props.showLoginModal(false);
         }}
       >
         &times;
@@ -109,7 +111,7 @@ class LoginModal extends React.Component {
               <ModalFooter>
                 <Button
                   className="cancel-btn"
-                  onClick={this.props.loginModalToggle}
+                  onClick={() => this.props.showLoginModal(false)}
                 >
                   Cancel
                 </Button>

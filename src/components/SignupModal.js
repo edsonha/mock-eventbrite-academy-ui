@@ -79,7 +79,7 @@ class SignupModal extends React.Component {
         className="close"
         onClick={() => {
           this.clearInput();
-          this.props.signupModalToggle();
+          this.props.showSignupModal(false);
         }}
       >
         &times;
@@ -186,7 +186,7 @@ class SignupModal extends React.Component {
                 className="cancel-btn"
                 // onClick={this.props.signupModalToggle}
                 onClick={() => {
-                  this.props.signupModalToggle();
+                  this.props.showSignupModal(false);
                   this.clearInput();
                 }}
               >

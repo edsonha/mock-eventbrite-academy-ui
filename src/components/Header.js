@@ -10,15 +10,36 @@ class Header extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      signupModal: false
+      isSignupModalOpen: false,
+      isLoginModalOpen: false,
+      username: ""
     };
     this.backendURI = props.backendURI;
   }
 
-  signupModalToggle = () => {
-    this.setState(prevState => ({
-      signupModal: !prevState.signupModal
-    }));
+  setUsername = username => {
+    this.setState({ username });
+  };
+
+  showSignupModal = isShown => {
+    this.setState({ isSignupModalOpen: isShown });
+  };
+
+  showLoginModal = isShown => {
+    this.setState({ isLoginModalOpen: isShown });
+  };
+
+  getUserInitial = name => {
+    const nameArray = name.split(" ");
+    let initials = "";
+
+    for (let word of nameArray) {
+      initials += word[0];
+      if (initials.length === 2) {
+        break;
+      }
+    }
+    return initials;
   };
 
   render() {
@@ -29,13 +50,15 @@ class Header extends React.Component {
         </Link>
         {this.props.isLoggedIn && (
           <div className="button-wrapper">
-            <div className="welcome-msg">{`${this.props.user}`}</div>
+            <div className="welcome-msg">
+              {this.getUserInitial(this.state.username)}
+            </div>
 
             {/* <Button className="logout-button" onClick={this.props.loginToggle}> */}
             <Button
               className="logout-button"
               onClick={() => {
-                this.props.loginToggle();
+                this.props.setLoginState(false);
                 sessionStorage.removeItem("JWT");
               }}
             >
@@ -47,23 +70,27 @@ class Header extends React.Component {
           <div className="button-wrapper">
             <Button
               className="login-button"
-              onClick={this.props.loginModalToggle}
+              onClick={() => this.showLoginModal(true)}
             >
               Log In
             </Button>
             <LoginModal
-              loginToggle={this.props.loginToggle}
-              isOpen={this.props.loginModal}
-              loginModalToggle={this.props.loginModalToggle}
+              setUsername={this.setUsername}
+              setLoginState={this.props.setLoginState}
+              isOpen={this.state.isLoginModalOpen}
+              showLoginModal={this.showLoginModal}
               backendURI={this.backendURI}
             />
 
-            <Button className="signup-button" onClick={this.signupModalToggle}>
+            <Button
+              className="signup-button"
+              onClick={() => this.showSignupModal(true)}
+            >
               Sign Up
             </Button>
             <SignupModal
-              isOpen={this.state.signupModal}
-              signupModalToggle={this.signupModalToggle}
+              isOpen={this.state.isSignupModalOpen}
+              showSignupModal={this.showSignupModal}
               backendURI={this.backendURI}
             />
           </div>

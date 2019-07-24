@@ -102,7 +102,7 @@ describe("routing for event description page", () => {
   });
 });
 
-describe("registering for courses", () => {
+describe("registering for events", () => {
   it("should prompt user login when user is not logged in if user clicks on Register", () => {
     const { getByTestId, getAllByText } = render(<MainApp />);
     mockAxios.mockResponse({ data: mockEventsWithSeats });

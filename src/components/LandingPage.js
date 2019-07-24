@@ -35,7 +35,6 @@ class LandingPage extends React.Component {
         {courseWrappers}
         <UpcomingEvents
           backendURI={this.props.backendURI}
-          loginModalToggle={this.props.loginModalToggle}
           history={this.props.history}
         />
       </div>

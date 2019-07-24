@@ -3,6 +3,7 @@ import axios from "axios";
 import { minToHour } from "../helper/minToHour";
 import moment from "moment";
 import { Button, Container, Spinner } from "reactstrap";
+import LoginModal from "./LoginModal";
 import "../styles/EventDescriptionPage.css";
 
 class EventDescriptionPage extends React.Component {
@@ -11,9 +12,14 @@ class EventDescriptionPage extends React.Component {
     this.state = {
       eventDescription: {},
       errorLoading: false,
-      isLoading: true
+      isLoading: true,
+      isLoginModalOpen: false
     };
   }
+
+  showLoginModal = isShown => {
+    this.setState({ isLoginModalOpen: isShown });
+  };
 
   async componentDidMount() {
     this.setState({ isLoading: true });
@@ -106,10 +112,11 @@ class EventDescriptionPage extends React.Component {
               <Button
                 data-testid="register-button"
                 className="register-button"
-                onClick={this.props.loginModalToggle}
+                onClick={() => this.showLoginModal(true)}
               >
                 Register
               </Button>
+              <LoginModal isOpen={this.state.isLoginModalOpen} />
             </div>
           </Container>
         </Container>
