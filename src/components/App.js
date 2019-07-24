@@ -4,6 +4,7 @@ import { Switch, Route, BrowserRouter } from "react-router-dom";
 import UpcomingEvents from "./UpcomingEvents";
 import EventDescriptionPage from "./EventDescriptionPage";
 import "../styles/App.css";
+import HttpsRedirect from "react-https-redirect";
 
 export class App extends React.Component {
   constructor(props) {
@@ -14,13 +15,13 @@ export class App extends React.Component {
       password: "",
       loginModal: false,
       isLoggedIn: false,
-      user: ""
+      user: "",
     };
   }
 
   loginModalToggle = () => {
     this.setState(prevState => ({
-      loginModal: !prevState.loginModal
+      loginModal: !prevState.loginModal,
     }));
   };
 
@@ -37,13 +38,13 @@ export class App extends React.Component {
       }
 
       this.setState({
-        user: initials
+        user: initials,
       });
     }
 
     this.setState(prevState => ({
       loginModal: false,
-      isLoggedIn: !prevState.isLoggedIn
+      isLoggedIn: !prevState.isLoggedIn,
     }));
   };
 
@@ -87,8 +88,10 @@ export class App extends React.Component {
 }
 
 const MainApp = () => (
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+  <HttpsRedirect>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </HttpsRedirect>
 );
 export default MainApp;
