@@ -4,6 +4,7 @@
   width: 100%;
   background-color: #515d7c;
   background-image: url("https://sa-sg-production-website-cms.s3.amazonaws.com/documents/background-line.svg");
+  background-size: 100% 100%;
   color: white;
   justify-content: center;
   align-items: center;
