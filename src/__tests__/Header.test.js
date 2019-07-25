@@ -142,7 +142,7 @@ describe("login functionality", () => {
     expect(spySessionStorageSetItem).toHaveBeenCalledWith("JWT", mockJwtToken);
   });
 
-  it("should deny login when credentials are wrong", async () => {
+  it("should deny login when credentials are wrong and show an error message", async () => {
     const { getByText, getAllByText, getByPlaceholderText } = render(
       <MainApp />
     );
@@ -162,7 +162,7 @@ describe("login functionality", () => {
       response: { data: { message: "Wrong credentials" } }
     });
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
-
+    expect(getByText("Wrong credentials")).toBeInTheDocument();
     expect(goBtn).toBeInTheDocument();
   });
 

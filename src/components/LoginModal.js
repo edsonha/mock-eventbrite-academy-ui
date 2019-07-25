@@ -10,6 +10,7 @@ import {
   Input,
   Row
 } from "reactstrap";
+import MessageBox from "./MessageBox";
 import "../styles/LoginModal.css";
 import axios from "axios";
 
@@ -19,7 +20,9 @@ class LoginModal extends React.Component {
     this.backendURI = props.backendURI;
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      result: "",
+      messageBoxIsOpen: false
     };
   }
 
@@ -31,7 +34,12 @@ class LoginModal extends React.Component {
   };
 
   clearInput = () => {
-    this.setState({ email: "", password: "" });
+    this.setState({
+      email: "",
+      password: "",
+      result: "",
+      messageBoxIsOpen: false
+    });
   };
 
   userLogin = async () => {
@@ -47,7 +55,10 @@ class LoginModal extends React.Component {
         sessionStorage.setItem("JWT", res.data.jwtToken);
       })
       .catch(err => {
-        console.log(err.response.data.message);
+        this.setState({
+          result: err.response.data.message,
+          messageBoxIsOpen: true
+        });
       });
   };
 
@@ -77,6 +88,10 @@ class LoginModal extends React.Component {
                 Log In
               </ModalHeader>
               <ModalBody id="login-body">
+                <MessageBox
+                  isOpen={this.state.messageBoxIsOpen}
+                  message={this.state.result}
+                />
                 <Row>
                   <Label id="email-input-label" for="email-input" sm={2}>
                     E-mail
