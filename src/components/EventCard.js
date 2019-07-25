@@ -37,7 +37,7 @@ class EventCard extends React.Component {
     } = this.props.eventDetail;
 
     return (
-      <Col xs="12" sm="6">
+      <Col xs="12" md="6">
         <Card className="event-card">
           <div className="event-card-header">
             {image ? null : (
