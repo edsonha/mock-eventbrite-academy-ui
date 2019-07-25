@@ -55,7 +55,7 @@ class EventCard extends React.Component {
             <div className="event-desc">
               <CardText>{description}</CardText>
             </div>
-            <CardSubtitle>{speaker}</CardSubtitle>
+            <CardSubtitle className="event-speaker">{speaker}</CardSubtitle>
             <CardSubtitle>
               {moment.parseZone(time).format("ddd, MMM Do YYYY, h:mm a") +
                 " (" +

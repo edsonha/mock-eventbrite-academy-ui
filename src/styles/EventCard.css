@@ -83,3 +83,17 @@
   height: auto;
   display: block;
 }
+
+@media only screen and (min-width: 768px) {
+  .event-speaker {
+    line-height: 1.3em;
+    height: 1.3em;
+    overflow: hidden;
+  }
+
+  .event-desc {
+    line-height: 1.3em;
+    height: 5.2em;
+    overflow: hidden;
+  }
+}
