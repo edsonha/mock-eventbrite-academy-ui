@@ -84,7 +84,7 @@ class UpcomingEvents extends React.Component {
             key={event._id}
             eventDetail={event}
             eventDescriptionPageHandler={this.eventDescriptionPageHandler}
-            loginModalToggle={this.props.loginModalToggle}
+            setLoginState={this.props.setLoginState}
           />
         ));
 

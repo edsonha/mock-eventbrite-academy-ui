@@ -49,11 +49,14 @@ class LoginModal extends React.Component {
         password: this.state.password
       })
       .then(res => {
-        this.props.setUsername(res.data.name);
-        this.props.setLoginState(true);
-        this.props.showLoginModal(false);
         sessionStorage.setItem("JWT", res.data.jwtToken);
-        if (this.props.history.location["pathname"] === "/") {
+        this.props.setLoginState(true);
+        this.clearInput();
+        this.props.showLoginModal(false);
+        if (
+          this.props.notFromRegisterBtn &&
+          this.props.history.location["pathname"] === "/"
+        ) {
           this.props.history.push("/dashboard");
         }
       })
@@ -106,6 +109,7 @@ class LoginModal extends React.Component {
                       id="email-input"
                       placeholder="myemail@email.com"
                       value={this.state.email}
+                      // value="john@gmail.com"
                       onChange={this.onChange}
                     />
                   </Col>
@@ -121,6 +125,7 @@ class LoginModal extends React.Component {
                       id="password-input"
                       placeholder="********"
                       value={this.state.password}
+                      // value="abcdefgh"
                       onChange={this.onChange}
                     />
                   </Col>

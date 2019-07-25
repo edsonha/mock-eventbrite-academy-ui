@@ -10,18 +10,34 @@ import {
 import { minToHour } from "../helper/minToHour";
 import moment from "moment";
 import LoginModal from "./LoginModal";
+import EventRegistrationModal from "./EventRegistrationModal";
 import "../styles/EventCard.css";
 
 class EventCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLoginModalOpen: false
+      isLoginModalOpen: false,
+      isEventRegistrationModalOpen: false
     };
+    this.backendURI = process.env.REACT_APP_REST_API_LOCATION;
   }
 
   showLoginModal = isShown => {
     this.setState({ isLoginModalOpen: isShown });
+  };
+
+  showEventRegistrationModal = isShown => {
+    this.setState({ isEventRegistrationModalOpen: isShown });
+  };
+
+  checkLoginState = async () => {
+    const jwt = sessionStorage.getItem("JWT");
+    if (jwt) {
+      this.showEventRegistrationModal(true);
+    } else {
+      this.showLoginModal(true);
+    }
   };
 
   render() {
@@ -35,7 +51,6 @@ class EventCard extends React.Component {
       duration,
       location
     } = this.props.eventDetail;
-
     return (
       <Col xs="12" md="6">
         <Card className="event-card">
@@ -72,13 +87,19 @@ class EventCard extends React.Component {
             >
               Learn More
             </Button>
-            <Button
-              className="register-button"
-              onClick={() => this.showLoginModal(true)}
-            >
+            <Button className="register-button" onClick={this.checkLoginState}>
               Register
             </Button>
-            <LoginModal isOpen={this.state.isLoginModalOpen} />
+            <LoginModal
+              setLoginState={this.props.setLoginState}
+              isOpen={this.state.isLoginModalOpen}
+              showLoginModal={this.showLoginModal}
+              backendURI={process.env.REACT_APP_REST_API_LOCATION}
+              notFromRegisterBtn={false}
+            />
+            <EventRegistrationModal
+              isOpen={this.state.isEventRegistrationModalOpen}
+            />
           </div>
         </Card>
       </Col>

@@ -47,6 +47,34 @@ describe("starting UI", () => {
     expect(await queryByTestId("login-modal")).toBe(null);
   });
 
+  it("should close login modal when Cancel button is clicked", async () => {
+    const container = render(<MainApp />);
+    mockAxios.mockResponse({ data: mockEventsWithSeats });
+    mockAxios.mockResponse({ data: mockCourses });
+
+    const {
+      getByText,
+      getByPlaceholderText,
+      getByTestId,
+      queryByTestId
+    } = container;
+
+    fireEvent.click(getByText("Log In"));
+
+    expect(await getByTestId("login-modal")).toBeInTheDocument();
+
+    const emailInput = getByPlaceholderText("myemail@email.com");
+    const passwordInput = getByPlaceholderText("********");
+    fireEvent.change(emailInput, { target: { value: "john@gmail.com" } });
+    fireEvent.change(passwordInput, { target: { value: "abcdefgh" } });
+
+    expect(emailInput).toHaveAttribute("value", "john@gmail.com");
+    expect(passwordInput).toHaveAttribute("value", "abcdefgh");
+
+    fireEvent.click(getByText("Cancel"));
+    expect(await queryByTestId("login-modal")).toBe(null);
+  });
+
   it("should clear inputs and close Signup Modal when X button is clicked", async () => {
     const {
       getByPlaceholderText,
@@ -84,6 +112,7 @@ describe("starting UI", () => {
 describe("login functionality", () => {
   afterEach(() => {
     mockAxios.reset();
+    window.sessionStorage.clear();
   });
 
   it('should login user when correct info is given and the header will show initials and "Log Out" button', () => {
@@ -101,9 +130,12 @@ describe("login functionality", () => {
     fireEvent.change(emailInput, { target: { value: "john@gmail.com" } });
     fireEvent.change(passwordInput, { target: { value: "abcdefgh" } });
     fireEvent.click(goBtn);
-    mockAxios.mockResponse({ data: { name: "John Wick" } });
-
-    expect(mockAxios.post).toHaveBeenCalledTimes(1);
+    mockAxios.mockResponse({
+      data: { name: "John Wick" }
+    });
+    mockAxios.mockResponse({
+      data: { name: "John Wick" }
+    });
 
     const logOutBtn = getByText("Log Out");
     const welcomeMessage = getByText("JW");
@@ -137,9 +169,14 @@ describe("login functionality", () => {
     mockAxios.mockResponse({
       data: { name: "John Wick", jwtToken: mockJwtToken }
     });
-    expect(mockAxios.post).toHaveBeenCalledTimes(1);
+
+    mockAxios.mockResponse({
+      data: { name: "John Wick" }
+    });
     expect(spySessionStorageSetItem).toHaveBeenCalledTimes(1);
     expect(spySessionStorageSetItem).toHaveBeenCalledWith("JWT", mockJwtToken);
+
+    expect(mockAxios.post).toHaveBeenCalledTimes(1);
   });
 
   it("should deny login when credentials are wrong and show an error message", async () => {
@@ -200,6 +237,8 @@ describe("logout functionality", () => {
     fireEvent.click(goBtn);
 
     mockAxios.mockResponse({ data: { name: "John Wick" } });
+    mockAxios.mockResponse({ data: { name: "John Wick" } });
+
     expect(headerLoginBtn).not.toBeInTheDocument();
     expect(headerSignupBtn).not.toBeInTheDocument();
 
@@ -212,15 +251,13 @@ describe("logout functionality", () => {
   });
 
   it("should remove JWT token from session storage after user logout", () => {
-    const { getByText, getAllByText, getByPlaceholderText } = render(
-      <MainApp />
-    );
+    const { getByText } = render(<MainApp />);
     mockAxios.mockResponse({ data: mockEventsWithSeats });
     mockAxios.mockResponse({ data: mockCourses });
-    const spySessionStorageSetItem = jest.spyOn(
-      window.sessionStorage.__proto__,
-      "setItem"
-    );
+    // const spySessionStorageSetItem = jest.spyOn(
+    //   window.sessionStorage.__proto__,
+    //   "setItem"
+    // );
     const spySessionStorageRemoveItem = jest.spyOn(
       window.sessionStorage.__proto__,
       "removeItem"
@@ -237,6 +274,10 @@ describe("logout functionality", () => {
       data: { name: "John Wick", jwtToken: mockJwtToken }
     });
 
+    mockAxios.mockResponse({
+      data: { name: "John Wick" }
+    });
+
     const logOutBtn = getByText("Log Out");
     fireEvent.click(logOutBtn);
 
@@ -251,6 +292,7 @@ describe("logout functionality", () => {
 describe("sign up functionlaity", () => {
   afterEach(() => {
     mockAxios.reset();
+    window.sessionStorage.clear();
   });
 
   it("should display 'Account created! when registration succeeds", () => {
@@ -383,34 +425,6 @@ describe("sign up functionlaity", () => {
     const messageBox = getByText("Something went wrong, please try again");
     expect(messageBox).toBeInTheDocument();
     expect(goBtn).toBeInTheDocument();
-  });
-
-  it("should close login modal when Cancel button is clicked", async () => {
-    const container = render(<MainApp />);
-    mockAxios.mockResponse({ data: mockEventsWithSeats });
-    mockAxios.mockResponse({ data: mockCourses });
-
-    const {
-      getByText,
-      getByPlaceholderText,
-      getByTestId,
-      queryByTestId
-    } = container;
-
-    fireEvent.click(getByText("Log In"));
-
-    expect(await getByTestId("login-modal")).toBeInTheDocument();
-
-    const emailInput = getByPlaceholderText("myemail@email.com");
-    const passwordInput = getByPlaceholderText("********");
-    fireEvent.change(emailInput, { target: { value: "john@gmail.com" } });
-    fireEvent.change(passwordInput, { target: { value: "abcdefgh" } });
-
-    expect(emailInput).toHaveAttribute("value", "john@gmail.com");
-    expect(passwordInput).toHaveAttribute("value", "abcdefgh");
-
-    fireEvent.click(getByText("×"));
-    expect(await queryByTestId("login-modal")).toBe(null);
   });
 
   it("should close sign up modal when Cancel button is clicked", async () => {

@@ -27,7 +27,7 @@ export class App extends React.Component {
     return (
       <div className="App">
         <Header
-          isLoggedIn={this.state.isLoggedIn}
+          // isLoggedIn={this.state.isLoggedIn}
           backendURI={this.backendURI}
           setLoginState={this.setLoginState}
           history={appHistory}
@@ -39,7 +39,8 @@ export class App extends React.Component {
             render={props => (
               <LandingPage
                 backendURI={this.backendURI}
-                isLoggedIn={this.isLoggedIn}
+                // isLoggedIn={this.state.isLoggedIn}
+                setLoginState={this.setLoginState}
                 {...props}
               />
             )}

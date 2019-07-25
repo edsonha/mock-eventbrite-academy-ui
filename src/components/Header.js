@@ -5,6 +5,7 @@ import { BrowserRouter, Link } from "react-router-dom";
 import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
 import "../styles/Header.css";
+import axios from "axios";
 
 class Header extends React.Component {
   constructor(props) {
@@ -12,13 +13,50 @@ class Header extends React.Component {
     this.state = {
       isSignupModalOpen: false,
       isLoginModalOpen: false,
-      username: ""
+      username: "",
+      initials: ""
     };
     this.backendURI = props.backendURI;
   }
 
-  setUsername = username => {
-    this.setState({ username });
+  async componentDidMount() {
+    const jwt = sessionStorage.getItem("JWT");
+
+    if (jwt && !this.state.username) {
+      await axios({
+        method: "get",
+        url: this.backendURI + "/users/secure",
+        headers: { Authorization: "Bearer " + jwt }
+      })
+        .then(res => {
+          this.updateUsername(res.data.name);
+          this.getUserInitial(res.data.name);
+        })
+        .catch(err => console.log(err.message));
+    }
+  }
+
+  async componentDidUpdate() {
+    const jwt = sessionStorage.getItem("JWT");
+
+    if (jwt && !this.state.username) {
+      await axios({
+        method: "get",
+        url: this.backendURI + "/users/secure",
+        headers: { Authorization: "Bearer " + jwt }
+      })
+        .then(res => {
+          this.updateUsername(res.data.name);
+          this.getUserInitial(res.data.name);
+        })
+        .catch(err => console.log(err.message));
+    }
+  }
+
+  updateUsername = name => {
+    this.setState({
+      username: name
+    });
   };
 
   showSignupModal = isShown => {
@@ -39,7 +77,9 @@ class Header extends React.Component {
         break;
       }
     }
-    return initials;
+    this.setState({
+      initials
+    });
   };
 
   render() {
@@ -48,16 +88,16 @@ class Header extends React.Component {
         <Link className="logo-wrapper" to="/">
           <Logo data-testid="logo-svg" />
         </Link>
-        {this.props.isLoggedIn && (
+        {this.state.username && (
           <div className="button-wrapper">
-            <div className="welcome-msg">
-              {this.getUserInitial(this.state.username)}
-            </div>
+            <div className="welcome-msg">{this.state.initials}</div>
 
-            {/* <Button className="logout-button" onClick={this.props.loginToggle}> */}
             <Button
               className="logout-button"
               onClick={() => {
+                this.setState({
+                  username: ""
+                });
                 this.props.setLoginState(false);
                 sessionStorage.removeItem("JWT");
               }}
@@ -66,7 +106,8 @@ class Header extends React.Component {
             </Button>
           </div>
         )}
-        {!this.props.isLoggedIn && (
+
+        {!this.state.username && (
           <div className="button-wrapper">
             <Button
               className="login-button"
@@ -75,13 +116,13 @@ class Header extends React.Component {
               Log In
             </Button>
             <LoginModal
-              setUsername={this.setUsername}
               setLoginState={this.props.setLoginState}
               isOpen={this.state.isLoginModalOpen}
               showLoginModal={this.showLoginModal}
               showSignupModal={this.showSignupModal}
               backendURI={this.backendURI}
               history={this.props.history}
+              notFromRegisterBtn={true}
             />
 
             <Button
@@ -91,7 +132,6 @@ class Header extends React.Component {
               Sign Up
             </Button>
             <SignupModal
-              setUsername={this.setUsername}
               isOpen={this.state.isSignupModalOpen}
               showLoginModal={this.showLoginModal}
               showSignupModal={this.showSignupModal}
