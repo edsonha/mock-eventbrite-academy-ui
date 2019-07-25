@@ -26,7 +26,7 @@ class Dashboard extends React.Component {
 
   render() {
     if (this.state.isLoggedIn) {
-      return <a>Dashboard</a>;
+      return <p>Dashboard</p>;
     } else return <Redirect to="/" />;
   }
 }
