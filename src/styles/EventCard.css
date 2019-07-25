@@ -58,7 +58,6 @@
 }
 
 .event-card-header:hover {
-  filter: brightness(50%);
   cursor: pointer;
 }
 
