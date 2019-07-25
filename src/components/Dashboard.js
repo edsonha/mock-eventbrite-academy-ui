@@ -1,6 +1,6 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 
 class Dashboard extends React.Component {
   constructor(props) {
