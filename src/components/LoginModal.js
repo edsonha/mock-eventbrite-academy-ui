@@ -53,6 +53,9 @@ class LoginModal extends React.Component {
         this.props.setLoginState(true);
         this.props.showLoginModal(false);
         sessionStorage.setItem("JWT", res.data.jwtToken);
+        if (this.props.history.location["pathname"] === "/") {
+          this.props.history.push("/dashboard");
+        }
       })
       .catch(err => {
         this.setState({

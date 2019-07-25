@@ -81,6 +81,7 @@ class Header extends React.Component {
               showLoginModal={this.showLoginModal}
               showSignupModal={this.showSignupModal}
               backendURI={this.backendURI}
+              history={this.props.history}
             />
 
             <Button

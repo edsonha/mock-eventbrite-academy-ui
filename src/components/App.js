@@ -1,11 +1,13 @@
 import React from "react";
 import Header from "./Header";
-import { Switch, Route, BrowserRouter } from "react-router-dom";
+import { Switch, Route, Router } from "react-router-dom";
 import LandingPage from "./LandingPage";
 import EventDescriptionPage from "./EventDescriptionPage";
+import Dashboard from "./Dashboard";
 import "../styles/App.css";
 import HttpsRedirect from "react-https-redirect";
-
+import { createBrowserHistory } from "history";
+export const appHistory = createBrowserHistory();
 export class App extends React.Component {
   constructor(props) {
     super(props);
@@ -28,13 +30,18 @@ export class App extends React.Component {
           isLoggedIn={this.state.isLoggedIn}
           backendURI={this.backendURI}
           setLoginState={this.setLoginState}
+          history={appHistory}
         />
         <Switch>
           <Route
             exact
             path="/"
             render={props => (
-              <LandingPage backendURI={this.backendURI} {...props} />
+              <LandingPage
+                backendURI={this.backendURI}
+                isLoggedIn={this.isLoggedIn}
+                {...props}
+              />
             )}
           />
           <Route
@@ -46,6 +53,11 @@ export class App extends React.Component {
               />
             )}
           />
+          <Route
+            exact
+            path="/dashboard"
+            render={() => <Dashboard isLoggedIn={this.state.isLoggedIn} />}
+          />
         </Switch>
       </div>
     );
@@ -54,9 +66,9 @@ export class App extends React.Component {
 
 const MainApp = () => (
   <HttpsRedirect>
-    <BrowserRouter>
+    <Router history={appHistory}>
       <App />
-    </BrowserRouter>
+    </Router>
   </HttpsRedirect>
 );
 export default MainApp;
