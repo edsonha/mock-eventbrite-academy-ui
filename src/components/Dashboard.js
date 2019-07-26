@@ -1,11 +1,34 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
-// import axios from "axios";
+// import { Redirect } from "react-router-dom";
+import axios from "axios";
 
+/* istanbul ignore next */
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isLoggedIn: this.props.isLoggedIn };
+    this.state = { isLoading: true };
+  }
+
+  async componentDidMount() {
+    const jwt = sessionStorage.getItem("JWT");
+
+    if (jwt) {
+      await axios({
+        method: "get",
+        url: this.props.backendURI + "/users/secure",
+        headers: { Authorization: "Bearer " + jwt }
+      })
+        .then(res => {
+          this.setState({ isLoading: false });
+        })
+        .catch(err => {
+          console.log(err.message);
+          sessionStorage.removeItem("JWT");
+          this.props.history.push("/");
+        });
+    } else {
+      this.props.history.push("/");
+    }
   }
 
   // async componentDidMount() {
@@ -25,9 +48,11 @@ class Dashboard extends React.Component {
   // }
 
   render() {
-    if (this.state.isLoggedIn) {
+    if (this.state.isLoading) {
+      return <p>Loading</p>;
+    } else {
       return <p>Dashboard</p>;
-    } else return <Redirect to="/" />;
+    }
   }
 }
 
