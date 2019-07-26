@@ -106,6 +106,7 @@ class EventCard extends React.Component {
               <EventRegistrationModal
                 isOpen={this.state.isEventRegistrationModalOpen}
                 eventDetail={{ ...this.props.eventDetail }}
+                showEventRegistrationModal={this.showEventRegistrationModal}
                 backendURI={process.env.REACT_APP_REST_API_LOCATION}
               />
             )}

@@ -1,0 +1,22 @@
+#event-registration-content .modal-content {
+  background-color: #515d7c;
+  color: #ffffff;
+  font-size: 18px;
+  font-weight: regular;
+}
+
+.modal-header .close {
+  color: white;
+}
+
+.cancel-btn.btn.btn-secondary {
+  background-color: #515d7c;
+  border-color: #ffffff;
+  margin: 5px 5px;
+}
+
+.rsvp-btn.btn.btn-secondary {
+  background-color: #f99535;
+  border-color: #ffffff;
+  margin: 5px 5px;
+}

@@ -1,5 +1,8 @@
 import React from "react";
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
+import { minToHour } from "../helper/minToHour";
+import moment from "moment";
+import "../styles/EventRegistrationModal.css";
 import axios from "axios";
 
 class EventRegistrationModal extends React.Component {
@@ -30,29 +33,50 @@ class EventRegistrationModal extends React.Component {
     }
   }
 
+  submitReservation = () => {
+    this.props.showEventRegistrationModal(false);
+  };
+
   render() {
-    // const closeBtn = (
-    //   <button
-    //     className="close"
-    //     onClick={() => {
+    const closeBtn = (
+      <button
+        className="close"
+        onClick={() => {
+          this.props.showEventRegistrationModal(false);
+        }}
+      >
+        &times;
+      </button>
+    );
 
-    //       this.props.showLoginModal(false);
-    //     }}
-    //   >
-    //     &times;
-    //   </button>
-    // );
-
+    const { title, time, location, duration } = this.props.eventDetail;
     return (
       <div data-testid="event-registration-modal">
         {this.props.isOpen && (
-          <Modal isOpen={this.props.isOpen}>
-            <ModalHeader>{this.props.eventDetail.title}</ModalHeader>
-            <ModalBody id="login-body">
+          <Modal isOpen={this.props.isOpen} id="event-registration-content">
+            <ModalHeader close={closeBtn}>
+              <p>{title}</p>
+              <p>
+                {moment.parseZone(time).format("ddd, MMM Do YYYY, h:mm a") +
+                  " (" +
+                  minToHour(duration) +
+                  ")"}
+              </p>
+              <p>{location}</p>
+            </ModalHeader>
+            <ModalBody>
               <p>{this.state.username}</p>
             </ModalBody>
-            <ModalFooter id="login-footer-content">
-              <Button>RSVP</Button>
+            <ModalFooter>
+              <Button
+                className="cancel-btn"
+                onClick={() => this.props.showEventRegistrationModal(false)}
+              >
+                Cancel
+              </Button>
+              <Button className="rsvp-btn" onClick={this.submitReservation}>
+                RSVP
+              </Button>
             </ModalFooter>
           </Modal>
         )}
