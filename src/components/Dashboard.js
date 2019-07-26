@@ -1,8 +1,6 @@
 import React from "react";
-// import { Redirect } from "react-router-dom";
 import axios from "axios";
 
-/* istanbul ignore next */
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -16,13 +14,12 @@ class Dashboard extends React.Component {
       await axios({
         method: "get",
         url: this.props.backendURI + "/users/secure",
-        headers: { Authorization: "Bearer " + jwt }
+        headers: { Authorization: "Bearer " + jwt },
       })
         .then(res => {
           this.setState({ isLoading: false });
         })
         .catch(err => {
-          console.log(err.message);
           sessionStorage.removeItem("JWT");
           this.props.history.push("/");
         });
@@ -30,22 +27,6 @@ class Dashboard extends React.Component {
       this.props.history.push("/");
     }
   }
-
-  // async componentDidMount() {
-  //   await axios
-  //     .get(process.env.REACT_APP_REST_API_LOCATION + "/users/secure", {
-  //       headers: { Authorization: `Bearer ${sessionStorage.getItem("JWT")}` }
-  //     })
-  //     .then(
-  //       res => {
-  //         console.log("SECURE SUCESS");
-  //         this.setState({ isLoggedIn: true });
-  //       },
-  //       err => {
-  //         console.log(err);
-  //       }
-  //     );
-  // }
 
   render() {
     if (this.state.isLoading) {
