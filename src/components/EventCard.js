@@ -56,7 +56,12 @@ class EventCard extends React.Component {
         <Card className="event-card">
           <div className="event-card-header">
             {image ? null : (
-              <CardTitle className="event-card-header-text">{title}</CardTitle>
+              <CardTitle
+                onClick={() => this.props.eventDescriptionPageHandler(_id)}
+                className="event-card-header-text"
+              >
+                {title}
+              </CardTitle>
             )}
             <img
               src={image || "/eventDefault.png"}
