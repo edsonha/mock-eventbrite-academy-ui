@@ -32,7 +32,9 @@ class Header extends React.Component {
           this.updateUsername(res.data.name);
           this.getUserInitial(res.data.name);
         })
-        .catch(err => console.log(err.message));
+        .catch(err => {
+          console.log(err.message);
+        });
     }
   }
 

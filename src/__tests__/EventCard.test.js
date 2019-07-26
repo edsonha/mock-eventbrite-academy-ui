@@ -11,6 +11,7 @@ import MainApp from "../components/App";
 afterEach(() => {
   window.sessionStorage.clear();
   mockAxios.reset();
+  jest.clearAllMocks();
 });
 
 describe("Event Card", () => {
@@ -53,7 +54,7 @@ describe("registering for events from event card", () => {
     spySessionStorageGetItem.mockRestore();
   });
 
-  it("should open event registration box if user is already logged in", () => {
+  it("should open event registration box if user is already logged in", async () => {
     const { getByText, getByTestId } = render(
       <EventCard eventDetail={mockEventsWithSeats[0]} />
     );
@@ -68,11 +69,23 @@ describe("registering for events from event card", () => {
       window.sessionStorage.__proto__,
       "getItem"
     );
-    fireEvent.click(registerBtn);
-    expect(spySessionStorageGetItem).toHaveBeenCalledTimes(1);
+    await fireEvent.click(registerBtn);
+
+    mockAxios.mockResponse({
+      data: { name: "Sally" }
+    });
+    expect(mockAxios).toHaveBeenCalledTimes(1);
+
+    expect(spySessionStorageGetItem).toHaveBeenCalledTimes(2);
     expect(spySessionStorageGetItem).toHaveBeenCalledWith("JWT");
     const eventRegistrationModal = getByTestId("event-registration-modal");
+    const eventTitle = getByText("Event 1");
+    const attendeeName = getByText("Sally");
+    const eventRegistrationBtn = getByText("RSVP");
     expect(eventRegistrationModal).toBeInTheDocument();
+    expect(eventTitle).toBeInTheDocument();
+    expect(attendeeName).toBeInTheDocument();
+    expect(eventRegistrationBtn).toBeInTheDocument();
   });
 
   it("should open login box when user is not logged in, and allow user to login", () => {

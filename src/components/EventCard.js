@@ -31,7 +31,7 @@ class EventCard extends React.Component {
     this.setState({ isEventRegistrationModalOpen: isShown });
   };
 
-  checkLoginState = async () => {
+  checkLoginState = () => {
     const jwt = sessionStorage.getItem("JWT");
     if (jwt) {
       this.showEventRegistrationModal(true);
@@ -102,9 +102,13 @@ class EventCard extends React.Component {
               backendURI={process.env.REACT_APP_REST_API_LOCATION}
               notFromRegisterBtn={false}
             />
-            <EventRegistrationModal
-              isOpen={this.state.isEventRegistrationModalOpen}
-            />
+            {this.state.isEventRegistrationModalOpen && (
+              <EventRegistrationModal
+                isOpen={this.state.isEventRegistrationModalOpen}
+                eventDetail={{ ...this.props.eventDetail }}
+                backendURI={process.env.REACT_APP_REST_API_LOCATION}
+              />
+            )}
           </div>
         </Card>
       </Col>

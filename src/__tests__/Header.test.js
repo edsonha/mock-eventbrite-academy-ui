@@ -14,7 +14,7 @@ describe("starting UI", () => {
   });
   it("should show Stashaway logo, Login and Sign Up buttons when you are not logged in", () => {
     const { getByText, getByTestId } = render(
-      <HeaderWithRouter isLoggedIn={false} />
+      <HeaderWithRouter  />
     );
     const loginBtn = getByText("Log In");
     const signUpBtn = getByText("Sign Up");

@@ -109,7 +109,6 @@ class LoginModal extends React.Component {
                       id="email-input"
                       placeholder="myemail@email.com"
                       value={this.state.email}
-                      // value="john@gmail.com"
                       onChange={this.onChange}
                     />
                   </Col>
@@ -125,7 +124,6 @@ class LoginModal extends React.Component {
                       id="password-input"
                       placeholder="********"
                       value={this.state.password}
-                      // value="abcdefgh"
                       onChange={this.onChange}
                     />
                   </Col>
