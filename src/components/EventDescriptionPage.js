@@ -4,6 +4,8 @@ import { minToHour } from "../helper/minToHour";
 import moment from "moment";
 import { Button, Container, Spinner } from "reactstrap";
 import LoginModal from "./LoginModal";
+import SignupModal from "./SignupModal";
+import EventRegistrationModal from "./EventRegistrationModal";
 import "../styles/EventDescriptionPage.css";
 
 class EventDescriptionPage extends React.Component {
@@ -13,12 +15,32 @@ class EventDescriptionPage extends React.Component {
       eventDescription: {},
       errorLoading: false,
       isLoading: true,
-      isLoginModalOpen: false
+      isLoginModalOpen: false,
+      isSignupModalOpen: false,
+      isEventRegistrationModalOpen: false
     };
+    this.backendURI = props.backendURI;
   }
 
   showLoginModal = isShown => {
     this.setState({ isLoginModalOpen: isShown });
+  };
+
+  showSignupModal = isShown => {
+    this.setState({ isSignupModalOpen: isShown });
+  };
+
+  showEventRegistrationModal = isShown => {
+    this.setState({ isEventRegistrationModalOpen: isShown });
+  };
+
+  checkLoginState = () => {
+    const jwt = sessionStorage.getItem("JWT");
+    if (jwt) {
+      this.showEventRegistrationModal(true);
+    } else {
+      this.showLoginModal(true);
+    }
   };
 
   async componentDidMount() {
@@ -114,11 +136,33 @@ class EventDescriptionPage extends React.Component {
               <Button
                 data-testid="register-button"
                 className="register-button"
-                onClick={() => this.showLoginModal(true)}
+                onClick={this.checkLoginState}
               >
                 Register
               </Button>
-              <LoginModal isOpen={this.state.isLoginModalOpen} />
+              <LoginModal
+                isOpen={this.state.isLoginModalOpen}
+                showLoginModal={this.showLoginModal}
+                showSignupModal={this.showSignupModal}
+                backendURI={this.backendURI}
+                notFromRegisterBtn={false}
+                setLoginState={this.props.setLoginState}
+              />
+              <SignupModal
+                isOpen={this.state.isSignupModalOpen}
+                showLoginModal={this.showLoginModal}
+                showSignupModal={this.showSignupModal}
+                backendURI={this.backendURI}
+                setLoginState={this.props.setLoginState}
+              />
+              {this.state.isEventRegistrationModalOpen && (
+                <EventRegistrationModal
+                  isOpen={this.state.isEventRegistrationModalOpen}
+                  eventDetail={{ ...this.props.eventDetail }}
+                  showEventRegistrationModal={this.showEventRegistrationModal}
+                  backendURI={process.env.REACT_APP_REST_API_LOCATION}
+                />
+              )}
             </div>
           </Container>
         </Container>

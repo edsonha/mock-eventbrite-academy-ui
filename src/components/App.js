@@ -27,7 +27,6 @@ export class App extends React.Component {
     return (
       <div className="App">
         <Header
-          // isLoggedIn={this.state.isLoggedIn}
           backendURI={this.backendURI}
           setLoginState={this.setLoginState}
           history={appHistory}
@@ -51,6 +50,7 @@ export class App extends React.Component {
               <EventDescriptionPage
                 eventId={match.params.id}
                 backendURI={this.backendURI}
+                setLoginState={this.setLoginState}
               />
             )}
           />

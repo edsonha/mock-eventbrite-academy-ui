@@ -10,6 +10,7 @@ import {
 import { minToHour } from "../helper/minToHour";
 import moment from "moment";
 import LoginModal from "./LoginModal";
+import SignupModal from "./SignupModal";
 import EventRegistrationModal from "./EventRegistrationModal";
 import "../styles/EventCard.css";
 
@@ -18,6 +19,7 @@ class EventCard extends React.Component {
     super(props);
     this.state = {
       isLoginModalOpen: false,
+      isSignupModalOpen: false,
       isEventRegistrationModalOpen: false
     };
     this.backendURI = process.env.REACT_APP_REST_API_LOCATION;
@@ -25,6 +27,10 @@ class EventCard extends React.Component {
 
   showLoginModal = isShown => {
     this.setState({ isLoginModalOpen: isShown });
+  };
+
+  showSignupModal = isShown => {
+    this.setState({ isSignupModalOpen: isShown });
   };
 
   showEventRegistrationModal = isShown => {
@@ -101,6 +107,14 @@ class EventCard extends React.Component {
               showLoginModal={this.showLoginModal}
               backendURI={process.env.REACT_APP_REST_API_LOCATION}
               notFromRegisterBtn={false}
+              showSignupModal={this.showSignupModal}
+            />
+            <SignupModal
+              isOpen={this.state.isSignupModalOpen}
+              showLoginModal={this.showLoginModal}
+              showSignupModal={this.showSignupModal}
+              setLoginState={this.props.setLoginState}
+              backendURI={this.backendURI}
             />
             {this.state.isEventRegistrationModalOpen && (
               <EventRegistrationModal

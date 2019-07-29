@@ -34,6 +34,19 @@ describe("Event Card", () => {
       "/eventDefault.png"
     );
   });
+
+  it("should display signup modal when signup link is clicked", () => {
+    const { getByTestId, getByText } = render(
+      <EventCard eventDetail={mockEventsWithSeats} />
+    );
+
+    const registerBtn = getByText("Register");
+    fireEvent.click(registerBtn);
+    const signUpModalBtn = getByText("Sign up!");
+    fireEvent.click(signUpModalBtn);
+    const signUpModal = getByTestId("signup-header");
+    expect(signUpModal).toBeInTheDocument();
+  });
 });
 
 describe("registering for events from event card", () => {
