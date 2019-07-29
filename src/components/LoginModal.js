@@ -95,9 +95,11 @@ class LoginModal extends React.Component {
               </ModalHeader>
               <ModalBody id="login-body">
                 <MessageBox
+                  color="danger"
                   isOpen={this.state.messageBoxIsOpen}
                   message={this.state.result}
                 />
+
                 <Row>
                   <Label id="email-input-label" for="email-input" sm={2}>
                     E-mail
@@ -144,7 +146,10 @@ class LoginModal extends React.Component {
                 <div className="login-modal-footer-btn">
                   <Button
                     className="cancel-btn"
-                    onClick={() => this.props.showLoginModal(false)}
+                    onClick={() => {
+                      this.clearInput();
+                      this.props.showLoginModal(false);
+                    }}
                   >
                     Cancel
                   </Button>

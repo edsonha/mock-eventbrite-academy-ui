@@ -3,14 +3,17 @@ import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
 import { minToHour } from "../helper/minToHour";
 import moment from "moment";
 import "../styles/EventRegistrationModal.css";
+import "./MessageBox";
 import axios from "axios";
+import MessageBox from "./MessageBox";
 
 class EventRegistrationModal extends React.Component {
   constructor(props) {
     super(props);
     this.backendURI = props.backendURI;
     this.state = {
-      username: ""
+      username: "",
+      isMessageBoxOpen: false
     };
   }
 
@@ -34,7 +37,8 @@ class EventRegistrationModal extends React.Component {
   }
 
   submitReservation = () => {
-    this.props.showEventRegistrationModal(false);
+    // this.props.showEventRegistrationModal(false);
+    this.setState({ isMessageBoxOpen: true });
   };
 
   render() {
@@ -53,32 +57,44 @@ class EventRegistrationModal extends React.Component {
     return (
       <div data-testid="event-registration-modal">
         {this.props.isOpen && (
-          <Modal isOpen={this.props.isOpen} id="event-registration-content">
-            <ModalHeader close={closeBtn}>
-              <p>{title}</p>
-              <p>
-                {moment.parseZone(time).format("ddd, MMM Do YYYY, h:mm a") +
-                  " (" +
-                  minToHour(duration) +
-                  ")"}
-              </p>
-              <p>{location}</p>
-            </ModalHeader>
-            <ModalBody>
-              <p>{this.state.username}</p>
-            </ModalBody>
-            <ModalFooter>
-              <Button
-                className="cancel-btn"
-                onClick={() => this.props.showEventRegistrationModal(false)}
-              >
-                Cancel
-              </Button>
-              <Button className="rsvp-btn" onClick={this.submitReservation}>
-                RSVP
-              </Button>
-            </ModalFooter>
-          </Modal>
+          <React.Fragment>
+            <Modal isOpen={this.props.isOpen} id="event-registration-content">
+              <ModalHeader close={closeBtn}>
+                <p>{title}</p>
+                <p>
+                  {moment.parseZone(time).format("ddd, MMM Do YYYY, h:mm a") +
+                    " (" +
+                    minToHour(duration) +
+                    ")"}
+                </p>
+                <p>{location}</p>
+              </ModalHeader>
+              <ModalBody>
+                <p>{this.state.username}</p>
+                {this.state.isMessageBoxOpen && (
+                  <MessageBox
+                    color="success"
+                    data-testid="message-box"
+                    isMessageBoxOpen={this.state.isMessageBoxOpen}
+                    message="RSVP Successful"
+                  />
+                )}
+              </ModalBody>
+              {!this.state.isMessageBoxOpen && (
+                <ModalFooter>
+                  <Button
+                    className="cancel-btn"
+                    onClick={() => this.props.showEventRegistrationModal(false)}
+                  >
+                    Cancel
+                  </Button>
+                  <Button className="rsvp-btn" onClick={this.submitReservation}>
+                    RSVP
+                  </Button>
+                </ModalFooter>
+              )}
+            </Modal>
+          </React.Fragment>
         )}
       </div>
     );

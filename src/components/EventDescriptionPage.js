@@ -158,7 +158,7 @@ class EventDescriptionPage extends React.Component {
               {this.state.isEventRegistrationModalOpen && (
                 <EventRegistrationModal
                   isOpen={this.state.isEventRegistrationModalOpen}
-                  eventDetail={{ ...this.props.eventDetail }}
+                  eventDetail={{ ...this.state.eventDescription }}
                   showEventRegistrationModal={this.showEventRegistrationModal}
                   backendURI={process.env.REACT_APP_REST_API_LOCATION}
                 />

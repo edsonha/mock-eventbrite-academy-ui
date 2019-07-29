@@ -101,6 +101,7 @@ class SignupModal extends React.Component {
             </ModalHeader>
             <ModalBody id="signup-body">
               <MessageBox
+                color="danger"
                 isOpen={this.state.messageBoxIsOpen}
                 message={this.state.result}
               />

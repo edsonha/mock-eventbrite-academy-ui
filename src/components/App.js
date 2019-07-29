@@ -38,7 +38,6 @@ export class App extends React.Component {
             render={props => (
               <LandingPage
                 backendURI={this.backendURI}
-                // isLoggedIn={this.state.isLoggedIn}
                 setLoginState={this.setLoginState}
                 {...props}
               />

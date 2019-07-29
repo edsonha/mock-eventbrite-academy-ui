@@ -111,7 +111,7 @@ describe("Event Description Page", () => {
   });
 
   it("should open event registration box if user is already logged in", async () => {
-    const { getByText, getByTestId } = render(
+    const { getByText, getByTestId, getAllByText } = render(
       <EventDescriptionPage
         backendURI={"dummy"}
         eventId={"5d2edb6e0217642ef2524582"}
@@ -138,7 +138,7 @@ describe("Event Description Page", () => {
 
     expect(spySessionStorageGetItem).toHaveBeenCalledWith("JWT");
     const eventRegistrationModal = getByTestId("event-registration-modal");
-    const eventTitle = getByText("Event 2");
+    const eventTitle = getAllByText("Event 2")[1];
     const attendeeName = getByText("Sally");
     const eventRegistrationBtn = getByText("RSVP");
     expect(eventRegistrationModal).toBeInTheDocument();

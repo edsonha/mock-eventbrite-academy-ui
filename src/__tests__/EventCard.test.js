@@ -153,8 +153,8 @@ describe("registering for events from event card", () => {
     const eventRegistrationBtn = getByText("RSVP");
     const eventRegistrationModal = getByTestId("event-registration-modal");
     fireEvent.click(eventRegistrationBtn);
-
-    expect(eventRegistrationModal).not.toBeInTheDocument();
+    expect(getByText("RSVP Successful")).toBeInTheDocument();
+    // expect(eventRegistrationModal).not.toBeInTheDocument();
   });
 
   it("should close event registration modal when Close button is clicked", async () => {

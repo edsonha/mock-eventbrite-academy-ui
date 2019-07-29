@@ -21,7 +21,7 @@ class MessageBox extends React.Component {
 
   render() {
     return (
-      <Alert color="danger" isOpen={this.state.visible}>
+      <Alert color={this.props.color} isOpen={this.props.isOpen}>
         {this.state.message}
       </Alert>
     );
