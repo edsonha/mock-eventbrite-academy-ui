@@ -5,6 +5,10 @@
   font-weight: regular;
 }
 
+#event-registration-content p {
+  margin-bottom: 0;
+}
+
 .modal-header .close {
   color: white;
 }
