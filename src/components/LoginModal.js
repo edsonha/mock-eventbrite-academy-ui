@@ -138,7 +138,7 @@ class LoginModal extends React.Component {
                       this.props.showLoginModal(false);
                     }}
                   >
-                    Sign up!
+                    Sign Up!
                   </button>
                 </div>
                 <div className="login-modal-footer-btn">
