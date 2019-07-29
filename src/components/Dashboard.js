@@ -4,20 +4,19 @@ import axios from "axios";
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isLoading: true };
+    this.state = { isLoading: true, myEvents: [] };
   }
 
   async componentDidMount() {
     const jwt = sessionStorage.getItem("JWT");
-
     if (jwt) {
       await axios({
         method: "get",
-        url: this.props.backendURI + "/users/secure",
+        url: this.props.backendURI + "/user/registeredevents",
         headers: { Authorization: "Bearer " + jwt }
       })
         .then(res => {
-          this.setState({ isLoading: false });
+          this.setState({ isLoading: false, myEvents: res.data });
         })
         .catch(err => {
           sessionStorage.removeItem("JWT");
@@ -39,8 +38,15 @@ class Dashboard extends React.Component {
   render() {
     if (this.state.isLoading) {
       return <p>Loading</p>;
+    } else if (this.state.myEvents.length === 0) {
+      return (
+        <React.Fragment>
+          <h1>My Events</h1>
+          <p>No registered events</p>;
+        </React.Fragment>
+      );
     } else {
-      return <p>Dashboard</p>;
+      return <h1>My Events</h1>;
     }
   }
 }
