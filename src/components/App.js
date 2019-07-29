@@ -58,11 +58,7 @@ export class App extends React.Component {
             exact
             path="/dashboard"
             render={props => (
-              <Dashboard
-                isLoggedIn={this.state.isLoggedIn}
-                backendURI={this.backendURI}
-                {...props}
-              />
+              <Dashboard backendURI={this.backendURI} {...props} />
             )}
           />
         </Switch>

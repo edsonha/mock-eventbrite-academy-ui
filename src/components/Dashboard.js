@@ -14,7 +14,7 @@ class Dashboard extends React.Component {
       await axios({
         method: "get",
         url: this.props.backendURI + "/users/secure",
-        headers: { Authorization: "Bearer " + jwt },
+        headers: { Authorization: "Bearer " + jwt }
       })
         .then(res => {
           this.setState({ isLoading: false });
@@ -24,6 +24,14 @@ class Dashboard extends React.Component {
           this.props.history.push("/");
         });
     } else {
+      this.props.history.push("/");
+    }
+  }
+
+  async componentDidUpdate() {
+    const jwt = sessionStorage.getItem("JWT");
+
+    if (!jwt) {
       this.props.history.push("/");
     }
   }
