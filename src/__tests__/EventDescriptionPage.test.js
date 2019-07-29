@@ -69,7 +69,7 @@ describe("Event Description Page", () => {
 
     const registerBtn = getByText("Register");
     fireEvent.click(registerBtn);
-    const signUpModalBtn = getByText("Sign up!");
+    const signUpModalBtn = getByText("Sign Up!");
     fireEvent.click(signUpModalBtn);
     const signUpModal = getByTestId("signup-header");
     expect(signUpModal).toBeInTheDocument();

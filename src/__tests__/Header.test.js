@@ -211,7 +211,7 @@ describe("login functionality", () => {
     const headerLoginBtn = getAllByText("Log In")[0];
     fireEvent.click(headerLoginBtn);
 
-    const linkToSignUp = getByText("Sign up!");
+    const linkToSignUp = getByText("Sign Up!");
     fireEvent.click(linkToSignUp);
 
     const confirmPassword = getByLabelText("Confirm Password");
