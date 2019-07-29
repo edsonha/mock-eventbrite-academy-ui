@@ -74,7 +74,7 @@ class Header extends React.Component {
     let initials = "";
 
     for (let word of nameArray) {
-      initials += word[0];
+      initials += word[0].toUpperCase();
       if (initials.length === 2) {
         break;
       }
