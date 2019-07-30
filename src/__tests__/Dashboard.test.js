@@ -129,11 +129,11 @@ describe("Registered Events", () => {
 
   it("should redirect to event detail page when 'Learn More' is clicked", async () => {
     mockJwt();
-    const { getByText, getAllByText } = renderDashboard();
+    const { getAllByText } = renderDashboard();
     mockAxios.mockResponse({ data: johnsEvents });
     const learnMoreBtn = getAllByText("Learn More")[0];
-    fireEvent.click(learnMoreBtn);
-    expect(getByText);
+    await fireEvent.click(learnMoreBtn);
+    expect(mockHistory.push).toBeCalledWith("/event/5d2e7e4bec0f970d68a71466");
   });
 });
 
