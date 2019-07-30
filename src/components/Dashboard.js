@@ -12,6 +12,10 @@ class Dashboard extends React.Component {
     this.state = { isLoading: true, myEvents: [] };
   }
 
+  eventDescriptionPageHandler = id => {
+    this.props.history.push("/event/" + id);
+  };
+
   async componentDidMount() {
     const jwt = sessionStorage.getItem("JWT");
     if (jwt) {

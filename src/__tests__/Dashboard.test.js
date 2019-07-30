@@ -126,6 +126,15 @@ describe("Registered Events", () => {
     expect(getByText(/Lorum Ipsum 1/i)).toBeInTheDocument();
     expect(getByText(/Lorum Ipsum 4/i)).toBeInTheDocument();
   });
+
+  it("should redirect to event detail page when 'Learn More' is clicked", async () => {
+    mockJwt();
+    const { getByText, getAllByText } = renderDashboard();
+    mockAxios.mockResponse({ data: johnsEvents });
+    const learnMoreBtn = getAllByText("Learn More")[0];
+    fireEvent.click(learnMoreBtn);
+    expect(getByText);
+  });
 });
 
 const johnsEvents = [
