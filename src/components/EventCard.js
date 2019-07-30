@@ -98,9 +98,22 @@ class EventCard extends React.Component {
             >
               Learn More
             </Button>
-            <Button className="register-button" onClick={this.checkLoginState}>
-              Register
-            </Button>
+            {this.props.isRegistered ? (
+              <Button
+                className="register-button"
+                // onClick={this.checkLoginState}
+              >
+                Registered
+              </Button>
+            ) : (
+              <Button
+                className="register-button"
+                onClick={this.checkLoginState}
+              >
+                Register
+              </Button>
+            )}
+
             <LoginModal
               setLoginState={this.props.setLoginState}
               isOpen={this.state.isLoginModalOpen}

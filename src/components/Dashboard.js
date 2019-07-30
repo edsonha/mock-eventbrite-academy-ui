@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "axios";
+import moment from "moment";
+import EventCard from "./EventCard";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -41,12 +43,28 @@ class Dashboard extends React.Component {
     } else if (this.state.myEvents.length === 0) {
       return (
         <React.Fragment>
-          <h1>My Events</h1>
+          <h1>Registered Events</h1>
           <p>No registered events</p>;
         </React.Fragment>
       );
     } else {
-      return <h1>My Events</h1>;
+      const eventCards = this.state.myEvents
+        .filter(event => moment.utc(event.time).toDate() - Date.now() > 0)
+        .map(event => (
+          <EventCard
+            key={event._id}
+            eventDetail={event}
+            eventDescriptionPageHandler={this.eventDescriptionPageHandler}
+            setLoginState={this.props.setLoginState}
+            isRegistered={true}
+          />
+        ));
+      return (
+        <React.Fragment>
+          <h1>Registered Events</h1>
+          <div>{eventCards}</div>
+        </React.Fragment>
+      );
     }
   }
 }
