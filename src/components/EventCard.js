@@ -103,7 +103,7 @@ class EventCard extends React.Component {
                 className="register-button"
                 // onClick={this.checkLoginState}
               >
-                Registered
+                Deregister
               </Button>
             ) : (
               <Button
@@ -135,6 +135,7 @@ class EventCard extends React.Component {
                 eventDetail={{ ...this.props.eventDetail }}
                 showEventRegistrationModal={this.showEventRegistrationModal}
                 backendURI={process.env.REACT_APP_REST_API_LOCATION}
+                updateRegisteredEvents={this.props.updateRegisteredEvents}
               />
             )}
           </div>

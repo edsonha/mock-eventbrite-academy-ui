@@ -147,3 +147,26 @@ describe("Upcoming Event Display Logic", () => {
     expect(getByText(/Lorum Ipsum 4/i)).toBeInTheDocument();
   });
 });
+
+describe("List of Registered and Upcoming Events", () => {
+  beforeEach(() => {
+    mockDate.set("2019-08-14");
+  });
+  afterEach(() => {
+    mockDate.reset();
+    mockAxios.reset();
+  });
+
+  it("register button should be differentiated by whether user is registered for the event ", () => {
+    const { getAllByText } = render(
+      <UpcomingEvents
+        backendURI={backendURI}
+        registeredEvents={["5d2edb6e0217642ef2524581"]}
+      />
+    );
+
+    mockAxios.mockResponse({ data: mockEventsWithSeats });
+    expect(getAllByText("Deregister").length).toBe(1);
+    expect(getAllByText("Register").length).toBe(3);
+  });
+});

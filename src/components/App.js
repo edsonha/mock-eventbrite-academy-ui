@@ -13,14 +13,20 @@ export class App extends React.Component {
     super(props);
     this.backendURI = process.env.REACT_APP_REST_API_LOCATION;
     this.state = {
-      isLoggedIn: false
+      isLoggedIn: false,
+      registeredEvents: []
     };
   }
 
   setLoginState = isLoggedIn => {
     this.setState({
-      isLoggedIn
+      isLoggedIn,
+      registeredEvents: []
     });
+  };
+
+  updateRegisteredEvents = events => {
+    this.setState({ registeredEvents: events });
   };
 
   render() {
@@ -39,6 +45,8 @@ export class App extends React.Component {
               <LandingPage
                 backendURI={this.backendURI}
                 setLoginState={this.setLoginState}
+                registeredEvents={this.state.registeredEvents}
+                updateRegisteredEvents={this.updateRegisteredEvents}
                 {...props}
               />
             )}
@@ -60,6 +68,7 @@ export class App extends React.Component {
               <Dashboard
                 backendURI={this.backendURI}
                 history={appHistory}
+                updateRegisteredEvents={this.updateRegisteredEvents}
                 {...props}
               />
             )}

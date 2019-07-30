@@ -26,6 +26,8 @@ class Dashboard extends React.Component {
       })
         .then(res => {
           this.setState({ isLoading: false, myEvents: res.data });
+          const regEventId = res.data.map(event => event._id);
+          this.props.updateRegisteredEvents(regEventId);
         })
         .catch(err => {
           sessionStorage.removeItem("JWT");

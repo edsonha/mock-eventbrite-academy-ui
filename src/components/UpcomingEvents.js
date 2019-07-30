@@ -85,6 +85,11 @@ class UpcomingEvents extends React.Component {
             eventDetail={event}
             eventDescriptionPageHandler={this.eventDescriptionPageHandler}
             setLoginState={this.props.setLoginState}
+            isRegistered={
+              this.props.registeredEvents &&
+              this.props.registeredEvents.includes(event._id)
+            }
+            updateRegisteredEvents={this.props.updateRegisteredEvents}
           />
         ));
 

@@ -92,6 +92,8 @@ class LandingPage extends React.Component {
           setLoginState={this.props.setLoginState}
           backendURI={this.props.backendURI}
           history={this.props.history}
+          registeredEvents={this.props.registeredEvents}
+          updateRegisteredEvents={this.props.updateRegisteredEvents}
         />
       </div>
     );

@@ -113,7 +113,7 @@ describe("Registered Events", () => {
     expect(getByText("Speaker 4")).toBeInTheDocument();
 
     expect(getAllByText("Learn More").length).toBe(3);
-    expect(getAllByText("Registered").length).toBe(3);
+    expect(getAllByText("Deregister").length).toBe(3);
   });
 
   it("should NOT display past registered events", () => {

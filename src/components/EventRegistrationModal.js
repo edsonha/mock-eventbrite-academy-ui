@@ -47,9 +47,20 @@ class EventRegistrationModal extends React.Component {
         "/user/registerevent",
       headers: { Authorization: "Bearer " + jwt }
     })
-      .then(res => {
+      .then(postRes => {
         this.setState({ isMessageBoxOpen: true });
       })
+      .then(async () => {
+        await axios({
+          method: "get",
+          url: this.backendURI + "/user/registeredevents",
+          headers: { Authorization: "Bearer " + jwt }
+        }).then(getRes => {
+          const regEventId = getRes.data.map(event => event._id);
+          this.props.updateRegisteredEvents(regEventId);
+        });
+      })
+
       .catch(err => {
         //do something
         console.log("ERROR", err);
