@@ -36,9 +36,24 @@ class EventRegistrationModal extends React.Component {
     }
   }
 
-  submitReservation = () => {
-    // this.props.showEventRegistrationModal(false);
-    this.setState({ isMessageBoxOpen: true });
+  submitReservation = async () => {
+    const jwt = sessionStorage.getItem("JWT");
+    await axios({
+      method: "post",
+      url:
+        this.backendURI +
+        "/upcomingevents/" +
+        this.props.eventDetail._id +
+        "/user/registerevent",
+      headers: { Authorization: "Bearer " + jwt }
+    })
+      .then(res => {
+        this.setState({ isMessageBoxOpen: true });
+      })
+      .catch(err => {
+        //do something
+        console.log("ERROR", err);
+      });
   };
 
   render() {

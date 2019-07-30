@@ -4,12 +4,17 @@ import "@testing-library/jest-dom/extend-expect";
 import "@testing-library/react/cleanup-after-each";
 
 import mockEventsWithSeats from "../__mockData__/mockEventsWithSeats.mockdata";
-import EventRegistrationModal from "../components/EventRegistrationModal";
+// import EventRegistrationModal from "../components/EventRegistrationModal";
 import EventCard from "../components/EventCard";
+import mockAxios from "jest-mock-axios";
 
 describe("registration", () => {
+  afterEach(() => {
+    mockAxios.reset();
+  });
+
   it("should show success alert when registering is succeessful", () => {
-    const { getByText, getByTestId } = render(
+    const { getByText } = render(
       <EventCard eventDetail={mockEventsWithSeats[0]} />
     );
     const mockJwtToken =
@@ -22,6 +27,10 @@ describe("registration", () => {
     const rsvpBtn = getByText("RSVP");
     expect(rsvpBtn).toBeInTheDocument();
     fireEvent.click(rsvpBtn);
+    mockAxios.mockResponse({
+      data: []
+    });
+
     const successMsg = getByText("RSVP Successful");
     expect(successMsg).toBeInTheDocument();
   });

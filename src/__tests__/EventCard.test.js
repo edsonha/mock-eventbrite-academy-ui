@@ -134,29 +134,6 @@ describe("registering for events from event card", () => {
     expect(loginModal).not.toBeInTheDocument();
   });
 
-  it("should close event registration modal when registration is confirmed", async () => {
-    const { getByText, getByTestId } = render(
-      <EventCard eventDetail={mockEventsWithSeats[0]} />
-    );
-
-    const mockJwtToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzYWxseUBnbWFpbC5jb20iLCJ1c2VyIjoiU2FsbHkiLCJpYXQiOjE1NjM4NTk5NjcyMDUsImV4cCI6MTU2Mzg1OTk3MDgwNX0.rC3dnj_r-mhL1tp3hj9JecjOpuZFrVY64SPSpS1fBPQ";
-
-    window.sessionStorage.setItem("JWT", mockJwtToken);
-
-    const registerBtn = getByText("Register");
-    await fireEvent.click(registerBtn);
-
-    mockAxios.mockResponse({
-      data: { name: "Sally" }
-    });
-    const eventRegistrationBtn = getByText("RSVP");
-    const eventRegistrationModal = getByTestId("event-registration-modal");
-    fireEvent.click(eventRegistrationBtn);
-    expect(getByText("RSVP Successful")).toBeInTheDocument();
-    // expect(eventRegistrationModal).not.toBeInTheDocument();
-  });
-
   it("should close event registration modal when Close button is clicked", async () => {
     const { getByText, getByTestId } = render(
       <EventCard eventDetail={mockEventsWithSeats[0]} />
