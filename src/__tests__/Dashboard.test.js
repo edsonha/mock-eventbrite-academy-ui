@@ -47,13 +47,6 @@ describe("Dashboard", () => {
     expect(mockHistory.push).toBeCalledWith("/");
   });
 
-  it("should show loading before jwt resolves", async () => {
-    mockJwt();
-    const { getByText } = renderDashboard();
-
-    expect(getByText("Loading")).toBeInTheDocument();
-  });
-
   it("should show dashboard if /user/secure resolves sucessfully", () => {
     mockJwt();
     const { getByText } = renderDashboard();
@@ -100,14 +93,14 @@ describe("Registered Events", () => {
     jest.clearAllMocks();
   });
 
-  it("should show 'No registered events' if user did not register any event", () => {
+  it("should show 'No registered events.' if user did not register any event", () => {
     mockJwt();
     const { getByText } = renderDashboard();
     mockAxios.mockResponse({
       data: []
     });
     expect(mockAxios).toBeCalledTimes(1);
-    expect(getByText("No registered events")).toBeInTheDocument();
+    expect(getByText("No registered events.")).toBeInTheDocument();
   });
 
   it("should display required event details for all registered event", () => {

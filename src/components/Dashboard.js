@@ -2,6 +2,9 @@ import React from "react";
 import axios from "axios";
 import moment from "moment";
 import EventCard from "./EventCard";
+import "../styles/Dashboard.css";
+import { Container, Row, Spinner } from "reactstrap";
+import SectionTitle from "./SectionTitle";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -39,13 +42,31 @@ class Dashboard extends React.Component {
 
   render() {
     if (this.state.isLoading) {
-      return <p>Loading</p>;
+      return (
+        <Container>
+          <Row>
+            <SectionTitle sectionTitle={"Upcoming Events"} />
+          </Row>
+          <div
+            className="dashboard-events-loader"
+            data-testid="dashboard-events"
+          >
+            <Spinner size="lg" color="primary" />
+          </div>
+        </Container>
+      );
     } else if (this.state.myEvents.length === 0) {
       return (
-        <React.Fragment>
-          <h1>Registered Events</h1>
-          <p>No registered events</p>;
-        </React.Fragment>
+        <Container>
+          <div className="no-dashboard-events" data-testid="dashboard-events">
+            <Row>
+              <SectionTitle sectionTitle={"Registered Events"} />
+            </Row>
+            <Row>
+              <h3>No registered events.</h3>
+            </Row>
+          </div>
+        </Container>
       );
     } else {
       const eventCards = this.state.myEvents
@@ -57,12 +78,17 @@ class Dashboard extends React.Component {
             eventDescriptionPageHandler={this.eventDescriptionPageHandler}
             setLoginState={this.props.setLoginState}
             isRegistered={true}
+            className={"is-registered"}
           />
         ));
       return (
         <React.Fragment>
-          <h1>Registered Events</h1>
-          <div>{eventCards}</div>
+          <Container data-testid="dashboard-events" id="dashboard-events">
+            <Row>
+              <SectionTitle sectionTitle={"Registered Events"} />
+            </Row>
+            <Row>{eventCards}</Row>
+          </Container>
         </React.Fragment>
       );
     }

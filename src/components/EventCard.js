@@ -59,7 +59,7 @@ class EventCard extends React.Component {
     } = this.props.eventDetail;
     return (
       <Col xs="12" md="6">
-        <Card className="event-card">
+        <Card className={`event-card ${this.props.className}`}>
           <div className="event-card-header">
             {image ? null : (
               <CardTitle

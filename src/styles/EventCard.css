@@ -85,6 +85,10 @@
   display: block;
 }
 
+.is-registered .event-desc {
+  display: none;
+}
+
 @media only screen and (min-width: 768px) {
   .event-speaker {
     line-height: 1.3em;
