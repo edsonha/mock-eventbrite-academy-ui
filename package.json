@@ -19,7 +19,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "coverage": "CI=true react-scripts test --env=jsdom --coverage --watchAll=false",
-    "local:coverage": "react-scripts test --env=jsdom --coverage --watchAll=false --runInBand"
+    "local:coverage": "react-scripts test --env=jsdom --coverage --watchAll=false"
   },
   "eslintConfig": {
     "extends": "react-app"
