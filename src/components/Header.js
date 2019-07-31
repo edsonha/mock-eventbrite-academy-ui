@@ -6,8 +6,6 @@ import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
 import "../styles/Header.css";
 import axios from "axios";
-// import { createBrowserHistory } from "history";
-// export const appHistory = createBrowserHistory();
 
 class Header extends React.Component {
   constructor(props) {
@@ -85,25 +83,35 @@ class Header extends React.Component {
       initials
     });
   };
-  redirectToHome = () => {
-    this.props.history.push("/");
-  };
-  redirectToDashboard = () => {
-    this.props.history.push("/dashboard");
+
+  redirectTo = path => {
+    this.props.history.push(path);
   };
 
   render() {
     return (
       <Navbar data-testid="app-header" className="navbar col" light expand="sm">
-        <Logo data-testid="logo-svg" onClick={this.redirectToHome} />
+        <Logo
+          data-testid="logo-svg"
+          onClick={() => {
+            this.redirectTo("/");
+          }}
+          className="logo-wrapper"
+        />
         {this.state.username && (
           <div className="button-wrapper">
-            <Button
-              className="my-events-link"
-              onClick={this.redirectToDashboard}
+            {/* {this.props.history.location.pathname !== "/dashboard" ? ( */}
+            <div
+              className="my-events-link noselect"
+              onClick={() => {
+                this.redirectTo("/dashboard");
+              }}
             >
               My Events
-            </Button>
+            </div>
+            {/* ) : (
+              <div className="my-events-link-no-redirect">My Events</div>
+            )} */}
             <div className="welcome-msg">{this.state.initials}</div>
             <Button
               className="logout-button"
@@ -158,13 +166,5 @@ class Header extends React.Component {
     );
   }
 }
-
-// export function HeaderWithRouter(props) {
-//   return (
-//     <Router history={props.history}>
-//       <Header history={props.history} backendURI={props.backendURI} />
-//     </Router>
-//   );
-// }
 
 export default Header;

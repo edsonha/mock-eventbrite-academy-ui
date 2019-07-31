@@ -51,7 +51,7 @@ class Dashboard extends React.Component {
       return (
         <Container>
           <Row>
-            <SectionTitle sectionTitle={"Upcoming Events"} />
+            <SectionTitle sectionTitle={"Registered Events"} />
           </Row>
           <div
             className="dashboard-events-loader"
