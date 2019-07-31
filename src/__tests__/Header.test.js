@@ -237,6 +237,27 @@ describe("login functionality", () => {
     const confirmPassword = getByLabelText("Confirm Password");
     expect(confirmPassword).toBeInTheDocument();
   });
+
+  it("should close login modal when cancel button is clicked", async () => {
+    const { getByText, getAllByText, getByPlaceholderText } = render(
+      <MainApp />
+    );
+    mockAxios.mockResponse({ data: mockEventsWithSeats });
+    mockAxios.mockResponse({ data: mockCourses });
+
+    const headerLoginBtn = getAllByText("Log In")[0];
+    fireEvent.click(headerLoginBtn);
+
+    const goBtn = getByText("Go!");
+    const emailInput = getByPlaceholderText("myemail@email.com");
+    const passwordInput = getByPlaceholderText("********");
+    const cancelBtn = getByText("Cancel");
+    fireEvent.click(cancelBtn);
+
+    expect(goBtn).not.toBeInTheDocument();
+    expect(emailInput).not.toBeInTheDocument();
+    expect(passwordInput).not.toBeInTheDocument();
+  });
 });
 
 describe("logout functionality", () => {

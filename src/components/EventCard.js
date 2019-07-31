@@ -47,6 +47,13 @@ class EventCard extends React.Component {
 
   render() {
     const {
+      className,
+      eventDescriptionPageHandler,
+      isRegistered,
+      updateRegisteredEvents,
+      eventDetail
+    } = this.props;
+    const {
       image,
       title,
       _id,
@@ -55,14 +62,14 @@ class EventCard extends React.Component {
       time,
       duration,
       location
-    } = this.props.eventDetail;
+    } = eventDetail;
     return (
       <Col xs="12" md="6">
-        <Card className={`event-card ${this.props.className}`}>
+        <Card className={`event-card ${className}`}>
           <div className="event-card-header">
             {image ? null : (
               <CardTitle
-                onClick={() => this.props.eventDescriptionPageHandler(_id)}
+                onClick={() => eventDescriptionPageHandler(_id)}
                 className="event-card-header-text"
               >
                 {title}
@@ -73,7 +80,7 @@ class EventCard extends React.Component {
               alt="Event"
               className="event-card-img"
               data-testid="event-image"
-              onClick={() => this.props.eventDescriptionPageHandler(_id)}
+              onClick={() => eventDescriptionPageHandler(_id)}
             />
           </div>
           <div className="event-card-details">
@@ -93,11 +100,11 @@ class EventCard extends React.Component {
             <Button
               className="register-button"
               data-testid="event-learnmore"
-              onClick={() => this.props.eventDescriptionPageHandler(_id)}
+              onClick={() => eventDescriptionPageHandler(_id)}
             >
               Learn More
             </Button>
-            {this.props.isRegistered ? (
+            {isRegistered ? (
               <Button className="deregister-button">Deregister</Button>
             ) : (
               <Button
@@ -113,7 +120,7 @@ class EventCard extends React.Component {
               showLoginModal={this.showLoginModal}
               notFromRegisterBtn={false}
               showSignupModal={this.showSignupModal}
-              updateRegisteredEvents={this.props.updateRegisteredEvents}
+              updateRegisteredEvents={updateRegisteredEvents}
             />
             <SignupModal
               isOpen={this.state.isSignupModalOpen}
@@ -123,9 +130,9 @@ class EventCard extends React.Component {
             {this.state.isEventRegistrationModalOpen && (
               <EventRegistrationModal
                 isOpen={this.state.isEventRegistrationModalOpen}
-                eventDetail={{ ...this.props.eventDetail }}
+                eventDetail={{ ...eventDetail }}
                 showEventRegistrationModal={this.showEventRegistrationModal}
-                updateRegisteredEvents={this.props.updateRegisteredEvents}
+                updateRegisteredEvents={updateRegisteredEvents}
               />
             )}
           </div>

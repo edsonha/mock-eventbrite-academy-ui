@@ -181,4 +181,13 @@ describe("registering for events from event card", () => {
 
     expect(eventRegistrationModal).not.toBeInTheDocument();
   });
+
+  it("should show deregister button in the event card when successful registration is made", () => {
+    const { getByText } = render(
+      <EventCard eventDetail={mockEventsWithSeats[0]} isRegistered={true} />
+    );
+
+    const deregisterBtn = getByText("Deregister");
+    expect(deregisterBtn).toBeInTheDocument();
+  });
 });
