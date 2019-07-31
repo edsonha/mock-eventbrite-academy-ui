@@ -7,6 +7,7 @@ import Dashboard from "./Dashboard";
 import "../styles/App.css";
 import HttpsRedirect from "react-https-redirect";
 import { createBrowserHistory } from "history";
+import axios from "axios";
 export const appHistory = createBrowserHistory();
 export class App extends React.Component {
   constructor(props) {
@@ -16,6 +17,24 @@ export class App extends React.Component {
       isLoggedIn: false,
       registeredEvents: []
     };
+  }
+
+  async componentDidMount() {
+    const jwt = sessionStorage.getItem("JWT");
+    if (jwt) {
+      await axios({
+        method: "get",
+        url: this.backendURI + "/user/registeredevents",
+        headers: { Authorization: "Bearer " + jwt }
+      })
+        .then(res => {
+          const regEventId = res.data.map(event => event._id);
+          this.updateRegisteredEvents(regEventId);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    }
   }
 
   setLoginState = isLoggedIn => {

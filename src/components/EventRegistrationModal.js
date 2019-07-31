@@ -62,7 +62,6 @@ class EventRegistrationModal extends React.Component {
       })
 
       .catch(err => {
-        //do something
         console.log("ERROR", err);
       });
   };
