@@ -64,7 +64,7 @@ class EventRegistrationModal extends React.Component {
       .then(async () => {
         await axios({
           method: "get",
-          url: this.backendURI + "/user/registeredevents",
+          url: this.backendURI + "/profile/registeredevents",
           headers: { Authorization: "Bearer " + jwt }
         }).then(getRes => {
           const regEventId = getRes.data.map(event => event._id);

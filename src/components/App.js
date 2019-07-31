@@ -24,7 +24,7 @@ export class App extends React.Component {
     if (jwt) {
       await axios({
         method: "get",
-        url: this.backendURI + "/user/registeredevents",
+        url: this.backendURI + "/profile/registeredevents",
         headers: { Authorization: "Bearer " + jwt }
       })
         .then(res => {

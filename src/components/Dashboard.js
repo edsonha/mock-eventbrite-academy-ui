@@ -21,7 +21,7 @@ class Dashboard extends React.Component {
     if (jwt) {
       await axios({
         method: "get",
-        url: this.props.backendURI + "/user/registeredevents",
+        url: this.props.backendURI + "/profile/registeredevents",
         headers: { Authorization: "Bearer " + jwt }
       })
         .then(res => {

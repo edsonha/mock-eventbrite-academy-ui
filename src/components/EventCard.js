@@ -99,12 +99,7 @@ class EventCard extends React.Component {
               Learn More
             </Button>
             {this.props.isRegistered ? (
-              <Button
-                className="deregister-button"
-                // onClick={this.checkLoginState}
-              >
-                Deregister
-              </Button>
+              <Button className="deregister-button">Deregister</Button>
             ) : (
               <Button
                 className="register-button"
