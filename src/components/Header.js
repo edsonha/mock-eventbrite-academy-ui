@@ -99,8 +99,7 @@ class Header extends React.Component {
           className="logo-wrapper"
         />
         {this.state.username && (
-          <div className="button-wrapper">
-            {/* {this.props.history.location.pathname !== "/dashboard" ? ( */}
+          <div className="button-wrapper-logged-in">
             <div
               className="my-events-link noselect"
               onClick={() => {
@@ -109,9 +108,6 @@ class Header extends React.Component {
             >
               My Events
             </div>
-            {/* ) : (
-              <div className="my-events-link-no-redirect">My Events</div>
-            )} */}
             <div className="welcome-msg">{this.state.initials}</div>
             <Button
               className="logout-button"
@@ -129,7 +125,7 @@ class Header extends React.Component {
         )}
 
         {!this.state.username && (
-          <div className="button-wrapper">
+          <div className="button-wrapper-not-logged-in">
             <Button
               className="login-button"
               onClick={() => this.showLoginModal(true)}

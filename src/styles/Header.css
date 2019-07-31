@@ -8,7 +8,8 @@
   justify-content: space-between;
 }
 
-.button-wrapper {
+.button-wrapper-logged-in,
+.button-wrapper-not-logged-in {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -100,8 +101,13 @@
 }
 
 @media only screen and (max-width: 414px) {
-  .button-wrapper {
+  .button-wrapper-logged-in,
+  .button-wrapper-not-logged-in {
     width: 100%;
+  }
+
+  .button-wrapper-not-logged-in {
+    flex-wrap: nowrap;
   }
   .my-events-link {
     order: 1;
