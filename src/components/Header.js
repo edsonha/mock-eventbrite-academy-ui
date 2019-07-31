@@ -136,6 +136,7 @@ class Header extends React.Component {
               backendURI={this.backendURI}
               history={this.props.history}
               notFromRegisterBtn={true}
+              updateRegisteredEvents={this.props.updateRegisteredEvents}
             />
 
             <Button

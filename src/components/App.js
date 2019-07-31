@@ -19,10 +19,13 @@ export class App extends React.Component {
   }
 
   setLoginState = isLoggedIn => {
-    this.setState({
-      isLoggedIn,
-      registeredEvents: []
-    });
+    if (!isLoggedIn) {
+      this.setState({ isLoggedIn, registeredEvents: [] });
+    } else {
+      this.setState({
+        isLoggedIn
+      });
+    }
   };
 
   updateRegisteredEvents = events => {
@@ -36,6 +39,7 @@ export class App extends React.Component {
           backendURI={this.backendURI}
           setLoginState={this.setLoginState}
           history={appHistory}
+          updateRegisteredEvents={this.updateRegisteredEvents}
         />
         <Switch>
           <Route
@@ -58,6 +62,7 @@ export class App extends React.Component {
                 eventId={match.params.id}
                 backendURI={this.backendURI}
                 setLoginState={this.setLoginState}
+                updateRegisteredEvents={this.updateRegisteredEvents}
               />
             )}
           />

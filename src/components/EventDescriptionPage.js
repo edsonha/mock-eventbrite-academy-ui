@@ -147,6 +147,7 @@ class EventDescriptionPage extends React.Component {
                 backendURI={this.backendURI}
                 notFromRegisterBtn={false}
                 setLoginState={this.props.setLoginState}
+                updateRegisteredEvents={this.props.updateRegisteredEvents}
               />
               <SignupModal
                 isOpen={this.state.isSignupModalOpen}

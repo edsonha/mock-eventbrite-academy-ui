@@ -43,13 +43,15 @@ class LoginModal extends React.Component {
   };
 
   userLogin = async () => {
+    let jwtToken;
     await axios
       .post(this.backendURI + "/users/login", {
         email: this.state.email,
         password: this.state.password
       })
-      .then(res => {
-        sessionStorage.setItem("JWT", res.data.jwtToken);
+      .then(postRes => {
+        jwtToken = postRes.data.jwtToken;
+        sessionStorage.setItem("JWT", jwtToken);
         this.props.setLoginState(true);
         this.clearInput();
         this.props.showLoginModal(false);
@@ -59,6 +61,16 @@ class LoginModal extends React.Component {
         ) {
           this.props.history.push("/dashboard");
         }
+      })
+      .then(async () => {
+        await axios({
+          method: "get",
+          url: this.backendURI + "/user/registeredevents",
+          headers: { Authorization: "Bearer " + jwtToken }
+        }).then(getRes => {
+          const regEventId = getRes.data.map(event => event._id);
+          this.props.updateRegisteredEvents(regEventId);
+        });
       })
       .catch(err => {
         this.setState({
