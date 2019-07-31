@@ -110,7 +110,6 @@ class EventCard extends React.Component {
             )}
 
             <LoginModal
-              setLoginState={this.props.setLoginState}
               isOpen={this.state.isLoginModalOpen}
               showLoginModal={this.showLoginModal}
               backendURI={process.env.REACT_APP_REST_API_LOCATION}
@@ -122,7 +121,6 @@ class EventCard extends React.Component {
               isOpen={this.state.isSignupModalOpen}
               showLoginModal={this.showLoginModal}
               showSignupModal={this.showSignupModal}
-              setLoginState={this.props.setLoginState}
               backendURI={this.backendURI}
             />
             {this.state.isEventRegistrationModalOpen && (

@@ -37,16 +37,6 @@ export class App extends React.Component {
     }
   }
 
-  setLoginState = isLoggedIn => {
-    if (!isLoggedIn) {
-      this.setState({ isLoggedIn, registeredEvents: [] });
-    } else {
-      this.setState({
-        isLoggedIn
-      });
-    }
-  };
-
   updateRegisteredEvents = events => {
     this.setState({ registeredEvents: events });
   };
@@ -56,7 +46,6 @@ export class App extends React.Component {
       <div className="App">
         <Header
           backendURI={this.backendURI}
-          setLoginState={this.setLoginState}
           history={appHistory}
           updateRegisteredEvents={this.updateRegisteredEvents}
         />
@@ -67,7 +56,6 @@ export class App extends React.Component {
             render={props => (
               <LandingPage
                 backendURI={this.backendURI}
-                setLoginState={this.setLoginState}
                 registeredEvents={this.state.registeredEvents}
                 updateRegisteredEvents={this.updateRegisteredEvents}
                 {...props}
@@ -80,7 +68,6 @@ export class App extends React.Component {
               <EventDescriptionPage
                 eventId={match.params.id}
                 backendURI={this.backendURI}
-                setLoginState={this.setLoginState}
                 updateRegisteredEvents={this.updateRegisteredEvents}
                 isRegistered={this.state.registeredEvents.includes(
                   match.params.id

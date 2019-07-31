@@ -5,8 +5,6 @@ import mockAxios from "jest-mock-axios";
 import "@testing-library/jest-dom/extend-expect";
 import "@testing-library/react/cleanup-after-each";
 import EventDescriptionPage from "../components/EventDescriptionPage";
-import MainApp from "../components/App";
-import mockCourses from "../__mockData__/mockCourses.mockdata";
 const mockDate = require("mockdate");
 
 describe("Event Description Page", () => {
@@ -75,39 +73,21 @@ describe("Event Description Page", () => {
     expect(signUpModal).toBeInTheDocument();
   });
 
-  it("should open login box when user is not logged in, and allow user to login", async () => {
-    const { getByText, getByTestId, getAllByText } = render(<MainApp />);
-    mockAxios.mockResponse({ data: mockEventsWithSeats });
-    mockAxios.mockResponse({ data: mockCourses });
+  it("should open login box when user is not logged in", async () => {
+    const { getByText, getByTestId } = render(
+      <EventDescriptionPage
+        backendURI={"dummy"}
+        eventId={"5d2edb6e0217642ef2524582"}
+      />
+    );
 
-    const mockJwtToken =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzYWxseUBnbWFpbC5jb20iLCJ1c2VyIjoiU2FsbHkiLCJpYXQiOjE1NjM4NTk5NjcyMDUsImV4cCI6MTU2Mzg1OTk3MDgwNX0.rC3dnj_r-mhL1tp3hj9JecjOpuZFrVY64SPSpS1fBPQ";
+    mockAxios.mockResponse({ data: mockEventsWithSeats[1] });
 
-    const registerBtn = getAllByText("Register")[0];
+    const registerBtn = getByText("Register");
     fireEvent.click(registerBtn);
 
     const loginModal = getByTestId("login-modal");
     expect(loginModal).toBeInTheDocument();
-    const goBtn = getByText("Go!");
-    await fireEvent.click(goBtn);
-    mockAxios.mockResponse({
-      data: {
-        name: "Sally",
-        registeredEvents: [],
-        jwtToken: mockJwtToken
-      }
-    });
-
-    mockAxios.mockResponse({
-      data: {
-        name: "Sally"
-      }
-    });
-
-    const logOutBtn = getByText("Log Out");
-    const welcomeMessage = getByText("S");
-    expect(welcomeMessage).toBeInTheDocument();
-    expect(logOutBtn).toBeInTheDocument();
   });
 
   it("should open event registration box if user is already logged in", async () => {
@@ -134,7 +114,6 @@ describe("Event Description Page", () => {
     mockAxios.mockResponse({
       data: { name: "Sally" }
     });
-    // expect(mockAxios).toHaveBeenCalledTimes(1);
 
     expect(spySessionStorageGetItem).toHaveBeenCalledWith("JWT");
     const eventRegistrationModal = getByTestId("event-registration-modal");

@@ -120,7 +120,7 @@ class Header extends React.Component {
                 this.setState({
                   username: ""
                 });
-                this.props.setLoginState(false);
+                this.props.updateRegisteredEvents([]);
                 sessionStorage.removeItem("JWT");
               }}
             >
@@ -138,7 +138,6 @@ class Header extends React.Component {
               Log In
             </Button>
             <LoginModal
-              setLoginState={this.props.setLoginState}
               isOpen={this.state.isLoginModalOpen}
               showLoginModal={this.showLoginModal}
               showSignupModal={this.showSignupModal}
@@ -158,7 +157,6 @@ class Header extends React.Component {
               isOpen={this.state.isSignupModalOpen}
               showLoginModal={this.showLoginModal}
               showSignupModal={this.showSignupModal}
-              setLoginState={this.props.setLoginState}
               backendURI={this.backendURI}
             />
           </div>

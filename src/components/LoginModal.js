@@ -52,7 +52,6 @@ class LoginModal extends React.Component {
       .then(postRes => {
         jwtToken = postRes.data.jwtToken;
         sessionStorage.setItem("JWT", jwtToken);
-        this.props.setLoginState(true);
         this.clearInput();
         this.props.showLoginModal(false);
         if (
