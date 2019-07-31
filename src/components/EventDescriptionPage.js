@@ -133,13 +133,24 @@ class EventDescriptionPage extends React.Component {
               <h5>Location</h5>
               <p>{location}</p>
               <p>Available Seats: {availableSeats}</p>
-              <Button
-                data-testid="register-button"
-                className="register-button"
-                onClick={this.checkLoginState}
-              >
-                Register
-              </Button>
+
+              {this.props.isRegistered ? (
+                <Button
+                  className="deregister-button"
+                  // onClick={this.checkLoginState}
+                >
+                  Deregister
+                </Button>
+              ) : (
+                <Button
+                  data-testid="register-button"
+                  className="register-button"
+                  onClick={this.checkLoginState}
+                >
+                  Register
+                </Button>
+              )}
+
               <LoginModal
                 isOpen={this.state.isLoginModalOpen}
                 showLoginModal={this.showLoginModal}
@@ -162,6 +173,7 @@ class EventDescriptionPage extends React.Component {
                   eventDetail={{ ...this.state.eventDescription }}
                   showEventRegistrationModal={this.showEventRegistrationModal}
                   backendURI={process.env.REACT_APP_REST_API_LOCATION}
+                  updateRegisteredEvents={this.props.updateRegisteredEvents}
                 />
               )}
             </div>

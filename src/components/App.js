@@ -63,6 +63,9 @@ export class App extends React.Component {
                 backendURI={this.backendURI}
                 setLoginState={this.setLoginState}
                 updateRegisteredEvents={this.updateRegisteredEvents}
+                isRegistered={this.state.registeredEvents.includes(
+                  match.params.id
+                )}
               />
             )}
           />
