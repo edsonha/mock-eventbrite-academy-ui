@@ -148,6 +148,7 @@ class LoginModal extends React.Component {
                   Don't have an account yet?
                   <button
                     onClick={() => {
+                      this.clearInput();
                       this.props.showSignupModal(true);
                       this.props.showLoginModal(false);
                     }}

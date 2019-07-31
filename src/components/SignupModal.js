@@ -61,8 +61,9 @@ class SignupModal extends React.Component {
           messageBoxIsOpen: true
         });
         if (res.data.message === "Account created!") {
-          this.props.setLoginState(true);
           sessionStorage.setItem("JWT", res.data.jwtToken);
+          this.props.setLoginState(true);
+          this.clearInput();
           this.props.showSignupModal(false);
         }
       })
@@ -187,6 +188,7 @@ class SignupModal extends React.Component {
                 Already have an account?
                 <button
                   onClick={() => {
+                    this.clearInput();
                     this.props.showSignupModal(false);
                     this.props.showLoginModal(true);
                   }}
