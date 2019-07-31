@@ -24,7 +24,7 @@ const mockJwt = () => {
 
 const renderHeader = () => {
   const { getByText, getAllByText, queryByText, getByTestId } = render(
-    <Header history={mockHistory}  />
+    <Header history={mockHistory} />
   );
   return { getByText, getAllByText, queryByText, getByTestId };
 };
@@ -133,6 +133,7 @@ describe("login functionality", () => {
   afterEach(() => {
     mockAxios.reset();
     window.sessionStorage.clear();
+    jest.clearAllMocks();
   });
 
   it('should login user when correct info is given and the header will show initials and "Log Out" button', () => {
@@ -567,7 +568,7 @@ describe("catching error on axios", () => {
       window.sessionStorage.__proto__,
       "removeItem"
     );
-    mockAxios.mockError();
+    mockAxios.mockError({ status: 401 });
     expect(mockHistory.push).toBeCalledWith("/");
     expect(spySessionStorageRemoveItem).toHaveBeenCalledTimes(1);
   });
@@ -580,8 +581,16 @@ describe("catching error on axios", () => {
     );
     const logoText = getByText("Academy");
     fireEvent.click(logoText);
-    mockAxios.mockError();
+    mockAxios.mockError({ status: 401 });
     expect(mockHistory.push).toBeCalledWith("/");
     expect(spySessionStorageRemoveItem).toHaveBeenCalledTimes(1);
   });
+});
+
+it("should remove JWT and redirect to landing page if JWT token is invalid", () => {
+  mockJwt();
+  renderHeader();
+  mockAxios.mockResponse({ name: "John Wick" });
+  mockAxios.mockError({ status: 401 });
+  expect(mockHistory.push).toBeCalledWith("/");
 });

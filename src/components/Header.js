@@ -31,8 +31,15 @@ class Header extends React.Component {
           this.getUserInitial(res.data.name);
         })
         .catch(err => {
-          sessionStorage.removeItem("JWT");
-          this.props.history.push("/");
+          if (err.status === 401) {
+            sessionStorage.removeItem("JWT");
+            this.props.history.push("/");
+          } else if (err.response === undefined) {
+            console.log(err.message);
+          } else if (err.response.status === 401) {
+            sessionStorage.removeItem("JWT");
+            this.props.history.push("/");
+          }
         });
     }
   }
@@ -51,8 +58,16 @@ class Header extends React.Component {
           this.getUserInitial(res.data.name);
         })
         .catch(err => {
-          sessionStorage.removeItem("JWT");
-          this.props.history.push("/");
+          if (err.status === 401) {
+            sessionStorage.removeItem("JWT");
+            this.props.history.push("/");
+          }
+          // else if (err.response === undefined) {
+          //   console.log(err.message);
+          // } else if (err.response.status === 401) {
+          //   sessionStorage.removeItem("JWT");
+          //   this.props.history.push("/");
+          // }
         });
     }
   }

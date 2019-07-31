@@ -9,7 +9,7 @@ import SectionTitle from "./SectionTitle";
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { isLoading: true, myEvents: [] };
+    this.state = { isLoading: true };
   }
 
   eventDescriptionPageHandler = id => {
@@ -23,16 +23,23 @@ class Dashboard extends React.Component {
         method: "get",
         url:
           process.env.REACT_APP_REST_API_LOCATION + "/profile/registeredevents",
-        headers: { Authorization: "Bearer " + jwt },
+        headers: { Authorization: "Bearer " + jwt }
       })
         .then(res => {
-          this.setState({ isLoading: false, myEvents: res.data });
-          const regEventId = res.data.map(event => event._id);
-          this.props.updateRegisteredEvents(regEventId);
+          this.setState({ isLoading: false });
         })
         .catch(err => {
-          sessionStorage.removeItem("JWT");
-          this.props.history.push("/");
+          console.log(err.message);
+          // if (err.status === 401) {
+          //   sessionStorage.removeItem("JWT");
+          //   this.props.history.push("/");
+          // } else if (err.response === undefined) {
+          //   console.log(err.message);
+          // } else if (err.response.status === 401) {
+          //   console.log("Error is 401: ", err.response);
+          //   sessionStorage.removeItem("JWT");
+          //   this.props.history.push("/");
+          // }
         });
     } else {
       this.props.history.push("/");
@@ -52,7 +59,7 @@ class Dashboard extends React.Component {
       <Container>
         <EventCardSection
           title={"Registered Events"}
-          myEvents={getRegisteredEvents(this.state.myEvents)}
+          myEvents={getUpcomingRegisteredEvents(this.props.registeredEvents)}
           eventDescriptionPageHandler={this.eventDescriptionPageHandler}
           isLoading={this.state.isLoading}
           dataTestId={"registeredEventsSection"}
@@ -60,7 +67,7 @@ class Dashboard extends React.Component {
 
         <EventCardSection
           title={"History Events"}
-          myEvents={getHistoryEvents(this.state.myEvents)}
+          myEvents={getHistoryEvents(this.props.registeredEvents)}
           eventDescriptionPageHandler={this.eventDescriptionPageHandler}
           isLoading={this.state.isLoading}
           dataTestId={"historyEventsSection"}
@@ -76,7 +83,7 @@ const DashboardSpinner = ({ testId = "eventCard" }) => (
   </div>
 );
 
-const getRegisteredEvents = events =>
+const getUpcomingRegisteredEvents = events =>
   events.filter(event => moment.utc(event.time).toDate() - Date.now() > 0);
 
 const getHistoryEvents = events =>
@@ -87,7 +94,7 @@ const EventCardSection = ({
   eventDescriptionPageHandler,
   isLoading,
   title,
-  dataTestId = "eventCardSection",
+  dataTestId = "eventCardSection"
 }) => {
   const lowerCasedTitle = title.toLowerCase();
   let content = (

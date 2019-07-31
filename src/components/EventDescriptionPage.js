@@ -137,12 +137,7 @@ class EventDescriptionPage extends React.Component {
               <p>Available Seats: {availableSeats}</p>
 
               {this.props.isRegistered ? (
-                <Button
-                  className="deregister-button"
-                  // onClick={this.checkLoginState}
-                >
-                  Deregister
-                </Button>
+                <Button className="deregister-button">Deregister</Button>
               ) : (
                 <Button
                   data-testid="register-button"

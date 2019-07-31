@@ -32,7 +32,7 @@ export class App extends React.Component {
           this.updateRegisteredEvents(regEventId);
         })
         .catch(err => {
-          console.log(err);
+          console.log(err.message);
         });
     }
   }
@@ -78,7 +78,7 @@ export class App extends React.Component {
             render={props => (
               <Dashboard
                 history={appHistory}
-                updateRegisteredEvents={this.updateRegisteredEvents}
+                registeredEvents={this.state.registeredEvents}
                 {...props}
               />
             )}
