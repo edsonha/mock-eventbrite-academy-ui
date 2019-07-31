@@ -23,7 +23,7 @@ class Dashboard extends React.Component {
         method: "get",
         url:
           process.env.REACT_APP_REST_API_LOCATION + "/profile/registeredevents",
-        headers: { Authorization: "Bearer " + jwt }
+        headers: { Authorization: "Bearer " + jwt },
       })
         .then(res => {
           this.setState({ isLoading: false, myEvents: res.data });
@@ -49,20 +49,29 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <div>
+      <Container>
         <EventCardSection
+          title={"Registered Events"}
           myEvents={getRegisteredEvents(this.state.myEvents)}
           eventDescriptionPageHandler={this.eventDescriptionPageHandler}
           isLoading={this.state.isLoading}
-          title={"Registered Events"}
+          dataTestId={"registeredEventsSection"}
         />
-      </div>
+
+        <EventCardSection
+          title={"History Events"}
+          myEvents={getHistoryEvents(this.state.myEvents)}
+          eventDescriptionPageHandler={this.eventDescriptionPageHandler}
+          isLoading={this.state.isLoading}
+          dataTestId={"historyEventsSection"}
+        />
+      </Container>
     );
   }
 }
 
-const DashboardSpinner = () => (
-  <div className="dashboard-events-loader" data-testid="dashboard-events">
+const DashboardSpinner = ({ testId = "eventCard" }) => (
+  <div className="dashboard-events-loader" data-testid={`${testId}-loader`}>
     <Spinner size="lg" color="primary" />
   </div>
 );
@@ -70,11 +79,15 @@ const DashboardSpinner = () => (
 const getRegisteredEvents = events =>
   events.filter(event => moment.utc(event.time).toDate() - Date.now() > 0);
 
+const getHistoryEvents = events =>
+  events.filter(event => moment.utc(event.time).toDate() - Date.now() <= 0);
+
 const EventCardSection = ({
   myEvents,
   eventDescriptionPageHandler,
   isLoading,
-  title
+  title,
+  dataTestId = "eventCardSection",
 }) => {
   const lowerCasedTitle = title.toLowerCase();
   let content = (
@@ -83,7 +96,7 @@ const EventCardSection = ({
     </Row>
   );
   if (isLoading) {
-    content = <DashboardSpinner />;
+    content = <DashboardSpinner testId={dataTestId} />;
   } else if (myEvents && myEvents.length) {
     content = myEvents.map(event => (
       <EventCard
@@ -97,12 +110,12 @@ const EventCardSection = ({
   }
 
   return (
-    <Container>
+    <div data-testid={dataTestId}>
       <Row>
         <SectionTitle sectionTitle={title} />
       </Row>
       {content}
-    </Container>
+    </div>
   );
 };
 

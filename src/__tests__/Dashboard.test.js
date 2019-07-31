@@ -1,5 +1,5 @@
 import React from "react";
-import { render, fireEvent } from "@testing-library/react";
+import { render, fireEvent, within } from "@testing-library/react";
 import { appHistory } from "../components/App";
 import mockAxios from "jest-mock-axios";
 import "@testing-library/jest-dom/extend-expect";
@@ -27,6 +27,16 @@ const renderDashboard = () => {
   return { getByText, getAllByText, queryByText, queryByTestId };
 };
 
+const getRegisteredEventsSection = () => {
+  const { queryByTestId } = renderDashboard();
+  return within(queryByTestId("registeredEventsSection"));
+};
+
+const getHistoryEventsSection = () => {
+  const { queryByTestId } = renderDashboard();
+  return within(queryByTestId("historyEventsSection"));
+};
+
 describe("Dashboard", () => {
   beforeEach(() => {
     window.sessionStorage.clear();
@@ -37,6 +47,7 @@ describe("Dashboard", () => {
   afterEach(() => {
     mockDate.reset();
     mockAxios.reset();
+    appHistory.index = 0;
     jest.clearAllMocks();
   });
 
@@ -48,12 +59,12 @@ describe("Dashboard", () => {
   it("should render loading if there is no response", () => {
     mockJwt();
     const { queryByTestId } = renderDashboard();
-    expect(queryByTestId("dashboard-events")).toBeInTheDocument();
+    expect(queryByTestId("registeredEventsSection-loader")).toBeInTheDocument();
   });
 
   it("should show dashboard if /user/secure resolves sucessfully", () => {
     mockJwt();
-    const { getByText } = renderDashboard();
+    const { getByText } = getRegisteredEventsSection();
 
     mockAxios.mockResponse({
       data: johnsEvents,
@@ -83,99 +94,125 @@ describe("Dashboard", () => {
     expect(spySessionStorageGetItem()).toBe(null);
     expect(mockHistory.push).toBeCalledWith("/");
   });
-});
 
-describe("Registered Events", () => {
-  beforeEach(() => {
-    mockDate.set("Thu Aug 14 2019 00:00:00 GMT+0800 (Singapore Standard Time)");
-  });
-
-  afterEach(() => {
-    mockDate.reset();
-    mockAxios.reset();
-    appHistory.index = 0;
-    jest.clearAllMocks();
-  });
-
-  it("should show 'No registered events.' if user did not register any event", () => {
-    mockJwt();
-    const { getByText } = renderDashboard();
-    mockAxios.mockResponse({
-      data: [],
+  describe("Registered Events", () => {
+    beforeEach(() => {
+      mockJwt();
+      mockDate.set(
+        "Thu Aug 14 2019 00:00:00 GMT+0800 (Singapore Standard Time)"
+      );
     });
-    expect(mockAxios).toBeCalledTimes(1);
-    expect(getByText("No registered events.")).toBeInTheDocument();
+
+    it("should show 'No registered events.' if user did not register any event", () => {
+      const { getByText } = getRegisteredEventsSection();
+      mockAxios.mockResponse({
+        data: [],
+      });
+      expect(mockAxios).toBeCalledTimes(1);
+      expect(getByText("No registered events.")).toBeInTheDocument();
+    });
+
+    it("should display required event details for all registered event", () => {
+      const { getByText, getAllByText } = getRegisteredEventsSection();
+      mockAxios.mockResponse({ data: johnsEvents });
+
+      expect(getByText("Speaker 1")).toBeInTheDocument();
+      expect(getByText("Speaker 3")).toBeInTheDocument();
+      expect(getByText("Speaker 4")).toBeInTheDocument();
+
+      expect(getAllByText("Learn More").length).toBe(3);
+      expect(getAllByText("Deregister").length).toBe(3);
+    });
+
+    it("should NOT display past registered events", () => {
+      mockDate.set("2019-08-16");
+      const { getByText, queryByText } = getRegisteredEventsSection();
+      mockAxios.mockResponse({ data: johnsEvents });
+
+      expect(queryByText(/Lorum Ipsum 3/i)).not.toBeInTheDocument();
+      expect(getByText(/Lorum Ipsum 1/i)).toBeInTheDocument();
+      expect(getByText(/Lorum Ipsum 4/i)).toBeInTheDocument();
+    });
+
+    it("should redirect to event detail page when 'Learn More' is clicked", async () => {
+      const { getAllByText } = getRegisteredEventsSection();
+      mockAxios.mockResponse({ data: johnsEvents });
+      const learnMoreBtn = getAllByText("Learn More")[0];
+      await fireEvent.click(learnMoreBtn);
+      expect(mockHistory.push).toBeCalledWith(
+        "/event/5d2e7e4bec0f970d68a71466"
+      );
+    });
+
+    it("should show event 3 1ms before the time of event", () => {
+      const event3 = johnsEvents[0];
+      const eventTime = new Date(event3.time);
+      const beforeEventTime = new Date(eventTime.getTime() - 1);
+      mockDate.set(beforeEventTime);
+
+      const { queryByText } = getRegisteredEventsSection();
+      mockAxios.mockResponse({ data: johnsEvents });
+      expect(queryByText(/Lorum Ipsum 3/i)).toBeInTheDocument();
+    });
+
+    it("should not show event 3 at event time", () => {
+      const event3 = johnsEvents[0];
+      const eventTime = new Date(event3.time);
+      mockDate.set(eventTime);
+
+      const { queryByText } = getRegisteredEventsSection();
+      mockAxios.mockResponse({ data: johnsEvents });
+      expect(queryByText(/Lorum Ipsum 3/i)).not.toBeInTheDocument();
+    });
+
+    it("should not show event 3 after event time", () => {
+      const event3 = johnsEvents[0];
+      const eventTime = new Date(event3.time);
+      mockDate.set(eventTime);
+
+      const { queryByText } = getRegisteredEventsSection();
+      mockAxios.mockResponse({ data: johnsEvents });
+      expect(queryByText(/Lorum Ipsum 3/i)).not.toBeInTheDocument();
+    });
+
+    it("should not render Event History Header if there are no history events", () => {
+      mockJwt();
+      const { queryByText } = getRegisteredEventsSection();
+      mockAxios.mockResponse({ data: johnsEvents });
+      expect(queryByText(/Event History /i)).not.toBeInTheDocument();
+    });
   });
 
-  it("should display required event details for all registered event", () => {
-    mockJwt();
-    const { getByText, getAllByText } = renderDashboard();
-    mockAxios.mockResponse({ data: johnsEvents });
+  describe("History Events", () => {
+    let event;
 
-    expect(getByText("Speaker 1")).toBeInTheDocument();
-    expect(getByText("Speaker 3")).toBeInTheDocument();
-    expect(getByText("Speaker 4")).toBeInTheDocument();
+    beforeEach(() => {
+      mockJwt();
+      event = johnsEvents[0];
+      mockDate.set(new Date(event.time));
+    });
 
-    expect(getAllByText("Learn More").length).toBe(3);
-    expect(getAllByText("Deregister").length).toBe(3);
-  });
+    it("should render History Events Header", () => {
+      const { getByText, queryByTestId } = getHistoryEventsSection();
+      expect(getByText("History Events")).toBeInTheDocument();
+      expect(queryByTestId("historyEventsSection-loader")).toBeInTheDocument();
+    });
 
-  it("should NOT display past registered events", () => {
-    mockDate.set("2019-08-16");
-    mockJwt();
-    const { getByText, queryByText } = renderDashboard();
-    mockAxios.mockResponse({ data: johnsEvents });
+    it("should event that is currently going on", () => {
+      const { getByText } = getHistoryEventsSection();
+      mockAxios.mockResponse({ data: johnsEvents });
+      expect(getByText("Lorum Ipsum 3.")).toBeInTheDocument();
+    });
 
-    expect(queryByText(/Lorum Ipsum 3/i)).not.toBeInTheDocument();
-    expect(getByText(/Lorum Ipsum 1/i)).toBeInTheDocument();
-    expect(getByText(/Lorum Ipsum 4/i)).toBeInTheDocument();
-  });
+    it("should not render event that have not start", () => {
+      const dashboard = render(<Dashboard history={mockHistory} />);
+      const item = dashboard.queryByTestId("historyEventsSection");
 
-  it("should redirect to event detail page when 'Learn More' is clicked", async () => {
-    mockJwt();
-    const { getAllByText } = renderDashboard();
-    mockAxios.mockResponse({ data: johnsEvents });
-    const learnMoreBtn = getAllByText("Learn More")[0];
-    await fireEvent.click(learnMoreBtn);
-    expect(mockHistory.push).toBeCalledWith("/event/5d2e7e4bec0f970d68a71466");
-  });
-
-  it("should show event 3 1ms before the time of event", () => {
-    const event3 = johnsEvents[0];
-    const eventTime = new Date(event3.time);
-    const beforeEventTime = new Date(eventTime.getTime() - 1);
-    mockDate.set(beforeEventTime);
-
-    const { queryByText } = renderDashboard();
-    mockAxios.mockResponse({ data: johnsEvents });
-    expect(queryByText(/Lorum Ipsum 3/i)).toBeInTheDocument();
-  });
-
-  it("should not show event 3 at event time", () => {
-    const event3 = johnsEvents[0];
-    const eventTime = new Date(event3.time);
-    mockDate.set(eventTime);
-
-    const { queryByText } = renderDashboard();
-    mockAxios.mockResponse({ data: johnsEvents });
-    expect(queryByText(/Lorum Ipsum 3/i)).not.toBeInTheDocument();
-  });
-
-  it("should not show event 3 after event time", () => {
-    const event3 = johnsEvents[0];
-    const eventTime = new Date(event3.time);
-    mockDate.set(eventTime);
-
-    const { queryByText } = renderDashboard();
-    mockAxios.mockResponse({ data: johnsEvents });
-    expect(queryByText(/Lorum Ipsum 3/i)).not.toBeInTheDocument();
-  });
-
-  it("should not render Event History Header if there are no history events", () => {
-    mockJwt();
-    const { queryByText } = renderDashboard();
-    mockAxios.mockResponse({ data: johnsEvents });
-    expect(queryByText(/Event History /i)).not.toBeInTheDocument();
+      const { queryByText } = within(item);
+      mockAxios.mockResponse({ data: johnsEvents });
+      expect(queryByText(/Lorum Ipsum 1./i)).not.toBeInTheDocument();
+      expect(queryByText(/Lorum Ipsum 4./i)).not.toBeInTheDocument();
+    });
   });
 });
 
