@@ -17,7 +17,6 @@ import axios from "axios";
 class LoginModal extends React.Component {
   constructor(props) {
     super(props);
-    this.backendURI = props.backendURI;
     this.state = {
       email: "",
       password: "",
@@ -45,7 +44,7 @@ class LoginModal extends React.Component {
   userLogin = async () => {
     let jwtToken;
     await axios
-      .post(this.backendURI + "/users/login", {
+      .post(process.env.REACT_APP_REST_API_LOCATION + "/users/login", {
         email: this.state.email,
         password: this.state.password
       })
@@ -64,7 +63,9 @@ class LoginModal extends React.Component {
       .then(async () => {
         await axios({
           method: "get",
-          url: this.backendURI + "/profile/registeredevents",
+          url:
+            process.env.REACT_APP_REST_API_LOCATION +
+            "/profile/registeredevents",
           headers: { Authorization: "Bearer " + jwtToken }
         }).then(getRes => {
           const regEventId = getRes.data.map(event => event._id);

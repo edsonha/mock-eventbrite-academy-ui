@@ -24,7 +24,7 @@ const mockJwt = () => {
 
 const renderHeader = () => {
   const { getByText, getAllByText, queryByText, getByTestId } = render(
-    <Header history={mockHistory} backendURI="dummy" />
+    <Header history={mockHistory}  />
   );
   return { getByText, getAllByText, queryByText, getByTestId };
 };

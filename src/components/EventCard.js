@@ -22,7 +22,6 @@ class EventCard extends React.Component {
       isSignupModalOpen: false,
       isEventRegistrationModalOpen: false
     };
-    this.backendURI = process.env.REACT_APP_REST_API_LOCATION;
   }
 
   showLoginModal = isShown => {
@@ -112,7 +111,6 @@ class EventCard extends React.Component {
             <LoginModal
               isOpen={this.state.isLoginModalOpen}
               showLoginModal={this.showLoginModal}
-              backendURI={process.env.REACT_APP_REST_API_LOCATION}
               notFromRegisterBtn={false}
               showSignupModal={this.showSignupModal}
               updateRegisteredEvents={this.props.updateRegisteredEvents}
@@ -121,14 +119,12 @@ class EventCard extends React.Component {
               isOpen={this.state.isSignupModalOpen}
               showLoginModal={this.showLoginModal}
               showSignupModal={this.showSignupModal}
-              backendURI={this.backendURI}
             />
             {this.state.isEventRegistrationModalOpen && (
               <EventRegistrationModal
                 isOpen={this.state.isEventRegistrationModalOpen}
                 eventDetail={{ ...this.props.eventDetail }}
                 showEventRegistrationModal={this.showEventRegistrationModal}
-                backendURI={process.env.REACT_APP_REST_API_LOCATION}
                 updateRegisteredEvents={this.props.updateRegisteredEvents}
               />
             )}

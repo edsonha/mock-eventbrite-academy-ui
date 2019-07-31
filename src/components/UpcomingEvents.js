@@ -9,7 +9,6 @@ import axios from "axios";
 class UpcomingEvents extends React.Component {
   constructor(props) {
     super(props);
-    this.backendURI = props.backendURI;
     this.state = {
       upcomingEvents: [],
       errorLoading: false,
@@ -23,19 +22,21 @@ class UpcomingEvents extends React.Component {
 
   async componentDidMount() {
     this.setState({ isLoading: true });
-    await axios.get(this.backendURI + "/upcomingevents").then(
-      res => {
-        this.setState({
-          upcomingEvents: res.data,
-          errorLoading: false,
-          isLoading: false
-        });
-      },
-      err => {
-        console.log(err.message);
-        this.setState({ errorLoading: true, isLoading: false });
-      }
-    );
+    await axios
+      .get(process.env.REACT_APP_REST_API_LOCATION + "/upcomingevents")
+      .then(
+        res => {
+          this.setState({
+            upcomingEvents: res.data,
+            errorLoading: false,
+            isLoading: false
+          });
+        },
+        err => {
+          console.log(err.message);
+          this.setState({ errorLoading: true, isLoading: false });
+        }
+      );
   }
 
   render() {

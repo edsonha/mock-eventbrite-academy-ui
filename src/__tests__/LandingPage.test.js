@@ -7,33 +7,31 @@ import mockAxios from "jest-mock-axios";
 import mockEvents from "../__mockData__/mockEventsWithSeats.mockdata";
 import mockCourses from "../__mockData__/mockCourses.mockdata";
 
-const backendURI = "dummy";
-
 describe("ui", () => {
   afterEach(() => {
     mockAxios.reset();
   });
 
   it("should show landing page header when landing page is rendered", () => {
-    const { getByText } = render(<LandingPage backendURI={backendURI} />);
+    const { getByText } = render(<LandingPage />);
     expect(
       getByText("Personal Finance Courses on Your Terms")
     ).toBeInTheDocument();
   });
 
   it("should show landing page header when landing page is rendered", () => {
-    const { getByTestId } = render(<LandingPage backendURI={backendURI} />);
+    const { getByTestId } = render(<LandingPage />);
     expect(getByTestId("upcoming-events")).toBeInTheDocument();
   });
 
   it("should show stashaway curriculum", () => {
-    const { getByText } = render(<LandingPage backendURI={backendURI} />);
+    const { getByText } = render(<LandingPage />);
 
     expect(getByText("Stashaway Academy Curriculum")).toBeInTheDocument();
   });
 
   it("should display four levels of courses", () => {
-    const { getAllByText } = render(<LandingPage backendURI={backendURI} />);
+    const { getAllByText } = render(<LandingPage />);
     mockAxios.mockResponse({ data: mockEvents });
     mockAxios.mockResponse({ data: mockCourses });
     expect(getAllByText(/Basic/i).length).toBe(3);
@@ -43,14 +41,14 @@ describe("ui", () => {
   });
 
   it("should display button to see upcoming events", () => {
-    const { getAllByText } = render(<LandingPage backendURI={backendURI} />);
+    const { getAllByText } = render(<LandingPage />);
     mockAxios.mockResponse({ data: mockEvents });
     mockAxios.mockResponse({ data: mockCourses });
     expect(getAllByText("See All Upcoming Events").length).toBe(4);
   });
 
   it("should display Stashaway courses in detail", () => {
-    const { getByText } = render(<LandingPage backendURI={backendURI} />);
+    const { getByText } = render(<LandingPage />);
     mockAxios.mockResponse({ data: mockEvents });
     mockAxios.mockResponse({ data: mockCourses });
 
@@ -68,7 +66,7 @@ describe("ui", () => {
   });
 
   it("should display something went wrong if api call fails", () => {
-    const { getByText } = render(<LandingPage backendURI={backendURI} />);
+    const { getByText } = render(<LandingPage />);
     mockAxios.mockResponse({ data: mockEvents });
     mockAxios.mockError();
 

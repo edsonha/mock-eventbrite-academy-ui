@@ -10,7 +10,6 @@ import MessageBox from "./MessageBox";
 class EventRegistrationModal extends React.Component {
   constructor(props) {
     super(props);
-    this.backendURI = props.backendURI;
     this.state = {
       username: "",
       isMessageBoxOpen: false,
@@ -23,7 +22,7 @@ class EventRegistrationModal extends React.Component {
     if (jwt && !this.state.username) {
       await axios({
         method: "get",
-        url: this.backendURI + "/users/secure",
+        url: process.env.REACT_APP_REST_API_LOCATION + "/users/secure",
         headers: { Authorization: "Bearer " + jwt }
       })
         .then(res => {
@@ -42,7 +41,7 @@ class EventRegistrationModal extends React.Component {
     await axios({
       method: "post",
       url:
-        this.backendURI +
+        process.env.REACT_APP_REST_API_LOCATION +
         "/upcomingevents/" +
         this.props.eventDetail._id +
         "/user/registerevent",
@@ -64,7 +63,9 @@ class EventRegistrationModal extends React.Component {
       .then(async () => {
         await axios({
           method: "get",
-          url: this.backendURI + "/profile/registeredevents",
+          url:
+            process.env.REACT_APP_REST_API_LOCATION +
+            "/profile/registeredevents",
           headers: { Authorization: "Bearer " + jwt }
         }).then(getRes => {
           const regEventId = getRes.data.map(event => event._id);

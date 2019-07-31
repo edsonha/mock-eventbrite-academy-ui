@@ -17,7 +17,6 @@ import "../styles/SignupModal.css";
 class SignupModal extends React.Component {
   constructor(props) {
     super(props);
-    this.backendURI = props.backendURI;
     this.state = {
       name: "",
       email: "",
@@ -49,7 +48,7 @@ class SignupModal extends React.Component {
   userRegister = async () => {
     const { name, email, password, passwordConfirmation } = this.state;
     await axios
-      .post(this.backendURI + "/users/register", {
+      .post(process.env.REACT_APP_REST_API_LOCATION + "/users/register", {
         name,
         email,
         password,

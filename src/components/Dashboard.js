@@ -21,8 +21,9 @@ class Dashboard extends React.Component {
     if (jwt) {
       await axios({
         method: "get",
-        url: this.props.backendURI + "/profile/registeredevents",
-        headers: { Authorization: "Bearer " + jwt },
+        url:
+          process.env.REACT_APP_REST_API_LOCATION + "/profile/registeredevents",
+        headers: { Authorization: "Bearer " + jwt }
       })
         .then(res => {
           this.setState({ isLoading: false, myEvents: res.data });
@@ -73,7 +74,7 @@ const EventCardSection = ({
   myEvents,
   eventDescriptionPageHandler,
   isLoading,
-  title,
+  title
 }) => {
   const lowerCasedTitle = title.toLowerCase();
   let content = (

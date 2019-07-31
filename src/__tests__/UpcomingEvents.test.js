@@ -8,8 +8,6 @@ import mockEventsWithSeats from "../__mockData__/mockEventsWithSeats.mockdata";
 import mockAxios from "jest-mock-axios";
 const mockDate = require("mockdate");
 
-const backendURI = "dummy";
-
 describe("Upcoming Events Component", () => {
   beforeEach(() => {
     mockDate.set("2019-08-14");
@@ -20,30 +18,28 @@ describe("Upcoming Events Component", () => {
   });
 
   it("should display 'Upcoming Events' as section title", () => {
-    const { getByText } = render(<UpcomingEvents backendURI={backendURI} />);
+    const { getByText } = render(<UpcomingEvents />);
     expect(getByText("Upcoming Events")).toBeInTheDocument();
   });
 
   it("should show 'Stay tuned' message if there is no upcoming events.", () => {
-    const { getByText } = render(<UpcomingEvents backendURI={backendURI} />);
+    const { getByText } = render(<UpcomingEvents />);
     mockAxios.mockResponse({ data: [] });
 
-    expect(mockAxios.get).toHaveBeenCalledWith("dummy/upcomingevents");
     expect(getByText("Stay tuned for new events.")).toBeInTheDocument();
   });
 
   it("should show 'Try again' message if there is an error with the api call", () => {
-    const { getByText } = render(<UpcomingEvents backendURI={backendURI} />);
+    const { getByText } = render(<UpcomingEvents />);
     mockAxios.mockError();
 
-    expect(mockAxios.get).toHaveBeenCalledWith("dummy/upcomingevents");
     expect(
       getByText("Oops, something went wrong. Please try again later")
     ).toBeInTheDocument();
   });
 
   it("should display required event details for one event", () => {
-    const { getByText } = render(<UpcomingEvents backendURI={[backendURI]} />);
+    const { getByText } = render(<UpcomingEvents />);
     mockAxios.mockResponse({ data: [mockEventsWithSeats[0]] });
 
     expect(getByText("Lorum Ipsum 1.")).toBeInTheDocument();
@@ -56,9 +52,7 @@ describe("Upcoming Events Component", () => {
   });
 
   it("should display required event details for more than one event", () => {
-    const { getByText, getAllByText } = render(
-      <UpcomingEvents backendURI={backendURI} />
-    );
+    const { getByText, getAllByText } = render(<UpcomingEvents />);
     mockAxios.mockResponse({ data: mockEventsWithSeats });
 
     expect(getByText("Lorum Ipsum 1.")).toBeInTheDocument();
@@ -97,7 +91,7 @@ describe("Upcoming Event Display Logic", () => {
   });
 
   it("should display future events regardless of seats availability", () => {
-    const { getByText } = render(<UpcomingEvents backendURI={backendURI} />);
+    const { getByText } = render(<UpcomingEvents />);
     mockAxios.mockResponse({ data: mockEventsWithSeats });
 
     expect(getByText(/Lorum Ipsum 1/i)).toBeInTheDocument();
@@ -109,9 +103,7 @@ describe("Upcoming Event Display Logic", () => {
   it("should NOT display past events regardless of seat availability", () => {
     mockDate.set("2019-08-16");
 
-    const { getByText, queryByText } = render(
-      <UpcomingEvents backendURI={backendURI} />
-    );
+    const { getByText, queryByText } = render(<UpcomingEvents />);
     mockAxios.mockResponse({ data: mockEventsWithSeats });
 
     expect(queryByText(/Lorum Ipsum 1/i)).not.toBeInTheDocument();
@@ -123,9 +115,7 @@ describe("Upcoming Event Display Logic", () => {
   it("should display today's events that are not started regardless of seat availability", () => {
     mockDate.set("2019-08-17T09:59:59Z");
 
-    const { getByText, queryByText } = render(
-      <UpcomingEvents backendURI={backendURI} />
-    );
+    const { getByText, queryByText } = render(<UpcomingEvents />);
     mockAxios.mockResponse({ data: mockEventsWithSeats });
 
     expect(queryByText(/Lorum Ipsum 1/i)).not.toBeInTheDocument();
@@ -137,9 +127,7 @@ describe("Upcoming Event Display Logic", () => {
   it("should NOT display today's events that are started regardless of seat availability", () => {
     mockDate.set("2019-08-15T11:01:00Z");
 
-    const { getByText, queryByText } = render(
-      <UpcomingEvents backendURI={backendURI} />
-    );
+    const { getByText, queryByText } = render(<UpcomingEvents />);
     mockAxios.mockResponse({ data: mockEventsWithSeats });
     expect(queryByText(/Lorum Ipsum 1/i)).not.toBeInTheDocument();
     expect(queryByText(/Lorum Ipsum 2/i)).not.toBeInTheDocument();
@@ -159,10 +147,7 @@ describe("List of Registered and Upcoming Events", () => {
 
   it("register button should be differentiated by whether user is registered for the event ", () => {
     const { getAllByText } = render(
-      <UpcomingEvents
-        backendURI={backendURI}
-        registeredEvents={["5d2edb6e0217642ef2524581"]}
-      />
+      <UpcomingEvents registeredEvents={["5d2edb6e0217642ef2524581"]} />
     );
 
     mockAxios.mockResponse({ data: mockEventsWithSeats });

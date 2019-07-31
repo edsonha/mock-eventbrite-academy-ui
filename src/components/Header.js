@@ -15,7 +15,6 @@ class Header extends React.Component {
       username: "",
       initials: ""
     };
-    this.backendURI = props.backendURI;
   }
 
   async componentDidMount() {
@@ -24,7 +23,7 @@ class Header extends React.Component {
     if (jwt && !this.state.username) {
       await axios({
         method: "get",
-        url: this.backendURI + "/users/secure",
+        url: process.env.REACT_APP_REST_API_LOCATION + "/users/secure",
         headers: { Authorization: "Bearer " + jwt }
       })
         .then(res => {
@@ -44,7 +43,7 @@ class Header extends React.Component {
     if (jwt && !this.state.username) {
       await axios({
         method: "get",
-        url: this.backendURI + "/users/secure",
+        url: process.env.REACT_APP_REST_API_LOCATION + "/users/secure",
         headers: { Authorization: "Bearer " + jwt }
       })
         .then(res => {
@@ -141,7 +140,6 @@ class Header extends React.Component {
               isOpen={this.state.isLoginModalOpen}
               showLoginModal={this.showLoginModal}
               showSignupModal={this.showSignupModal}
-              backendURI={this.backendURI}
               history={this.props.history}
               notFromRegisterBtn={true}
               updateRegisteredEvents={this.props.updateRegisteredEvents}
@@ -157,7 +155,6 @@ class Header extends React.Component {
               isOpen={this.state.isSignupModalOpen}
               showLoginModal={this.showLoginModal}
               showSignupModal={this.showSignupModal}
-              backendURI={this.backendURI}
             />
           </div>
         )}

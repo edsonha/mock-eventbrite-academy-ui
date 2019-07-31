@@ -12,7 +12,6 @@ export const appHistory = createBrowserHistory();
 export class App extends React.Component {
   constructor(props) {
     super(props);
-    this.backendURI = process.env.REACT_APP_REST_API_LOCATION;
     this.state = {
       isLoggedIn: false,
       registeredEvents: []
@@ -24,7 +23,8 @@ export class App extends React.Component {
     if (jwt) {
       await axios({
         method: "get",
-        url: this.backendURI + "/profile/registeredevents",
+        url:
+          process.env.REACT_APP_REST_API_LOCATION + "/profile/registeredevents",
         headers: { Authorization: "Bearer " + jwt }
       })
         .then(res => {
@@ -45,7 +45,6 @@ export class App extends React.Component {
     return (
       <div className="App">
         <Header
-          backendURI={this.backendURI}
           history={appHistory}
           updateRegisteredEvents={this.updateRegisteredEvents}
         />
@@ -55,7 +54,6 @@ export class App extends React.Component {
             path="/"
             render={props => (
               <LandingPage
-                backendURI={this.backendURI}
                 registeredEvents={this.state.registeredEvents}
                 updateRegisteredEvents={this.updateRegisteredEvents}
                 {...props}
@@ -67,7 +65,6 @@ export class App extends React.Component {
             render={({ match }) => (
               <EventDescriptionPage
                 eventId={match.params.id}
-                backendURI={this.backendURI}
                 updateRegisteredEvents={this.updateRegisteredEvents}
                 isRegistered={this.state.registeredEvents.includes(
                   match.params.id
@@ -80,7 +77,6 @@ export class App extends React.Component {
             path="/dashboard"
             render={props => (
               <Dashboard
-                backendURI={this.backendURI}
                 history={appHistory}
                 updateRegisteredEvents={this.updateRegisteredEvents}
                 {...props}

@@ -18,10 +18,7 @@ describe("Event Description Page", () => {
 
   it("should show the event description on the Event Description page", () => {
     const { getAllByText } = render(
-      <EventDescriptionPage
-        backendURI={"dummy"}
-        eventId={"5d2edb6e0217642ef2524582"}
-      />
+      <EventDescriptionPage eventId={"5d2edb6e0217642ef2524582"} />
     );
     mockAxios.mockResponse({ data: mockEventsWithSeats[1] });
     expect(getAllByText(/Lorum Ipsum 2./i).length).toBeGreaterThan(0);
@@ -29,16 +26,10 @@ describe("Event Description Page", () => {
 
   it("should show 'Try again' message if there is an error with the api call", () => {
     const { getByText } = render(
-      <EventDescriptionPage
-        backendURI={"dummy"}
-        eventId={"5d2edb6e0217642ef2524582"}
-      />
+      <EventDescriptionPage eventId={"5d2edb6e0217642ef2524582"} />
     );
     mockAxios.mockError();
 
-    expect(mockAxios.get).toHaveBeenCalledWith(
-      "dummy/upcomingevents/5d2edb6e0217642ef2524582"
-    );
     expect(
       getByText("Oops, something went wrong. Please try again later")
     ).toBeInTheDocument();
@@ -46,10 +37,7 @@ describe("Event Description Page", () => {
 
   it("should show placeholder image with title if event has no image", () => {
     const { getByText } = render(
-      <EventDescriptionPage
-        backendURI={"dummy"}
-        eventId={"5d2edb6e0217642ef2524582"}
-      />
+      <EventDescriptionPage eventId={"5d2edb6e0217642ef2524582"} />
     );
     mockAxios.mockResponse({ data: mockEventsWithSeats[1] });
     expect(getByText(/Event 2/i)).toBeInTheDocument();
@@ -57,10 +45,7 @@ describe("Event Description Page", () => {
 
   it("should display signup modal when signup link is clicked", () => {
     const { getByTestId, getByText } = render(
-      <EventDescriptionPage
-        backendURI={"dummy"}
-        eventId={"5d2edb6e0217642ef2524582"}
-      />
+      <EventDescriptionPage eventId={"5d2edb6e0217642ef2524582"} />
     );
 
     mockAxios.mockResponse({ data: mockEventsWithSeats[1] });
@@ -75,10 +60,7 @@ describe("Event Description Page", () => {
 
   it("should open login box when user is not logged in", async () => {
     const { getByText, getByTestId } = render(
-      <EventDescriptionPage
-        backendURI={"dummy"}
-        eventId={"5d2edb6e0217642ef2524582"}
-      />
+      <EventDescriptionPage eventId={"5d2edb6e0217642ef2524582"} />
     );
 
     mockAxios.mockResponse({ data: mockEventsWithSeats[1] });
@@ -92,10 +74,7 @@ describe("Event Description Page", () => {
 
   it("should open event registration box if user is already logged in", async () => {
     const { getByText, getByTestId, getAllByText } = render(
-      <EventDescriptionPage
-        backendURI={"dummy"}
-        eventId={"5d2edb6e0217642ef2524582"}
-      />
+      <EventDescriptionPage eventId={"5d2edb6e0217642ef2524582"} />
     );
 
     mockAxios.mockResponse({ data: mockEventsWithSeats[1] });

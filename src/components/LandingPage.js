@@ -9,7 +9,6 @@ import { Container, Row, Spinner } from "reactstrap";
 class LandingPage extends React.Component {
   constructor(props) {
     super(props);
-    this.backendURI = props.backendURI;
     this.state = {
       courses: [],
       levels: ["basic", "intermediate", "advanced", "electives"],
@@ -20,7 +19,7 @@ class LandingPage extends React.Component {
 
   async componentDidMount() {
     await axios
-      .get(this.backendURI + "/courses")
+      .get(process.env.REACT_APP_REST_API_LOCATION + "/courses")
       .then(res => {
         this.setState({
           courses: res.data,
@@ -89,7 +88,6 @@ class LandingPage extends React.Component {
         )}
 
         <UpcomingEvents
-          backendURI={this.props.backendURI}
           history={this.props.history}
           registeredEvents={this.props.registeredEvents}
           updateRegisteredEvents={this.props.updateRegisteredEvents}
