@@ -51,7 +51,6 @@ class Dashboard extends React.Component {
       <div>
         <EventCardSection
           myEvents={getRegisteredEvents(this.state.myEvents)}
-          setLoginState={this.state.setLoginState}
           eventDescriptionPageHandler={this.eventDescriptionPageHandler}
           isLoading={this.state.isLoading}
           title={"Registered Events"}
@@ -72,7 +71,6 @@ const getRegisteredEvents = events =>
 
 const EventCardSection = ({
   myEvents,
-  setLoginState,
   eventDescriptionPageHandler,
   isLoading,
   title,
@@ -91,7 +89,6 @@ const EventCardSection = ({
         key={event._id}
         eventDetail={event}
         eventDescriptionPageHandler={eventDescriptionPageHandler}
-        setLoginState={setLoginState}
         isRegistered={true}
         className={"is-registered"}
       />
