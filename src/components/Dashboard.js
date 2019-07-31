@@ -22,7 +22,7 @@ class Dashboard extends React.Component {
       await axios({
         method: "get",
         url: this.props.backendURI + "/profile/registeredevents",
-        headers: { Authorization: "Bearer " + jwt }
+        headers: { Authorization: "Bearer " + jwt },
       })
         .then(res => {
           this.setState({ isLoading: false, myEvents: res.data });
@@ -47,58 +47,54 @@ class Dashboard extends React.Component {
   }
 
   render() {
-    if (this.state.isLoading) {
-      return (
-        <Container>
-          <Row>
-            <SectionTitle sectionTitle={"Registered Events"} />
-          </Row>
-          <div
-            className="dashboard-events-loader"
-            data-testid="dashboard-events"
-          >
-            <Spinner size="lg" color="primary" />
-          </div>
-        </Container>
-      );
-    } else if (this.state.myEvents.length === 0) {
-      return (
-        <Container>
-          <div className="no-dashboard-events" data-testid="dashboard-events">
-            <Row>
-              <SectionTitle sectionTitle={"Registered Events"} />
-            </Row>
-            <Row>
-              <h3>No registered events.</h3>
-            </Row>
-          </div>
-        </Container>
-      );
-    } else {
-      const eventCards = this.state.myEvents
-        .filter(event => moment.utc(event.time).toDate() - Date.now() > 0)
-        .map(event => (
-          <EventCard
-            key={event._id}
-            eventDetail={event}
+    return (
+      <Container>
+        <Row>
+          <SectionTitle sectionTitle={"Registered Events"} />
+        </Row>
+        {this.state.isLoading && <DashboardSpinner />}
+        {!this.state.isLoading && (
+          <RegisteredEventCards
+            myEvents={this.state.myEvents}
+            setLoginState={this.state.setLoginState}
             eventDescriptionPageHandler={this.eventDescriptionPageHandler}
-            setLoginState={this.props.setLoginState}
-            isRegistered={true}
-            className={"is-registered"}
           />
-        ));
-      return (
-        <React.Fragment>
-          <Container data-testid="dashboard-events" id="dashboard-events">
-            <Row>
-              <SectionTitle sectionTitle={"Registered Events"} />
-            </Row>
-            <Row>{eventCards}</Row>
-          </Container>
-        </React.Fragment>
-      );
-    }
+        )}
+      </Container>
+    );
   }
 }
+
+const DashboardSpinner = () => (
+  <div className="dashboard-events-loader" data-testid="dashboard-events">
+    <Spinner size="lg" color="primary" />
+  </div>
+);
+
+const RegisteredEventCards = ({
+  myEvents,
+  setLoginState,
+  eventDescriptionPageHandler,
+}) => {
+  if (myEvents && myEvents.length) {
+    return myEvents
+      .filter(event => moment.utc(event.time).toDate() - Date.now() > 0)
+      .map(event => (
+        <EventCard
+          key={event._id}
+          eventDetail={event}
+          eventDescriptionPageHandler={eventDescriptionPageHandler}
+          setLoginState={setLoginState}
+          isRegistered={true}
+          className={"is-registered"}
+        />
+      ));
+  }
+  return (
+    <Row>
+      <h3>No registered events.</h3>
+    </Row>
+  );
+};
 
 export default Dashboard;
