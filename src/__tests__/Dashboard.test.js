@@ -1,8 +1,6 @@
 import React from "react";
 import { render, fireEvent } from "@testing-library/react";
-import { Router } from "react-router-dom";
-import { App, appHistory } from "../components/App";
-import mockCourses from "../__mockData__/mockCourses.mockdata";
+import { appHistory } from "../components/App";
 import mockAxios from "jest-mock-axios";
 import "@testing-library/jest-dom/extend-expect";
 import "@testing-library/react/cleanup-after-each";
@@ -10,16 +8,16 @@ import Dashboard from "../../src/components/Dashboard";
 const mockDate = require("mockdate");
 
 const mockHistory = {
-  push: jest.fn()
+  push: jest.fn(),
 };
+
 const mockJwt = () => {
-  const spySessionStorageGetItem = jest.spyOn(
-    window.sessionStorage.__proto__,
-    "getItem"
-  );
   const mockJwtToken =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzYWxseUBnbWFpbC5jb20iLCJ1c2VyIjoiU2FsbHkiLCJpYXQiOjE1NjM4NTk5NjcyMDUsImV4cCI6MTU2Mzg1OTk3MDgwNX0.rC3dnj_r-mhL1tp3hj9JecjOpuZFrVY64SPSpS1fBPQ";
-  spySessionStorageGetItem.mockReturnValue(mockJwtToken);
+
+  jest
+    .spyOn(window.sessionStorage.__proto__, "getItem")
+    .mockReturnValue(mockJwtToken);
 };
 
 const renderDashboard = () => {
@@ -31,19 +29,19 @@ const renderDashboard = () => {
 
 describe("Dashboard", () => {
   beforeEach(() => {
+    window.sessionStorage.clear();
+    appHistory.index = 0;
     mockDate.set("2019-08-14");
   });
 
   afterEach(() => {
     mockDate.reset();
     mockAxios.reset();
-    appHistory.index = 0;
     jest.clearAllMocks();
   });
 
   it("should redirect back to the landing page if I am not logged in and try to access the dashboard", () => {
     renderDashboard();
-
     expect(mockHistory.push).toBeCalledWith("/");
   });
 
@@ -52,7 +50,7 @@ describe("Dashboard", () => {
     const { getByText } = renderDashboard();
 
     mockAxios.mockResponse({
-      data: johnsEvents
+      data: johnsEvents,
     });
 
     expect(getByText("Registered Events")).toBeInTheDocument();
@@ -67,10 +65,10 @@ describe("Dashboard", () => {
   });
 
   it("should redirect back to landing page if there is an error with the api call", async () => {
-    const { getByText } = renderDashboard();
+    mockJwt();
+    renderDashboard();
     mockAxios.mockError();
 
-    // expect(mockAxios.get).toHaveBeenCalledWith("dummy/user/registeredevents");
     const spySessionStorageGetItem = jest.spyOn(
       window.sessionStorage.__proto__,
       "getItem"
@@ -83,7 +81,7 @@ describe("Dashboard", () => {
 
 describe("Registered Events", () => {
   beforeEach(() => {
-    mockDate.set("2019-08-14");
+    mockDate.set("Thu Aug 14 2019 00:00:00 GMT+0800 (Singapore Standard Time)");
   });
 
   afterEach(() => {
@@ -97,7 +95,7 @@ describe("Registered Events", () => {
     mockJwt();
     const { getByText } = renderDashboard();
     mockAxios.mockResponse({
-      data: []
+      data: [],
     });
     expect(mockAxios).toBeCalledTimes(1);
     expect(getByText("No registered events.")).toBeInTheDocument();
@@ -135,6 +133,44 @@ describe("Registered Events", () => {
     await fireEvent.click(learnMoreBtn);
     expect(mockHistory.push).toBeCalledWith("/event/5d2e7e4bec0f970d68a71466");
   });
+
+  it("should show event 3 1ms before the time of event", () => {
+    const event3 = johnsEvents[0];
+    const eventTime = new Date(event3.time);
+    const beforeEventTime = new Date(eventTime.getTime() - 1);
+    mockDate.set(beforeEventTime);
+
+    const { queryByText } = renderDashboard();
+    mockAxios.mockResponse({ data: johnsEvents });
+    expect(queryByText(/Lorum Ipsum 3/i)).toBeInTheDocument();
+  });
+
+  it("should not show event 3 at event time", () => {
+    const event3 = johnsEvents[0];
+    const eventTime = new Date(event3.time);
+    mockDate.set(eventTime);
+
+    const { queryByText } = renderDashboard();
+    mockAxios.mockResponse({ data: johnsEvents });
+    expect(queryByText(/Lorum Ipsum 3/i)).not.toBeInTheDocument();
+  });
+
+  it("should not show event 3 after event time", () => {
+    const event3 = johnsEvents[0];
+    const eventTime = new Date(event3.time);
+    mockDate.set(eventTime);
+
+    const { queryByText } = renderDashboard();
+    mockAxios.mockResponse({ data: johnsEvents });
+    expect(queryByText(/Lorum Ipsum 3/i)).not.toBeInTheDocument();
+  });
+
+  it("should not render Event History Header if there are no history events", () => {
+    mockJwt();
+    const { queryByText } = renderDashboard();
+    mockAxios.mockResponse({ data: johnsEvents });
+    expect(queryByText(/Event History /i)).not.toBeInTheDocument();
+  });
 });
 
 const johnsEvents = [
@@ -149,7 +185,7 @@ const johnsEvents = [
     duration: 90,
     location: "Location 3",
     availableSeats: 100,
-    image: "https://via.placeholder.com/150.png?text=_"
+    image: "https://via.placeholder.com/150.png?text=_",
   },
   {
     _id: "5d2e798c8c4c740d685e1d3f",
@@ -162,7 +198,7 @@ const johnsEvents = [
     duration: 120,
     location: "Location 1",
     availableSeats: 100,
-    image: "https://via.placeholder.com/150.png?text=_"
+    image: "https://via.placeholder.com/150.png?text=_",
   },
   {
     _id: "5d2e7dd7ec0f970d68a71464",
@@ -175,6 +211,6 @@ const johnsEvents = [
     duration: 90,
     location: "Location 4",
     availableSeats: 0,
-    image: "https://via.placeholder.com/150.png?text=_"
-  }
+    image: "https://via.placeholder.com/150.png?text=_",
+  },
 ];
