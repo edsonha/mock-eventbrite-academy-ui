@@ -13,7 +13,8 @@ class EventRegistrationModal extends React.Component {
     this.backendURI = props.backendURI;
     this.state = {
       username: "",
-      isMessageBoxOpen: false
+      isMessageBoxOpen: false,
+      message: ""
     };
   }
 
@@ -48,7 +49,17 @@ class EventRegistrationModal extends React.Component {
       headers: { Authorization: "Bearer " + jwt }
     })
       .then(postRes => {
-        this.setState({ isMessageBoxOpen: true });
+        this.setState({ isMessageBoxOpen: true, message: "RSVP Successful" });
+      })
+      .catch(err => {
+        if (err.response && err.response.status === 422) {
+          this.setState({ isMessageBoxOpen: true, message: "Event is full" });
+        } else {
+          this.setState({
+            isMessageBoxOpen: true,
+            message: "Please try again"
+          });
+        }
       })
       .then(async () => {
         await axios({
@@ -60,7 +71,6 @@ class EventRegistrationModal extends React.Component {
           this.props.updateRegisteredEvents(regEventId);
         });
       })
-
       .catch(err => {
         console.log("ERROR", err);
       });
@@ -98,10 +108,14 @@ class EventRegistrationModal extends React.Component {
                 <p>{this.state.username}</p>
                 {this.state.isMessageBoxOpen && (
                   <MessageBox
-                    color="success"
+                    color={
+                      this.state.message === "RSVP Successful"
+                        ? "success"
+                        : "danger"
+                    }
                     data-testid="message-box"
                     isMessageBoxOpen={this.state.isMessageBoxOpen}
-                    message="RSVP Successful"
+                    message={this.state.message}
                   />
                 )}
               </ModalBody>
