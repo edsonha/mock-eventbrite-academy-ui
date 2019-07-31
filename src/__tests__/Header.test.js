@@ -532,3 +532,35 @@ describe("routing of the stashaway icon header to the landing page", () => {
     expect(mockHistory.push).toBeCalledWith("/");
   });
 });
+
+describe("catching error on axios", () => {
+  afterEach(() => {
+    mockAxios.reset();
+    window.sessionStorage.clear();
+    jest.clearAllMocks();
+  });
+  it("should call history.push with root route if axios return 401", () => {
+    mockJwt();
+    renderHeader();
+    const spySessionStorageRemoveItem = jest.spyOn(
+      window.sessionStorage.__proto__,
+      "removeItem"
+    );
+    mockAxios.mockError();
+    expect(mockHistory.push).toBeCalledWith("/");
+    expect(spySessionStorageRemoveItem).toHaveBeenCalledTimes(1);
+  });
+  it("should call history.push with root route if axios return 401", () => {
+    mockJwt();
+    const { getByText } = renderHeader();
+    const spySessionStorageRemoveItem = jest.spyOn(
+      window.sessionStorage.__proto__,
+      "removeItem"
+    );
+    const logoText = getByText("Academy");
+    fireEvent.click(logoText);
+    mockAxios.mockError();
+    expect(mockHistory.push).toBeCalledWith("/");
+    expect(spySessionStorageRemoveItem).toHaveBeenCalledTimes(1);
+  });
+});

@@ -32,7 +32,8 @@ class Header extends React.Component {
           this.getUserInitial(res.data.name);
         })
         .catch(err => {
-          console.log(err.message);
+          sessionStorage.removeItem("JWT");
+          this.props.history.push("/");
         });
     }
   }
@@ -50,7 +51,10 @@ class Header extends React.Component {
           this.updateUsername(res.data.name);
           this.getUserInitial(res.data.name);
         })
-        .catch(err => console.log(err.message));
+        .catch(err => {
+          sessionStorage.removeItem("JWT");
+          this.props.history.push("/");
+        });
     }
   }
 
