@@ -21,10 +21,10 @@ const mockJwt = () => {
 };
 
 const renderDashboard = () => {
-  const { getByText, getAllByText, queryByText } = render(
+  const { getByText, getAllByText, queryByText, queryByTestId } = render(
     <Dashboard history={mockHistory} />
   );
-  return { getByText, getAllByText, queryByText };
+  return { getByText, getAllByText, queryByText, queryByTestId };
 };
 
 describe("Dashboard", () => {
@@ -43,6 +43,12 @@ describe("Dashboard", () => {
   it("should redirect back to the landing page if I am not logged in and try to access the dashboard", () => {
     renderDashboard();
     expect(mockHistory.push).toBeCalledWith("/");
+  });
+
+  it("should render loading if there is no response", () => {
+    mockJwt();
+    const { queryByTestId } = renderDashboard();
+    expect(queryByTestId("dashboard-events")).toBeInTheDocument();
   });
 
   it("should show dashboard if /user/secure resolves sucessfully", () => {

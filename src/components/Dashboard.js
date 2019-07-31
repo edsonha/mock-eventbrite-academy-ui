@@ -48,19 +48,15 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <Container>
-        <Row>
-          <SectionTitle sectionTitle={"Registered Events"} />
-        </Row>
-        {this.state.isLoading && <DashboardSpinner />}
-        {!this.state.isLoading && (
-          <RegisteredEventCards
-            myEvents={this.state.myEvents}
-            setLoginState={this.state.setLoginState}
-            eventDescriptionPageHandler={this.eventDescriptionPageHandler}
-          />
-        )}
-      </Container>
+      <div>
+        <EventCardSection
+          myEvents={getRegisteredEvents(this.state.myEvents)}
+          setLoginState={this.state.setLoginState}
+          eventDescriptionPageHandler={this.eventDescriptionPageHandler}
+          isLoading={this.state.isLoading}
+          title={"Registered Events"}
+        />
+      </div>
     );
   }
 }
@@ -71,29 +67,44 @@ const DashboardSpinner = () => (
   </div>
 );
 
-const RegisteredEventCards = ({
+const getRegisteredEvents = events =>
+  events.filter(event => moment.utc(event.time).toDate() - Date.now() > 0);
+
+const EventCardSection = ({
   myEvents,
   setLoginState,
   eventDescriptionPageHandler,
+  isLoading,
+  title,
 }) => {
-  if (myEvents && myEvents.length) {
-    return myEvents
-      .filter(event => moment.utc(event.time).toDate() - Date.now() > 0)
-      .map(event => (
-        <EventCard
-          key={event._id}
-          eventDetail={event}
-          eventDescriptionPageHandler={eventDescriptionPageHandler}
-          setLoginState={setLoginState}
-          isRegistered={true}
-          className={"is-registered"}
-        />
-      ));
-  }
-  return (
+  const lowerCasedTitle = title.toLowerCase();
+  let content = (
     <Row>
-      <h3>No registered events.</h3>
+      <h3>{`No ${lowerCasedTitle}.`}</h3>
     </Row>
+  );
+  if (isLoading) {
+    content = <DashboardSpinner />;
+  } else if (myEvents && myEvents.length) {
+    content = myEvents.map(event => (
+      <EventCard
+        key={event._id}
+        eventDetail={event}
+        eventDescriptionPageHandler={eventDescriptionPageHandler}
+        setLoginState={setLoginState}
+        isRegistered={true}
+        className={"is-registered"}
+      />
+    ));
+  }
+
+  return (
+    <Container>
+      <Row>
+        <SectionTitle sectionTitle={title} />
+      </Row>
+      {content}
+    </Container>
   );
 };
 
