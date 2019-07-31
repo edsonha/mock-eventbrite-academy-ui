@@ -97,7 +97,17 @@
 }
 
 .logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  font-size: 16px;
+  font-weight: bolder;
   cursor: pointer;
+  color: #f99535;
+}
+
+.logo {
+  margin-right: 3px;
 }
 
 @media only screen and (max-width: 414px) {

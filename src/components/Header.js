@@ -1,7 +1,6 @@
 import React from "react";
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { Navbar, Button } from "reactstrap";
-// import { Router } from "react-router-dom";
 import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
 import "../styles/Header.css";
@@ -91,13 +90,15 @@ class Header extends React.Component {
   render() {
     return (
       <Navbar data-testid="app-header" className="navbar col" light expand="sm">
-        <Logo
-          data-testid="logo-svg"
+        <div
+          className="logo-wrapper noselect"
           onClick={() => {
             this.redirectTo("/");
           }}
-          className="logo-wrapper"
-        />
+        >
+          <Logo data-testid="logo-svg" className="logo" />
+          Academy
+        </div>
         {this.state.username && (
           <div className="button-wrapper-logged-in">
             <div
