@@ -1,11 +1,13 @@
 import React from "react";
 import { ReactComponent as Logo } from "../assets/logo.svg";
 import { Navbar, Button } from "reactstrap";
-import { BrowserRouter, Link } from "react-router-dom";
+// import { Router } from "react-router-dom";
 import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
 import "../styles/Header.css";
 import axios from "axios";
+// import { createBrowserHistory } from "history";
+// export const appHistory = createBrowserHistory();
 
 class Header extends React.Component {
   constructor(props) {
@@ -83,17 +85,26 @@ class Header extends React.Component {
       initials
     });
   };
+  redirectToHome = () => {
+    this.props.history.push("/");
+  };
+  redirectToDashboard = () => {
+    this.props.history.push("/dashboard");
+  };
 
   render() {
     return (
       <Navbar data-testid="app-header" className="navbar col" light expand="sm">
-        <Link className="logo-wrapper" to="/">
-          <Logo data-testid="logo-svg" />
-        </Link>
+        <Logo data-testid="logo-svg" onClick={this.redirectToHome} />
         {this.state.username && (
           <div className="button-wrapper">
+            <Button
+              className="my-events-link"
+              onClick={this.redirectToDashboard}
+            >
+              My Events
+            </Button>
             <div className="welcome-msg">{this.state.initials}</div>
-
             <Button
               className="logout-button"
               onClick={() => {
@@ -147,12 +158,12 @@ class Header extends React.Component {
   }
 }
 
-export function HeaderWithRouter(props) {
-  return (
-    <BrowserRouter>
-      <Header backendURI={props.backendURI} />
-    </BrowserRouter>
-  );
-}
+// export function HeaderWithRouter(props) {
+//   return (
+//     <Router history={props.history}>
+//       <Header history={props.history} backendURI={props.backendURI} />
+//     </Router>
+//   );
+// }
 
 export default Header;

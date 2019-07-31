@@ -1,5 +1,5 @@
 import React from "react";
-import { HeaderWithRouter } from "../components/Header";
+import Header from "../components/Header";
 import "@testing-library/react/cleanup-after-each";
 import "@testing-library/jest-dom/extend-expect";
 import { render, fireEvent } from "@testing-library/react";
@@ -8,14 +8,34 @@ import mockEventsWithSeats from "../../src/__mockData__/mockEventsWithSeats.mock
 import mockCourses from "../../src/__mockData__/mockCourses.mockdata";
 import mockAxios from "jest-mock-axios";
 
+const mockHistory = {
+  push: jest.fn()
+};
+
+const mockJwt = () => {
+  const spySessionStorageGetItem = jest.spyOn(
+    window.sessionStorage.__proto__,
+    "getItem"
+  );
+  const mockJwtToken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzYWxseUBnbWFpbC5jb20iLCJ1c2VyIjoiU2FsbHkiLCJpYXQiOjE1NjM4NTk5NjcyMDUsImV4cCI6MTU2Mzg1OTk3MDgwNX0.rC3dnj_r-mhL1tp3hj9JecjOpuZFrVY64SPSpS1fBPQ";
+  spySessionStorageGetItem.mockReturnValue(mockJwtToken);
+};
+
+const renderHeader = () => {
+  const { getByText, getAllByText, queryByText, getByTestId } = render(
+    <Header history={mockHistory} backendURI="dummy" />
+  );
+  return { getByText, getAllByText, queryByText, getByTestId };
+};
+
 describe("starting UI", () => {
   afterEach(() => {
     mockAxios.reset();
+    window.sessionStorage.clear();
   });
   it("should show Stashaway logo, Login and Sign Up buttons when you are not logged in", () => {
-    const { getByText, getByTestId } = render(
-      <HeaderWithRouter  />
-    );
+    const { getByText, getByTestId } = render(<Header />);
     const loginBtn = getByText("Log In");
     const signUpBtn = getByText("Sign Up");
     const logo = getByTestId("logo-svg");
@@ -473,5 +493,42 @@ describe("sign up functionlaity", () => {
 
     const signupReminder = getByText("Don't have an account yet?");
     expect(signupReminder).toBeInTheDocument();
+  });
+});
+
+describe("dashboard entry point", () => {
+  afterEach(() => {
+    mockAxios.reset();
+    jest.clearAllMocks();
+  });
+  it("should show link to My Events after login is successful", () => {
+    mockJwt();
+    const { getByText } = renderHeader();
+    mockAxios.mockResponse({ data: { name: "John Wick" } });
+    expect(getByText("My Events")).toBeInTheDocument();
+  });
+
+  it("should redirect to dashboard after 'My Events' link is clicked", async () => {
+    mockJwt();
+    const { getByText } = renderHeader();
+    mockAxios.mockResponse({ data: { name: "John Wick" } });
+    const myEventsLink = getByText("My Events");
+    fireEvent.click(myEventsLink);
+    expect(mockHistory.push).toBeCalledWith("/dashboard");
+  });
+});
+
+describe("routing of the stashaway icon header to the landing page", () => {
+  afterEach(() => {
+    mockAxios.reset();
+  });
+
+  it("routing of the stashaway icon header to the landing page", () => {
+    const { getByTestId } = renderHeader();
+    mockAxios.mockResponse({ data: { name: "John Wick" } });
+
+    const stashawayLogo = getByTestId("logo-svg");
+    fireEvent.click(stashawayLogo);
+    expect(mockHistory.push).toBeCalledWith("/");
   });
 });

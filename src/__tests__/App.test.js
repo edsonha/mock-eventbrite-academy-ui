@@ -38,28 +38,6 @@ describe("render header", () => {
   });
 });
 
-describe("routing of the stashaway icon header to the landing page", () => {
-  afterEach(() => {
-    mockAxios.reset();
-  });
-
-  it("routing of the stashaway icon header to the landing page", () => {
-    const history = createMemoryHistory({
-      initialEntries: ["/event/5d2edb6e0217642ef2524581"]
-    });
-
-    const { getByTestId, getByText } = render(
-      <Router history={history}>
-        <App />
-      </Router>
-    );
-
-    const stashawayLogo = getByTestId("logo-svg");
-    fireEvent.click(stashawayLogo);
-    expect(getByText("Upcoming Events")).toBeInTheDocument();
-  });
-});
-
 describe("routing for event description page", () => {
   beforeEach(() => {
     mockDate.set("2019-08-14");
