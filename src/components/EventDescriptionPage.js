@@ -18,7 +18,8 @@ class EventDescriptionPage extends React.Component {
       isLoading: true,
       isLoginModalOpen: false,
       isSignupModalOpen: false,
-      isEventRegistrationModalOpen: false
+      isEventRegistrationModalOpen: false,
+      isEventDeregistrationModalOpen: false
     };
   }
 
@@ -104,12 +105,18 @@ class EventDescriptionPage extends React.Component {
       const isHistoryEvent = moment.utc(time).toDate() - Date.now() <= 0;
 
       let registration = <p className="history-event">EVENT ENDED</p>;
+
       if (!isHistoryEvent) {
         registration = (
           <div>
             <p>Available Seats: {availableSeats}</p>
             {this.props.isRegistered ? (
-              <Button className="deregister-button">Deregister</Button>
+              <Button
+                className="deregister-button"
+                onClick={() => this.showEventDeregistrationModal(true)}
+              >
+                Deregister
+              </Button>
             ) : (
               <Button
                 data-testid="register-button"
@@ -162,24 +169,8 @@ class EventDescriptionPage extends React.Component {
               </p>
               <h5>Location</h5>
               <p>{location}</p>
-              <p>Available Seats: {availableSeats}</p>
 
-              {this.props.isRegistered ? (
-                <Button
-                  className="deregister-button"
-                  onClick={() => this.showEventDeregistrationModal(true)}
-                >
-                  Deregister
-                </Button>
-              ) : (
-                <Button
-                  data-testid="register-button"
-                  className="register-button"
-                  onClick={this.checkLoginState}
-                >
-                  Register
-                </Button>
-              )}
+              {registration}
               {this.state.isLoginModalOpen && (
                 <LoginModal
                   isOpen={this.state.isLoginModalOpen}

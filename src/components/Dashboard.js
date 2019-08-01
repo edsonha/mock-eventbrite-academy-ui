@@ -11,37 +11,7 @@ class Dashboard extends React.Component {
   };
 
   async componentDidMount() {
-<<<<<<< HEAD
     this.checkJwt();
-=======
-    const jwt = sessionStorage.getItem("JWT");
-    if (jwt) {
-      await axios({
-        method: "get",
-        url:
-          process.env.REACT_APP_REST_API_LOCATION + "/profile/registeredevents",
-        headers: { Authorization: "Bearer " + jwt }
-      })
-        .then(res => {
-          this.setState({ isLoading: false });
-        })
-        .catch(err => {
-          console.log(err.message);
-          // if (err.status === 401) {
-          //   sessionStorage.removeItem("JWT");
-          //   this.props.history.push("/");
-          // } else if (err.response === undefined) {
-          //   console.log(err.message);
-          // } else if (err.response.status === 401) {
-          //   console.log("Error is 401: ", err.response);
-          //   sessionStorage.removeItem("JWT");
-          //   this.props.history.push("/");
-          // }
-        });
-    } else {
-      this.props.history.push("/");
-    }
->>>>>>> [#25][Bran&Eddie] Finish deregister and test for frontend
   }
 
   async componentDidUpdate() {
