@@ -56,7 +56,7 @@ class Dashboard extends React.Component {
 
   render() {
     return (
-      <Container>
+      <div>
         <EventCardSection
           title={"Registered Events"}
           myEvents={getUpcomingRegisteredEvents(this.props.registeredEvents)}
@@ -72,7 +72,7 @@ class Dashboard extends React.Component {
           isLoading={this.state.isLoading}
           dataTestId={"historyEventsSection"}
         />
-      </Container>
+      </div>
     );
   }
 }
