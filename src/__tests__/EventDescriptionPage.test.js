@@ -91,7 +91,7 @@ describe("Event Description Page", () => {
     await fireEvent.click(registerBtn);
 
     mockAxios.mockResponse({
-      data: { name: "Sally" },
+      data: { name: "Sally" }
     });
 
     expect(spySessionStorageGetItem).toHaveBeenCalledWith("JWT");
@@ -131,5 +131,31 @@ describe("Event Description Page", () => {
     expect(registerBtn).not.toBeInTheDocument();
     expect(queryByText(/Available Seats/i)).not.toBeInTheDocument();
     expect(queryByText(/EVENT ENDED/i)).toBeInTheDocument();
+  });
+
+  it("should show `You have been deregistered from this Event` when deregistration is successful ", () => {
+    const { getByText } = render(
+      <EventDescriptionPage
+        eventId={"5d2edb6e0217642ef2524582"}
+        isRegistered={true}
+      />
+    );
+
+    mockAxios.mockResponse({ data: mockEventsWithSeats[1] });
+
+    const deregisterBtn = getByText("Deregister");
+    fireEvent.click(deregisterBtn);
+
+    const yesBtn = getByText("Yes");
+    fireEvent.click(yesBtn);
+
+    mockAxios.mockResponse({
+      data: []
+    });
+
+    const deregistrationMessage = getByText(
+      "You have been deregistered from this Event"
+    );
+    expect(deregistrationMessage).toBeInTheDocument();
   });
 });

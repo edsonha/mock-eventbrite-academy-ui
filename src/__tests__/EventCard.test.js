@@ -190,7 +190,8 @@ describe("registering for events from event card", () => {
   });
 
   it("should not show register button if isPastEvent when card is registered", () => {
-    const eventData = Object.assign(mockEventsWithSeats[0]);
+    const eventData = {};
+    Object.assign(eventData, mockEventsWithSeats[0]);
     eventData.isPastEvent = true;
     eventData.isRegistered = true;
 
@@ -201,7 +202,8 @@ describe("registering for events from event card", () => {
   });
 
   it("should not show register button if isPastEvent when card is not registered", () => {
-    const eventData = Object.assign(mockEventsWithSeats[0]);
+    const eventData = {};
+    Object.assign({}, mockEventsWithSeats[0]);
     eventData.isPastEvent = true;
     eventData.isRegistered = false;
 
@@ -209,5 +211,37 @@ describe("registering for events from event card", () => {
 
     expect(queryByText("Register")).not.toBeInTheDocument();
     expect(queryByText("Deregister")).not.toBeInTheDocument();
+  });
+});
+
+describe("deregistering for events", () => {
+  it("should close the deregistration modal when X is clicked", async () => {
+    const { getByText, getByTestId } = render(
+      <EventCard eventDetail={mockEventsWithSeats[0]} isRegistered={true} />
+    );
+
+    const deregisterBtn = getByText("Deregister");
+    fireEvent.click(deregisterBtn);
+
+    const closeBtn = getByText("×");
+    const eventDeregistrationModal = getByTestId("event-deregistration-modal");
+    fireEvent.click(closeBtn);
+
+    expect(eventDeregistrationModal).not.toBeInTheDocument();
+  });
+
+  it("should close the deregistration modal when No button is clicked", async () => {
+    const { getByText, getByTestId } = render(
+      <EventCard eventDetail={mockEventsWithSeats[0]} isRegistered={true} />
+    );
+
+    const deregisterBtn = getByText("Deregister");
+    fireEvent.click(deregisterBtn);
+
+    const noBtn = getByText("No");
+    const eventDeregistrationModal = getByTestId("event-deregistration-modal");
+    fireEvent.click(noBtn);
+
+    expect(eventDeregistrationModal).not.toBeInTheDocument();
   });
 });

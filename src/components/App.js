@@ -83,6 +83,7 @@ export class App extends React.Component {
               <Dashboard
                 history={appHistory}
                 registeredEvents={this.state.registeredEvents}
+                updateRegisteredEvents={this.updateRegisteredEvents}
                 {...props}
               />
             )}

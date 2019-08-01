@@ -5,7 +5,7 @@ import {
   CardSubtitle,
   Button,
   CardText,
-  Col,
+  Col
 } from "reactstrap";
 import { minToHour } from "../helper/minToHour";
 import moment from "moment";
@@ -13,6 +13,7 @@ import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
 import EventRegistrationModal from "./EventRegistrationModal";
 import "../styles/EventCard.css";
+import EventDeregistrationModal from "./EventDeregistrationModal";
 
 class EventCard extends React.Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class EventCard extends React.Component {
       isLoginModalOpen: false,
       isSignupModalOpen: false,
       isEventRegistrationModalOpen: false,
+      isEventDeregistrationModalOpen: false
     };
   }
 
@@ -34,6 +36,9 @@ class EventCard extends React.Component {
 
   showEventRegistrationModal = isShown => {
     this.setState({ isEventRegistrationModalOpen: isShown });
+  };
+  showEventDeregistrationModal = isShown => {
+    this.setState({ isEventDeregistrationModalOpen: isShown });
   };
 
   checkLoginState = () => {
@@ -51,7 +56,7 @@ class EventCard extends React.Component {
       eventDescriptionPageHandler,
       isRegistered,
       updateRegisteredEvents,
-      eventDetail,
+      eventDetail
     } = this.props;
     const {
       image,
@@ -62,7 +67,7 @@ class EventCard extends React.Component {
       time,
       duration,
       location,
-      isPastEvent = false,
+      isPastEvent = false
     } = eventDetail;
     return (
       <Col xs="12" md="6">
@@ -107,7 +112,12 @@ class EventCard extends React.Component {
             </Button>
             {!isPastEvent &&
               (isRegistered ? (
-                <Button className="deregister-button">Deregister</Button>
+                <Button
+                  className="deregister-button"
+                  onClick={() => this.showEventDeregistrationModal(true)}
+                >
+                  Deregister
+                </Button>
               ) : (
                 <Button
                   className="register-button"
@@ -117,23 +127,35 @@ class EventCard extends React.Component {
                 </Button>
               ))}
 
-            <LoginModal
-              isOpen={this.state.isLoginModalOpen}
-              showLoginModal={this.showLoginModal}
-              notFromRegisterBtn={false}
-              showSignupModal={this.showSignupModal}
-              updateRegisteredEvents={updateRegisteredEvents}
-            />
-            <SignupModal
-              isOpen={this.state.isSignupModalOpen}
-              showLoginModal={this.showLoginModal}
-              showSignupModal={this.showSignupModal}
-            />
+            {this.state.isLoginModalOpen && (
+              <LoginModal
+                isOpen={this.state.isLoginModalOpen}
+                showLoginModal={this.showLoginModal}
+                notFromRegisterBtn={false}
+                showSignupModal={this.showSignupModal}
+                updateRegisteredEvents={updateRegisteredEvents}
+              />
+            )}
+            {this.state.isSignupModalOpen && (
+              <SignupModal
+                isOpen={this.state.isSignupModalOpen}
+                showLoginModal={this.showLoginModal}
+                showSignupModal={this.showSignupModal}
+              />
+            )}
             {this.state.isEventRegistrationModalOpen && (
               <EventRegistrationModal
                 isOpen={this.state.isEventRegistrationModalOpen}
                 eventDetail={{ ...eventDetail }}
                 showEventRegistrationModal={this.showEventRegistrationModal}
+                updateRegisteredEvents={updateRegisteredEvents}
+              />
+            )}
+            {this.state.isEventDeregistrationModalOpen && (
+              <EventDeregistrationModal
+                isOpen={this.state.isEventDeregistrationModalOpen}
+                eventDetail={{ ...eventDetail }}
+                showEventDeregistrationModal={this.showEventDeregistrationModal}
                 updateRegisteredEvents={updateRegisteredEvents}
               />
             )}

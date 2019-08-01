@@ -1,10 +1,9 @@
 import React from "react";
-import { render, fireEvent, queryAllByText } from "@testing-library/react";
+import { render, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import "@testing-library/react/cleanup-after-each";
 
 import mockEventsWithSeats from "../__mockData__/mockEventsWithSeats.mockdata";
-// import EventRegistrationModal from "../components/EventRegistrationModal";
 import EventCard from "../components/EventCard";
 import mockAxios from "jest-mock-axios";
 

@@ -6,6 +6,7 @@ import { Button, Container, Spinner } from "reactstrap";
 import LoginModal from "./LoginModal";
 import SignupModal from "./SignupModal";
 import EventRegistrationModal from "./EventRegistrationModal";
+import EventDeregistrationModal from "./EventDeregistrationModal";
 import "../styles/EventDescriptionPage.css";
 
 class EventDescriptionPage extends React.Component {
@@ -17,7 +18,7 @@ class EventDescriptionPage extends React.Component {
       isLoading: true,
       isLoginModalOpen: false,
       isSignupModalOpen: false,
-      isEventRegistrationModalOpen: false,
+      isEventRegistrationModalOpen: false
     };
   }
 
@@ -31,6 +32,10 @@ class EventDescriptionPage extends React.Component {
 
   showEventRegistrationModal = isShown => {
     this.setState({ isEventRegistrationModalOpen: isShown });
+  };
+
+  showEventDeregistrationModal = isShown => {
+    this.setState({ isEventDeregistrationModalOpen: isShown });
   };
 
   checkLoginState = () => {
@@ -54,7 +59,7 @@ class EventDescriptionPage extends React.Component {
           this.setState({
             eventDescription: res.data,
             errorLoading: false,
-            isLoading: false,
+            isLoading: false
           });
         },
         err => {
@@ -93,7 +98,7 @@ class EventDescriptionPage extends React.Component {
         duration,
         location,
         availableSeats,
-        image,
+        image
       } = this.state.eventDescription;
 
       const isHistoryEvent = moment.utc(time).toDate() - Date.now() <= 0;
@@ -157,25 +162,57 @@ class EventDescriptionPage extends React.Component {
               </p>
               <h5>Location</h5>
               <p>{location}</p>
+              <p>Available Seats: {availableSeats}</p>
 
-              {registration}
-              <LoginModal
-                isOpen={this.state.isLoginModalOpen}
-                showLoginModal={this.showLoginModal}
-                showSignupModal={this.showSignupModal}
-                notFromRegisterBtn={false}
-                updateRegisteredEvents={this.props.updateRegisteredEvents}
-              />
-              <SignupModal
-                isOpen={this.state.isSignupModalOpen}
-                showLoginModal={this.showLoginModal}
-                showSignupModal={this.showSignupModal}
-              />
+              {this.props.isRegistered ? (
+                <Button
+                  className="deregister-button"
+                  onClick={() => this.showEventDeregistrationModal(true)}
+                >
+                  Deregister
+                </Button>
+              ) : (
+                <Button
+                  data-testid="register-button"
+                  className="register-button"
+                  onClick={this.checkLoginState}
+                >
+                  Register
+                </Button>
+              )}
+              {this.state.isLoginModalOpen && (
+                <LoginModal
+                  isOpen={this.state.isLoginModalOpen}
+                  showLoginModal={this.showLoginModal}
+                  showSignupModal={this.showSignupModal}
+                  notFromRegisterBtn={false}
+                  updateRegisteredEvents={this.props.updateRegisteredEvents}
+                />
+              )}
+
+              {this.state.isSignupModalOpen && (
+                <SignupModal
+                  isOpen={this.state.isSignupModalOpen}
+                  showLoginModal={this.showLoginModal}
+                  showSignupModal={this.showSignupModal}
+                />
+              )}
+
               {this.state.isEventRegistrationModalOpen && (
                 <EventRegistrationModal
                   isOpen={this.state.isEventRegistrationModalOpen}
                   eventDetail={{ ...this.state.eventDescription }}
                   showEventRegistrationModal={this.showEventRegistrationModal}
+                  updateRegisteredEvents={this.props.updateRegisteredEvents}
+                />
+              )}
+              {this.state.isEventDeregistrationModalOpen && (
+                <EventDeregistrationModal
+                  isOpen={this.state.isEventDeregistrationModalOpen}
+                  eventDetail={{ ...this.state.eventDescription }}
+                  showEventDeregistrationModal={
+                    this.showEventDeregistrationModal
+                  }
                   updateRegisteredEvents={this.props.updateRegisteredEvents}
                 />
               )}
