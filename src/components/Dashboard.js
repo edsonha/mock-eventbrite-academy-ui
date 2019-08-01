@@ -126,7 +126,7 @@ const EventCardSection = ({
       <Row>
         <SectionTitle sectionTitle={title} />
       </Row>
-      {content}
+      <Row>{content}</Row>
     </Container>
   );
 };
