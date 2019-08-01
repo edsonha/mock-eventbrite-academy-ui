@@ -68,8 +68,7 @@ class LoginModal extends React.Component {
             "/profile/registeredevents",
           headers: { Authorization: "Bearer " + jwtToken }
         }).then(getRes => {
-          const regEventId = getRes.data.map(event => event._id);
-          this.props.updateRegisteredEvents(regEventId);
+          this.props.updateRegisteredEvents(getRes.data);
         });
       })
       .catch(err => {
