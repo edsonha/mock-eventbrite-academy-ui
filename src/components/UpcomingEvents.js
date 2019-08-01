@@ -82,6 +82,7 @@ class UpcomingEvents extends React.Component {
         .filter(event => moment.utc(event.time).toDate() - Date.now() > 0)
         .map(event => (
           <EventCard
+            history={this.props.history}
             key={event._id}
             eventDetail={event}
             eventDescriptionPageHandler={this.eventDescriptionPageHandler}

@@ -73,6 +73,7 @@ export class App extends React.Component {
                 isRegistered={this.getRegisteredEventIdOnly().includes(
                   match.params.id
                 )}
+                registeredEvents={this.state.registeredEvents}
               />
             )}
           />

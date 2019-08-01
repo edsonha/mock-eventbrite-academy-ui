@@ -8,6 +8,12 @@ import mockCourses from "../../src/__mockData__/mockCourses.mockdata";
 import mockAxios from "jest-mock-axios";
 import MainApp from "../components/App";
 
+const mockHistory={
+  push: jest.fn()
+}
+
+const redirectToEventDesc = jest.fn();
+
 afterEach(() => {
   window.sessionStorage.clear();
   mockAxios.reset();
@@ -245,3 +251,15 @@ describe("deregistering for events", () => {
     expect(eventDeregistrationModal).not.toBeInTheDocument();
   });
 });
+
+describe('clicking on event card title', () => {
+    it("should redirect to event desc page if image is missing and title is clicked", () => {
+    const eventWithoutImage = Object.assign({}, mockEventsWithSeats[0]);
+    delete eventWithoutImage.image;
+    const { getByTestId } = render(
+      <EventCard eventDetail={mockEventsWithSeats} eventDescriptionPageHandler={redirectToEventDesc} />
+    );
+    fireEvent.click(getByTestId("event-card-title"));
+    expect(redirectToEventDesc).toHaveBeenCalledTimes(1);
+  });
+})

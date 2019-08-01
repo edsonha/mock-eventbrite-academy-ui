@@ -3,7 +3,6 @@ import { render } from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import "@testing-library/react/cleanup-after-each";
 import UpcomingEvents from "../components/UpcomingEvents";
-// import mockEvents from "../__mockData__/mockEvents.mockdata";
 import mockEventsWithSeats from "../__mockData__/mockEventsWithSeats.mockdata";
 import mockAxios from "jest-mock-axios";
 const mockDate = require("mockdate");

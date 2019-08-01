@@ -70,6 +70,29 @@ class EventDescriptionPage extends React.Component {
       );
   }
 
+  async componentDidUpdate(prevProps) {
+    if (prevProps.registeredEvents !== this.props.registeredEvents) {
+      await axios
+        .get(
+          process.env.REACT_APP_REST_API_LOCATION +
+            `/upcomingevents/${this.props.eventId}`
+        )
+        .then(
+          res => {
+            this.setState({
+              eventDescription: res.data,
+              errorLoading: false,
+              isLoading: false
+            });
+          },
+          err => {
+            console.log(err.message);
+            this.setState({ errorLoading: true, isLoading: false });
+          }
+        );
+    }
+  }
+
   render() {
     if (this.state.isLoading) {
       return (

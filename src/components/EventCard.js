@@ -77,6 +77,7 @@ class EventCard extends React.Component {
               <CardTitle
                 onClick={() => eventDescriptionPageHandler(_id)}
                 className="event-card-header-text"
+                data-testid="event-card-title"
               >
                 {title}
               </CardTitle>

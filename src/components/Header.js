@@ -12,8 +12,7 @@ class Header extends React.Component {
     this.state = {
       isSignupModalOpen: false,
       isLoginModalOpen: false,
-      username: "",
-      initials: ""
+      username: ""
     };
   }
 
@@ -28,18 +27,9 @@ class Header extends React.Component {
       })
         .then(res => {
           this.updateUsername(res.data.name);
-          this.getUserInitial(res.data.name);
         })
         .catch(err => {
-          if (err.status === 401) {
-            sessionStorage.removeItem("JWT");
-            this.props.history.push("/");
-          } else if (err.response === undefined) {
-            console.log(err.message);
-          } else if (err.response.status === 401) {
-            sessionStorage.removeItem("JWT");
-            this.props.history.push("/");
-          }
+          this._authErrHandler(err);
         });
     }
   }
@@ -55,22 +45,19 @@ class Header extends React.Component {
       })
         .then(res => {
           this.updateUsername(res.data.name);
-          this.getUserInitial(res.data.name);
         })
         .catch(err => {
-          if (err.status === 401) {
-            sessionStorage.removeItem("JWT");
-            this.props.history.push("/");
-          }
-          // else if (err.response === undefined) {
-          //   console.log(err.message);
-          // } else if (err.response.status === 401) {
-          //   sessionStorage.removeItem("JWT");
-          //   this.props.history.push("/");
-          // }
+          this._authErrHandler(err);
         });
     }
   }
+
+  _authErrHandler = err => {
+    if (err.request.status === 401) {
+      sessionStorage.removeItem("JWT");
+      this.props.history.push("/");
+    }
+  };
 
   updateUsername = name => {
     this.setState({
@@ -84,21 +71,6 @@ class Header extends React.Component {
 
   showLoginModal = isShown => {
     this.setState({ isLoginModalOpen: isShown });
-  };
-
-  getUserInitial = name => {
-    const nameArray = name.split(" ");
-    let initials = "";
-
-    for (let word of nameArray) {
-      initials += word[0].toUpperCase();
-      if (initials.length === 2) {
-        break;
-      }
-    }
-    this.setState({
-      initials
-    });
   };
 
   redirectTo = path => {
@@ -127,7 +99,9 @@ class Header extends React.Component {
             >
               My Events
             </div>
-            <div className="welcome-msg">{this.state.initials}</div>
+            <div className="welcome-msg">
+              {getUserInitial(this.state.username)}
+            </div>
             <Button
               className="logout-button"
               onClick={() => {
@@ -179,3 +153,16 @@ class Header extends React.Component {
 }
 
 export default Header;
+
+const getUserInitial = name => {
+  const nameArray = name.split(" ");
+  let initials = "";
+
+  for (let word of nameArray) {
+    initials += word[0].toUpperCase();
+    if (initials.length === 2) {
+      break;
+    }
+  }
+  return initials;
+};

@@ -6,7 +6,14 @@ import "@testing-library/jest-dom/extend-expect";
 import "@testing-library/react/cleanup-after-each";
 import EventDescriptionPage from "../components/EventDescriptionPage";
 const mockDate = require("mockdate");
+const mockJwt = () => {
+  const mockJwtToken =
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzYWxseUBnbWFpbC5jb20iLCJ1c2VyIjoiU2FsbHkiLCJpYXQiOjE1NjM4NTk5NjcyMDUsImV4cCI6MTU2Mzg1OTk3MDgwNX0.rC3dnj_r-mhL1tp3hj9JecjOpuZFrVY64SPSpS1fBPQ";
 
+  jest
+    .spyOn(window.sessionStorage.__proto__, "getItem")
+    .mockReturnValue(mockJwtToken);
+};
 describe("Event Description Page", () => {
   beforeEach(() => {
     mockDate.set("2019-08-14");
@@ -159,3 +166,25 @@ describe("Event Description Page", () => {
     expect(deregistrationMessage).toBeInTheDocument();
   });
 });
+describe('registering for event', () => {
+  
+
+it("should update number of seats when user registers for event on event description page", () => {
+  mockJwt();
+
+  const { getByText } = render(
+    <EventDescriptionPage
+      eventId={"5d2edb6e0217642ef2524582"}
+      registeredEvents={mockEventsWithSeats}
+    />
+  );
+
+  mockAxios.mockResponse({ data: mockEventsWithSeats[1] });
+
+  fireEvent.click(getByText("Register"));
+  fireEvent.click(getByText("RSVP"));
+  mockAxios.mockResponse({ data: [] });
+  expect(mockAxios).toHaveBeenCalled();
+});
+
+})
