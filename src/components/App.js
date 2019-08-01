@@ -28,14 +28,17 @@ export class App extends React.Component {
         headers: { Authorization: "Bearer " + jwt }
       })
         .then(res => {
-          const regEventId = res.data.map(event => event._id);
-          this.updateRegisteredEvents(regEventId);
+          this.updateRegisteredEvents(res.data);
         })
         .catch(err => {
           console.log(err.message);
         });
     }
   }
+
+  getRegisteredEventIdOnly = () => {
+    return this.state.registeredEvents.map(event => event._id);
+  };
 
   updateRegisteredEvents = events => {
     this.setState({ registeredEvents: events });
@@ -54,7 +57,7 @@ export class App extends React.Component {
             path="/"
             render={props => (
               <LandingPage
-                registeredEvents={this.state.registeredEvents}
+                registeredEvents={this.getRegisteredEventIdOnly()}
                 updateRegisteredEvents={this.updateRegisteredEvents}
                 {...props}
               />
@@ -66,7 +69,7 @@ export class App extends React.Component {
               <EventDescriptionPage
                 eventId={match.params.id}
                 updateRegisteredEvents={this.updateRegisteredEvents}
-                isRegistered={this.state.registeredEvents.includes(
+                isRegistered={this.getRegisteredEventIdOnly().includes(
                   match.params.id
                 )}
               />

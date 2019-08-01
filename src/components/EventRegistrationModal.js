@@ -13,7 +13,7 @@ class EventRegistrationModal extends React.Component {
     this.state = {
       username: "",
       isMessageBoxOpen: false,
-      message: "",
+      message: ""
     };
   }
 
@@ -23,11 +23,11 @@ class EventRegistrationModal extends React.Component {
       await axios({
         method: "get",
         url: process.env.REACT_APP_REST_API_LOCATION + "/users/secure",
-        headers: { Authorization: "Bearer " + jwt },
+        headers: { Authorization: "Bearer " + jwt }
       })
         .then(res => {
           this.setState({
-            username: res.data.name,
+            username: res.data.name
           });
         })
         .catch(err => {
@@ -45,7 +45,7 @@ class EventRegistrationModal extends React.Component {
         "/upcomingevents/" +
         this.props.eventDetail._id +
         "/user/registerevent",
-      headers: { Authorization: "Bearer " + jwt },
+      headers: { Authorization: "Bearer " + jwt }
     })
       .then(postRes => {
         this.setState({ isMessageBoxOpen: true, message: "RSVP Successful" });
@@ -56,7 +56,7 @@ class EventRegistrationModal extends React.Component {
         } else {
           this.setState({
             isMessageBoxOpen: true,
-            message: "Please try again",
+            message: "Please try again"
           });
         }
       })
@@ -66,10 +66,9 @@ class EventRegistrationModal extends React.Component {
           url:
             process.env.REACT_APP_REST_API_LOCATION +
             "/profile/registeredevents",
-          headers: { Authorization: "Bearer " + jwt },
+          headers: { Authorization: "Bearer " + jwt }
         }).then(getRes => {
-          const regEventId = getRes.data.map(event => event._id);
-          this.props.updateRegisteredEvents(regEventId);
+          this.props.updateRegisteredEvents(getRes.data);
         });
       })
       .catch(err => {

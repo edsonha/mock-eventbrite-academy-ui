@@ -85,7 +85,7 @@ describe("registering for events from event card", () => {
     await fireEvent.click(registerBtn);
 
     mockAxios.mockResponse({
-      data: { name: "Sally" },
+      data: { name: "Sally" }
     });
     expect(mockAxios).toHaveBeenCalledTimes(1);
 
@@ -119,14 +119,12 @@ describe("registering for events from event card", () => {
       data: {
         name: "John",
         registeredEvents: [],
-        jwtToken: mockJwtToken,
-      },
+        jwtToken: mockJwtToken
+      }
     });
 
     mockAxios.mockResponse({
-      data: {
-        name: "John",
-      },
+      data: []
     });
 
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
@@ -148,7 +146,7 @@ describe("registering for events from event card", () => {
     await fireEvent.click(registerBtn);
 
     mockAxios.mockResponse({
-      data: { name: "Sally" },
+      data: { name: "Sally" }
     });
 
     const cancelBtn = getByText("Cancel");
@@ -172,7 +170,7 @@ describe("registering for events from event card", () => {
     await fireEvent.click(registerBtn);
 
     mockAxios.mockResponse({
-      data: { name: "Sally" },
+      data: { name: "Sally" }
     });
 
     const closeBtn = getByText("×");
