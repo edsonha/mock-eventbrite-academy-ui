@@ -23,7 +23,7 @@ class Dashboard extends React.Component {
         method: "get",
         url:
           process.env.REACT_APP_REST_API_LOCATION + "/profile/registeredevents",
-        headers: { Authorization: "Bearer " + jwt }
+        headers: { Authorization: "Bearer " + jwt },
       })
         .then(res => {
           this.setState({ isLoading: false });
@@ -99,7 +99,7 @@ const EventCardSection = ({
   eventDescriptionPageHandler,
   isLoading,
   title,
-  dataTestId = "eventCardSection"
+  dataTestId = "eventCardSection",
 }) => {
   const lowerCasedTitle = title.toLowerCase();
   let content = (
@@ -122,12 +122,12 @@ const EventCardSection = ({
   }
 
   return (
-    <div data-testid={dataTestId}>
+    <Container data-testid={dataTestId}>
       <Row>
         <SectionTitle sectionTitle={title} />
       </Row>
       {content}
-    </div>
+    </Container>
   );
 };
 
