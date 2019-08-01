@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import moment from "moment";
 import EventCard from "./EventCard";
 import "../styles/Dashboard.css";
