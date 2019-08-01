@@ -17,7 +17,7 @@ class EventDescriptionPage extends React.Component {
       isLoading: true,
       isLoginModalOpen: false,
       isSignupModalOpen: false,
-      isEventRegistrationModalOpen: false
+      isEventRegistrationModalOpen: false,
     };
   }
 
@@ -54,7 +54,7 @@ class EventDescriptionPage extends React.Component {
           this.setState({
             eventDescription: res.data,
             errorLoading: false,
-            isLoading: false
+            isLoading: false,
           });
         },
         err => {
@@ -93,8 +93,31 @@ class EventDescriptionPage extends React.Component {
         duration,
         location,
         availableSeats,
-        image
+        image,
       } = this.state.eventDescription;
+
+      const isHistoryEvent = moment.utc(time).toDate() - Date.now() <= 0;
+
+      let registration = <p className="history-event">EVENT ENDED</p>;
+      if (!isHistoryEvent) {
+        registration = (
+          <div>
+            <p>Available Seats: {availableSeats}</p>
+            {this.props.isRegistered ? (
+              <Button className="deregister-button">Deregister</Button>
+            ) : (
+              <Button
+                data-testid="register-button"
+                className="register-button"
+                onClick={this.checkLoginState}
+              >
+                Register
+              </Button>
+            )}
+          </div>
+        );
+      }
+
       return (
         <Container data-testid="event-description-page">
           <Container className="image-container">
@@ -134,20 +157,8 @@ class EventDescriptionPage extends React.Component {
               </p>
               <h5>Location</h5>
               <p>{location}</p>
-              <p>Available Seats: {availableSeats}</p>
 
-              {this.props.isRegistered ? (
-                <Button className="deregister-button">Deregister</Button>
-              ) : (
-                <Button
-                  data-testid="register-button"
-                  className="register-button"
-                  onClick={this.checkLoginState}
-                >
-                  Register
-                </Button>
-              )}
-
+              {registration}
               <LoginModal
                 isOpen={this.state.isLoginModalOpen}
                 showLoginModal={this.showLoginModal}

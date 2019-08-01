@@ -91,7 +91,7 @@ describe("Event Description Page", () => {
     await fireEvent.click(registerBtn);
 
     mockAxios.mockResponse({
-      data: { name: "Sally" }
+      data: { name: "Sally" },
     });
 
     expect(spySessionStorageGetItem).toHaveBeenCalledWith("JWT");
@@ -103,5 +103,33 @@ describe("Event Description Page", () => {
     expect(eventTitle).toBeInTheDocument();
     expect(attendeeName).toBeInTheDocument();
     expect(eventRegistrationBtn).toBeInTheDocument();
+  });
+
+  it("should show register button at event start time", () => {
+    mockDate.set(new Date(new Date(mockEventsWithSeats[1].time).getTime() - 1));
+
+    const { queryByText } = render(
+      <EventDescriptionPage eventId={"5d2edb6e0217642ef2524582"} />
+    );
+
+    mockAxios.mockResponse({ data: mockEventsWithSeats[1] });
+    const registerBtn = queryByText(/Register/i);
+    expect(registerBtn).toBeInTheDocument();
+    expect(queryByText(/Available Seats/i)).toBeInTheDocument();
+    expect(queryByText(/EVENT ENDED/i)).not.toBeInTheDocument();
+  });
+
+  it("should not show register button at event start time", () => {
+    mockDate.set(new Date(mockEventsWithSeats[1].time));
+
+    const { queryByText } = render(
+      <EventDescriptionPage eventId={"5d2edb6e0217642ef2524582"} />
+    );
+
+    mockAxios.mockResponse({ data: mockEventsWithSeats[1] });
+    const registerBtn = queryByText(/Register/i);
+    expect(registerBtn).not.toBeInTheDocument();
+    expect(queryByText(/Available Seats/i)).not.toBeInTheDocument();
+    expect(queryByText(/EVENT ENDED/i)).toBeInTheDocument();
   });
 });

@@ -101,20 +101,4 @@ describe("login modal should pop up when user clicks on register on event descri
   afterEach(() => {
     mockAxios.reset();
   });
-
-  it("login modal should pop up when user clicks on register on event descriptons page and is not logged in", () => {
-    const history = createMemoryHistory({
-      initialEntries: ["/event/5d2edb6e0217642ef2524581"],
-    });
-
-    const { getByTestId } = render(
-      <Router history={history}>
-        <App />
-      </Router>
-    );
-    mockAxios.mockResponse({ data: mockEventsWithSeats });
-
-    fireEvent.click(getByTestId("register-button"));
-    expect(getByTestId("login-modal")).toBeInTheDocument();
-  });
 });
