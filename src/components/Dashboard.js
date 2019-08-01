@@ -7,69 +7,50 @@ import { Container, Row, Spinner } from "reactstrap";
 import SectionTitle from "./SectionTitle";
 
 class Dashboard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { isLoading: true };
-  }
-
   eventDescriptionPageHandler = id => {
     this.props.history.push("/event/" + id);
   };
 
   async componentDidMount() {
-    const jwt = sessionStorage.getItem("JWT");
-    if (jwt) {
-      await axios({
-        method: "get",
-        url:
-          process.env.REACT_APP_REST_API_LOCATION + "/profile/registeredevents",
-        headers: { Authorization: "Bearer " + jwt },
-      })
-        .then(res => {
-          this.setState({ isLoading: false });
-        })
-        .catch(err => {
-          console.log(err.message);
-          // if (err.status === 401) {
-          //   sessionStorage.removeItem("JWT");
-          //   this.props.history.push("/");
-          // } else if (err.response === undefined) {
-          //   console.log(err.message);
-          // } else if (err.response.status === 401) {
-          //   console.log("Error is 401: ", err.response);
-          //   sessionStorage.removeItem("JWT");
-          //   this.props.history.push("/");
-          // }
-        });
-    } else {
-      this.props.history.push("/");
-    }
+    this.checkJwt();
   }
 
   async componentDidUpdate() {
+    this.checkJwt();
+  }
+
+  checkJwt = () => {
     const jwt = sessionStorage.getItem("JWT");
 
     if (!jwt) {
       this.props.history.push("/");
     }
-  }
+  };
 
   render() {
+    let registeredEvents = null;
+    let historyEvents = null;
+    if (this.props.registeredEvents) {
+      registeredEvents = getUpcomingRegisteredEvents(
+        this.props.registeredEvents
+      );
+      historyEvents = getHistoryEvents(this.props.registeredEvents);
+    }
     return (
       <div>
         <EventCardSection
           title={"Registered Events"}
-          myEvents={getUpcomingRegisteredEvents(this.props.registeredEvents)}
+          myEvents={registeredEvents}
           eventDescriptionPageHandler={this.eventDescriptionPageHandler}
-          isLoading={this.state.isLoading}
+          isLoading={!registeredEvents}
           dataTestId={"registeredEventsSection"}
         />
 
         <EventCardSection
           title={"History Events"}
-          myEvents={getHistoryEvents(this.props.registeredEvents)}
+          myEvents={historyEvents}
           eventDescriptionPageHandler={this.eventDescriptionPageHandler}
-          isLoading={this.state.isLoading}
+          isLoading={!historyEvents}
           dataTestId={"historyEventsSection"}
         />
       </div>

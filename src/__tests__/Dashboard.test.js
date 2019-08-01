@@ -1,14 +1,13 @@
 import React from "react";
 import { render, fireEvent, within } from "@testing-library/react";
 import { appHistory } from "../components/App";
-import mockAxios from "jest-mock-axios";
 import "@testing-library/jest-dom/extend-expect";
 import "@testing-library/react/cleanup-after-each";
 import Dashboard from "../../src/components/Dashboard";
 const mockDate = require("mockdate");
 
 const mockHistory = {
-  push: jest.fn()
+  push: jest.fn(),
 };
 
 const mockJwt = () => {
@@ -46,7 +45,6 @@ describe("Dashboard", () => {
 
   afterEach(() => {
     mockDate.reset();
-    mockAxios.reset();
     appHistory.index = 0;
     jest.clearAllMocks();
   });
@@ -56,44 +54,21 @@ describe("Dashboard", () => {
     expect(mockHistory.push).toBeCalledWith("/");
   });
 
-  it("should render loading if there is no response", () => {
+  it("should render loading if registeredEvents is null", () => {
     mockJwt();
-    const { queryByTestId } = renderDashboard();
+    const { queryByTestId } = render(
+      <Dashboard history={mockHistory} registeredEvents={null} />
+    );
     expect(queryByTestId("registeredEventsSection-loader")).toBeInTheDocument();
+    expect(queryByTestId("historyEventsSection-loader")).toBeInTheDocument();
   });
 
   it("should show dashboard if /user/secure resolves sucessfully", () => {
     mockJwt();
     const { getByText } = getRegisteredEventsSection();
 
-    mockAxios.mockResponse({
-      data: johnsEvents
-    });
-
     expect(getByText("Registered Events")).toBeInTheDocument();
   });
-
-  // it("should call history.push with root route if axios return 401", () => {
-  //   // mockJwt();
-  //   renderDashboard();
-
-  //   // mockAxios.mockError({ status: 401 });
-  //   expect(mockHistory.push).toBeCalledWith("/");
-  // });
-
-  // it("should redirect back to landing page if there is an error with the api call", async () => {
-  //   // mockJwt();
-  //   renderDashboard();
-  //   // mockAxios.mockError({ status: 401 });
-
-  //   const spySessionStorageGetItem = jest.spyOn(
-  //     window.sessionStorage.__proto__,
-  //     "getItem"
-  //   );
-  //   spySessionStorageGetItem.mockReturnValue(null);
-  //   expect(spySessionStorageGetItem()).toBe(null);
-  //   expect(mockHistory.push).toBeCalledWith("/");
-  // });
 
   describe("Registered Events", () => {
     beforeEach(() => {
@@ -107,16 +82,11 @@ describe("Dashboard", () => {
       const { getByText } = render(
         <Dashboard history={mockHistory} registeredEvents={[]} />
       );
-      mockAxios.mockResponse({
-        data: []
-      });
-      expect(mockAxios).toBeCalledTimes(1);
       expect(getByText("No registered events.")).toBeInTheDocument();
     });
 
     it("should display required event details for all registered event", () => {
       const { getByText, getAllByText } = getRegisteredEventsSection();
-      mockAxios.mockResponse({ data: johnsEvents });
 
       expect(getByText("Speaker 1")).toBeInTheDocument();
       expect(getByText("Speaker 3")).toBeInTheDocument();
@@ -129,7 +99,6 @@ describe("Dashboard", () => {
     it("should NOT display past registered events", () => {
       mockDate.set("2019-08-16");
       const { getByText, queryByText } = getRegisteredEventsSection();
-      mockAxios.mockResponse({ data: johnsEvents });
 
       expect(queryByText(/Lorum Ipsum 3/i)).not.toBeInTheDocument();
       expect(getByText(/Lorum Ipsum 1/i)).toBeInTheDocument();
@@ -138,7 +107,6 @@ describe("Dashboard", () => {
 
     it("should redirect to event detail page when 'Learn More' is clicked", async () => {
       const { getAllByText } = getRegisteredEventsSection();
-      mockAxios.mockResponse({ data: johnsEvents });
       const learnMoreBtn = getAllByText("Learn More")[0];
       await fireEvent.click(learnMoreBtn);
       expect(mockHistory.push).toBeCalledWith(
@@ -153,7 +121,6 @@ describe("Dashboard", () => {
       mockDate.set(beforeEventTime);
 
       const { queryByText } = getRegisteredEventsSection();
-      mockAxios.mockResponse({ data: johnsEvents });
       expect(queryByText(/Lorum Ipsum 3/i)).toBeInTheDocument();
     });
 
@@ -163,7 +130,6 @@ describe("Dashboard", () => {
       mockDate.set(eventTime);
 
       const { queryByText } = getRegisteredEventsSection();
-      mockAxios.mockResponse({ data: johnsEvents });
       expect(queryByText(/Lorum Ipsum 3/i)).not.toBeInTheDocument();
     });
 
@@ -173,14 +139,12 @@ describe("Dashboard", () => {
       mockDate.set(eventTime);
 
       const { queryByText } = getRegisteredEventsSection();
-      mockAxios.mockResponse({ data: johnsEvents });
       expect(queryByText(/Lorum Ipsum 3/i)).not.toBeInTheDocument();
     });
 
     it("should not render Event History Header if there are no history events", () => {
       mockJwt();
       const { queryByText } = getRegisteredEventsSection();
-      mockAxios.mockResponse({ data: johnsEvents });
       expect(queryByText(/Event History /i)).not.toBeInTheDocument();
     });
   });
@@ -195,14 +159,12 @@ describe("Dashboard", () => {
     });
 
     it("should render History Events Header", () => {
-      const { getByText, queryByTestId } = getHistoryEventsSection();
+      const { getByText } = getHistoryEventsSection();
       expect(getByText("History Events")).toBeInTheDocument();
-      expect(queryByTestId("historyEventsSection-loader")).toBeInTheDocument();
     });
 
     it("should event that is currently going on", () => {
       const { getByText } = getHistoryEventsSection();
-      mockAxios.mockResponse({ data: johnsEvents });
       expect(getByText("Lorum Ipsum 3.")).toBeInTheDocument();
     });
 
@@ -213,7 +175,6 @@ describe("Dashboard", () => {
       const item = dashboard.queryByTestId("historyEventsSection");
 
       const { queryByText } = within(item);
-      mockAxios.mockResponse({ data: johnsEvents });
       expect(queryByText(/Lorum Ipsum 1./i)).not.toBeInTheDocument();
       expect(queryByText(/Lorum Ipsum 4./i)).not.toBeInTheDocument();
     });
@@ -232,7 +193,7 @@ const johnsEvents = [
     duration: 90,
     location: "Location 3",
     availableSeats: 100,
-    image: "https://via.placeholder.com/150.png?text=_"
+    image: "https://via.placeholder.com/150.png?text=_",
   },
   {
     _id: "5d2e798c8c4c740d685e1d3f",
@@ -245,7 +206,7 @@ const johnsEvents = [
     duration: 120,
     location: "Location 1",
     availableSeats: 100,
-    image: "https://via.placeholder.com/150.png?text=_"
+    image: "https://via.placeholder.com/150.png?text=_",
   },
   {
     _id: "5d2e7dd7ec0f970d68a71464",
@@ -258,6 +219,6 @@ const johnsEvents = [
     duration: 90,
     location: "Location 4",
     availableSeats: 0,
-    image: "https://via.placeholder.com/150.png?text=_"
-  }
+    image: "https://via.placeholder.com/150.png?text=_",
+  },
 ];

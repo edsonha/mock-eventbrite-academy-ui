@@ -14,7 +14,7 @@ export class App extends React.Component {
     super(props);
     this.state = {
       isLoggedIn: false,
-      registeredEvents: []
+      registeredEvents: null,
     };
   }
 
@@ -25,7 +25,7 @@ export class App extends React.Component {
         method: "get",
         url:
           process.env.REACT_APP_REST_API_LOCATION + "/profile/registeredevents",
-        headers: { Authorization: "Bearer " + jwt }
+        headers: { Authorization: "Bearer " + jwt },
       })
         .then(res => {
           this.updateRegisteredEvents(res.data);
@@ -37,7 +37,8 @@ export class App extends React.Component {
   }
 
   getRegisteredEventIdOnly = () => {
-    return this.state.registeredEvents.map(event => event._id);
+    const { registeredEvents } = this.state;
+    return registeredEvents ? registeredEvents.map(event => event._id) : [];
   };
 
   updateRegisteredEvents = events => {
