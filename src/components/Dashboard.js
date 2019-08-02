@@ -85,9 +85,11 @@ const EventCardSection = ({
 }) => {
   const lowerCasedTitle = title.toLowerCase();
   let content = (
-    <Row>
-      <h3>{`No ${lowerCasedTitle}.`}</h3>
-    </Row>
+    <Container>
+      <Row>
+        <h3 className="no-events">{`No ${lowerCasedTitle}.`}</h3>
+      </Row>
+    </Container>
   );
   if (isLoading) {
     content = <DashboardSpinner testId={dataTestId} />;
