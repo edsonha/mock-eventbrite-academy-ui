@@ -16,6 +16,7 @@ describe("registration", () => {
     const { getByText } = render(
       <EventCard eventDetail={mockEventsWithSeats[0]} />
     );
+
     const mockJwtToken =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzYWxseUBnbWFpbC5jb20iLCJ1c2VyIjoiU2FsbHkiLCJpYXQiOjE1NjM4NTk5NjcyMDUsImV4cCI6MTU2Mzg1OTk3MDgwNX0.rC3dnj_r-mhL1tp3hj9JecjOpuZFrVY64SPSpS1fBPQ";
 
@@ -36,7 +37,7 @@ describe("registration", () => {
 
   it("should show `Event is Full` alert when there is no more available seat", () => {
     const { getByText, queryAllByText } = render(
-      <EventCard eventDetail={mockEventsWithSeats[1]} />
+      <EventCard eventDetail={mockEventsWithSeats[0]} />
     );
     const mockJwtToken =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzYWxseUBnbWFpbC5jb20iLCJ1c2VyIjoiU2FsbHkiLCJpYXQiOjE1NjM4NTk5NjcyMDUsImV4cCI6MTU2Mzg1OTk3MDgwNX0.rC3dnj_r-mhL1tp3hj9JecjOpuZFrVY64SPSpS1fBPQ";
@@ -44,7 +45,6 @@ describe("registration", () => {
     window.sessionStorage.setItem("JWT", mockJwtToken);
     const registerBtn = getByText("Register");
     fireEvent.click(registerBtn);
-    expect(queryAllByText("Event 2")).toHaveLength(2);
     const rsvpBtn = getByText("RSVP");
     expect(rsvpBtn).toBeInTheDocument();
     fireEvent.click(rsvpBtn);
@@ -58,7 +58,7 @@ describe("registration", () => {
 
   it("should show `Please try again` alert when there is an error with the register back end call", () => {
     const { getByText, queryAllByText } = render(
-      <EventCard eventDetail={mockEventsWithSeats[1]} />
+      <EventCard eventDetail={mockEventsWithSeats[0]} />
     );
     const mockJwtToken =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzYWxseUBnbWFpbC5jb20iLCJ1c2VyIjoiU2FsbHkiLCJpYXQiOjE1NjM4NTk5NjcyMDUsImV4cCI6MTU2Mzg1OTk3MDgwNX0.rC3dnj_r-mhL1tp3hj9JecjOpuZFrVY64SPSpS1fBPQ";
@@ -66,7 +66,6 @@ describe("registration", () => {
     window.sessionStorage.setItem("JWT", mockJwtToken);
     const registerBtn = getByText("Register");
     fireEvent.click(registerBtn);
-    expect(queryAllByText("Event 2")).toHaveLength(2);
     const rsvpBtn = getByText("RSVP");
     expect(rsvpBtn).toBeInTheDocument();
     fireEvent.click(rsvpBtn);

@@ -67,7 +67,8 @@ class EventCard extends React.Component {
       time,
       duration,
       location,
-      isPastEvent = false
+      isPastEvent = false,
+      availableSeats
     } = eventDetail;
     return (
       <Col xs="12" md="6">
@@ -119,13 +120,15 @@ class EventCard extends React.Component {
                 >
                   Deregister
                 </Button>
-              ) : (
+              ) : availableSeats > 0 ? (
                 <Button
                   className="register-button"
                   onClick={this.checkLoginState}
                 >
                   Register
                 </Button>
+              ) : (
+                <Button className="event-full-button">FULL</Button>
               ))}
 
             {this.state.isLoginModalOpen && (

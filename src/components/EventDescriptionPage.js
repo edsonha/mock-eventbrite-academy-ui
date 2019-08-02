@@ -140,7 +140,7 @@ class EventDescriptionPage extends React.Component {
               >
                 Deregister
               </Button>
-            ) : (
+            ) : availableSeats > 0 ? (
               <Button
                 data-testid="register-button"
                 className="register-button"
@@ -148,6 +148,8 @@ class EventDescriptionPage extends React.Component {
               >
                 Register
               </Button>
+            ) : (
+              <Button className="event-full-button">FULL</Button>
             )}
           </div>
         );

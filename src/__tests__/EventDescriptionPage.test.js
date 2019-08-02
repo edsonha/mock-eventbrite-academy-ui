@@ -52,10 +52,10 @@ describe("Event Description Page", () => {
 
   it("should display signup modal when signup link is clicked", () => {
     const { getByTestId, getByText } = render(
-      <EventDescriptionPage eventId={"5d2edb6e0217642ef2524582"} />
+      <EventDescriptionPage eventId={"5d2edb6e0217642ef2524581"} />
     );
 
-    mockAxios.mockResponse({ data: mockEventsWithSeats[1] });
+    mockAxios.mockResponse({ data: mockEventsWithSeats[0] });
 
     const registerBtn = getByText("Register");
     fireEvent.click(registerBtn);
@@ -67,10 +67,10 @@ describe("Event Description Page", () => {
 
   it("should open login box when user is not logged in", async () => {
     const { getByText, getByTestId } = render(
-      <EventDescriptionPage eventId={"5d2edb6e0217642ef2524582"} />
+      <EventDescriptionPage eventId={"5d2edb6e0217642ef2524581"} />
     );
 
-    mockAxios.mockResponse({ data: mockEventsWithSeats[1] });
+    mockAxios.mockResponse({ data: mockEventsWithSeats[0] });
 
     const registerBtn = getByText("Register");
     fireEvent.click(registerBtn);
@@ -81,10 +81,10 @@ describe("Event Description Page", () => {
 
   it("should open event registration box if user is already logged in", async () => {
     const { getByText, getByTestId, getAllByText } = render(
-      <EventDescriptionPage eventId={"5d2edb6e0217642ef2524582"} />
+      <EventDescriptionPage eventId={"5d2edb6e0217642ef2524581"} />
     );
 
-    mockAxios.mockResponse({ data: mockEventsWithSeats[1] });
+    mockAxios.mockResponse({ data: mockEventsWithSeats[0] });
     const mockJwtToken =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzYWxseUBnbWFpbC5jb20iLCJ1c2VyIjoiU2FsbHkiLCJpYXQiOjE1NjM4NTk5NjcyMDUsImV4cCI6MTU2Mzg1OTk3MDgwNX0.rC3dnj_r-mhL1tp3hj9JecjOpuZFrVY64SPSpS1fBPQ";
 
@@ -103,7 +103,7 @@ describe("Event Description Page", () => {
 
     expect(spySessionStorageGetItem).toHaveBeenCalledWith("JWT");
     const eventRegistrationModal = getByTestId("event-registration-modal");
-    const eventTitle = getAllByText("Event 2")[1];
+    const eventTitle = getAllByText("Event 1")[0];
     const attendeeName = getByText("Sally");
     const eventRegistrationBtn = getByText("RSVP");
     expect(eventRegistrationModal).toBeInTheDocument();
@@ -116,10 +116,10 @@ describe("Event Description Page", () => {
     mockDate.set(new Date(new Date(mockEventsWithSeats[1].time).getTime() - 1));
 
     const { queryByText } = render(
-      <EventDescriptionPage eventId={"5d2edb6e0217642ef2524582"} />
+      <EventDescriptionPage eventId={"5d2edb6e0217642ef2524581"} />
     );
 
-    mockAxios.mockResponse({ data: mockEventsWithSeats[1] });
+    mockAxios.mockResponse({ data: mockEventsWithSeats[0] });
     const registerBtn = queryByText(/Register/i);
     expect(registerBtn).toBeInTheDocument();
     expect(queryByText(/Available Seats/i)).toBeInTheDocument();
@@ -166,25 +166,35 @@ describe("Event Description Page", () => {
     expect(deregistrationMessage).toBeInTheDocument();
   });
 });
-describe('registering for event', () => {
-  
+describe("registering for event", () => {
+  it("shoud show FULL button if event has no available seats", () => {
+    const { getByText } = render(
+      <EventDescriptionPage
+        eventId={"5d2edb6e0217642ef2524582"}
+        registeredEvents={mockEventsWithSeats}
+      />
+    );
 
-it("should update number of seats when user registers for event on event description page", () => {
-  mockJwt();
+    mockAxios.mockResponse({ data: mockEventsWithSeats[1] });
 
-  const { getByText } = render(
-    <EventDescriptionPage
-      eventId={"5d2edb6e0217642ef2524582"}
-      registeredEvents={mockEventsWithSeats}
-    />
-  );
+    expect(getByText("FULL")).toBeInTheDocument();
+  });
 
-  mockAxios.mockResponse({ data: mockEventsWithSeats[1] });
+  it("should update number of seats when user registers for event on event description page", () => {
+    mockJwt();
 
-  fireEvent.click(getByText("Register"));
-  fireEvent.click(getByText("RSVP"));
-  mockAxios.mockResponse({ data: [] });
-  expect(mockAxios).toHaveBeenCalled();
+    const { getByText } = render(
+      <EventDescriptionPage
+        eventId={"5d2edb6e0217642ef2524581"}
+        registeredEvents={mockEventsWithSeats}
+      />
+    );
+
+    mockAxios.mockResponse({ data: mockEventsWithSeats[0] });
+
+    fireEvent.click(getByText("Register"));
+    fireEvent.click(getByText("RSVP"));
+    mockAxios.mockResponse({ data: [] });
+    expect(mockAxios).toHaveBeenCalled();
+  });
 });
-
-})

@@ -8,9 +8,9 @@ import mockCourses from "../../src/__mockData__/mockCourses.mockdata";
 import mockAxios from "jest-mock-axios";
 import MainApp from "../components/App";
 
-const mockHistory={
+const mockHistory = {
   push: jest.fn()
-}
+};
 
 const redirectToEventDesc = jest.fn();
 
@@ -43,7 +43,7 @@ describe("Event Card", () => {
 
   it("should display signup modal when signup link is clicked", () => {
     const { getByTestId, getByText } = render(
-      <EventCard eventDetail={mockEventsWithSeats} />
+      <EventCard eventDetail={mockEventsWithSeats[0]} />
     );
 
     const registerBtn = getByText("Register");
@@ -52,6 +52,14 @@ describe("Event Card", () => {
     fireEvent.click(signUpModalBtn);
     const signUpModal = getByTestId("signup-header");
     expect(signUpModal).toBeInTheDocument();
+  });
+
+  it("should show FULL button if event has no available seats", () => {
+    const { getByText } = render(
+      <EventCard eventDetail={mockEventsWithSeats[1]} />
+    );
+
+    expect(getByText("FULL")).toBeInTheDocument();
   });
 });
 
@@ -252,14 +260,17 @@ describe("deregistering for events", () => {
   });
 });
 
-describe('clicking on event card title', () => {
-    it("should redirect to event desc page if image is missing and title is clicked", () => {
+describe("clicking on event card title", () => {
+  it("should redirect to event desc page if image is missing and title is clicked", () => {
     const eventWithoutImage = Object.assign({}, mockEventsWithSeats[0]);
     delete eventWithoutImage.image;
     const { getByTestId } = render(
-      <EventCard eventDetail={mockEventsWithSeats} eventDescriptionPageHandler={redirectToEventDesc} />
+      <EventCard
+        eventDetail={mockEventsWithSeats}
+        eventDescriptionPageHandler={redirectToEventDesc}
+      />
     );
     fireEvent.click(getByTestId("event-card-title"));
     expect(redirectToEventDesc).toHaveBeenCalledTimes(1);
   });
-})
+});

@@ -76,7 +76,8 @@ describe("Upcoming Events Component", () => {
     expect(getAllByText(/1.5hr/i).length).toBe(2);
     expect(getAllByText(/Sat, Aug 17th 2019, 6:00 pm/i).length).toBe(2);
 
-    expect(getAllByText("Register").length).toBe(4);
+    expect(getAllByText("Register").length).toBe(2);
+    expect(getAllByText("FULL").length).toBe(2);
     expect(getAllByText("Learn More").length).toBe(4);
   });
 });
@@ -151,6 +152,7 @@ describe("List of Registered and Upcoming Events", () => {
 
     mockAxios.mockResponse({ data: mockEventsWithSeats });
     expect(getAllByText("Deregister").length).toBe(1);
-    expect(getAllByText("Register").length).toBe(3);
+    expect(getAllByText("Register").length).toBe(1);
+    expect(getAllByText("FULL").length).toBe(2);
   });
 });
