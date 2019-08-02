@@ -128,7 +128,9 @@ class EventCard extends React.Component {
                   Register
                 </Button>
               ) : (
-                <Button className="event-full-button">FULL</Button>
+                <Button className="event-full-button" disabled>
+                  FULL
+                </Button>
               ))}
 
             {this.state.isLoginModalOpen && (
