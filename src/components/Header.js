@@ -18,7 +18,6 @@ class Header extends React.Component {
 
   async componentDidMount() {
     const jwt = sessionStorage.getItem("JWT");
-
     if (jwt && !this.state.username) {
       await axios({
         method: "get",

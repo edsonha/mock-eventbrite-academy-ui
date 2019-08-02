@@ -220,6 +220,7 @@ class EventDescriptionPage extends React.Component {
                   eventDetail={{ ...this.state.eventDescription }}
                   showEventRegistrationModal={this.showEventRegistrationModal}
                   updateRegisteredEvents={this.props.updateRegisteredEvents}
+                  history={this.props.history}
                 />
               )}
               {this.state.isEventDeregistrationModalOpen && (

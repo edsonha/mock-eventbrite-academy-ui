@@ -110,7 +110,7 @@ describe("Routing to dashboard", () => {
     mockJwt();
     const history = createMemoryHistory({ initialEntries: ["/dashboard"] });
 
-    const { queryAllByTestId, getByTestId } = render(
+    const { getByTestId } = render(
       <Router history={history}>
         <App />
       </Router>

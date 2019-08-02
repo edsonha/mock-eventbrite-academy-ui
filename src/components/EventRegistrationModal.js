@@ -31,10 +31,17 @@ class EventRegistrationModal extends React.Component {
           });
         })
         .catch(err => {
-          console.log(err);
+          this._authErrHandler(err);
         });
     }
   }
+
+  _authErrHandler = err => {
+    if (err.request.status === 401) {
+      sessionStorage.removeItem("JWT");
+      this.props.history.push("/");
+    }
+  };
 
   submitReservation = async () => {
     const jwt = sessionStorage.getItem("JWT");
@@ -50,16 +57,6 @@ class EventRegistrationModal extends React.Component {
       .then(postRes => {
         this.setState({ isMessageBoxOpen: true, message: "RSVP Successful" });
       })
-      .catch(err => {
-        if (err.response && err.response.status === 422) {
-          this.setState({ isMessageBoxOpen: true, message: "Event is full" });
-        } else {
-          this.setState({
-            isMessageBoxOpen: true,
-            message: "Please try again"
-          });
-        }
-      })
       .then(async () => {
         await axios({
           method: "get",
@@ -72,7 +69,15 @@ class EventRegistrationModal extends React.Component {
         });
       })
       .catch(err => {
-        console.log("ERROR", err);
+        if (err.response && err.response.status === 422) {
+          this.setState({ isMessageBoxOpen: true, message: "Event is full" });
+        } else {
+          this.setState({
+            isMessageBoxOpen: true,
+            message: "Please try again"
+          });
+          console.log("ERROR", err);
+        }
       });
   };
 
@@ -90,9 +95,9 @@ class EventRegistrationModal extends React.Component {
 
     const { title, time, location, duration } = this.props.eventDetail;
     return (
-      <div data-testid="event-registration-modal">
+      <React.Fragment>
         {this.props.isOpen && (
-          <React.Fragment>
+          <div data-testid="event-registration-modal">
             <Modal isOpen={this.props.isOpen} id="event-registration-content">
               <ModalHeader close={closeBtn}>
                 <p>{title}</p>
@@ -133,9 +138,9 @@ class EventRegistrationModal extends React.Component {
                 </ModalFooter>
               )}
             </Modal>
-          </React.Fragment>
+          </div>
         )}
-      </div>
+      </React.Fragment>
     );
   }
 }
