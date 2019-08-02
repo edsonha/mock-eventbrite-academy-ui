@@ -47,7 +47,7 @@ class Dashboard extends React.Component {
         />
 
         <EventCardSection
-          title={"History Events"}
+          title={"Past Events"}
           myEvents={historyEvents}
           eventDescriptionPageHandler={this.eventDescriptionPageHandler}
           isLoading={!historyEvents}

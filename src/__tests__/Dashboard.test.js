@@ -7,7 +7,7 @@ import Dashboard from "../../src/components/Dashboard";
 const mockDate = require("mockdate");
 
 const mockHistory = {
-  push: jest.fn(),
+  push: jest.fn()
 };
 
 const mockJwt = () => {
@@ -160,7 +160,7 @@ describe("Dashboard", () => {
 
     it("should render History Events Header", () => {
       const { getByText } = getHistoryEventsSection();
-      expect(getByText("History Events")).toBeInTheDocument();
+      expect(getByText("Past Events")).toBeInTheDocument();
     });
 
     it("should event that is currently going on", () => {
@@ -193,7 +193,7 @@ const johnsEvents = [
     duration: 90,
     location: "Location 3",
     availableSeats: 100,
-    image: "https://via.placeholder.com/150.png?text=_",
+    image: "https://via.placeholder.com/150.png?text=_"
   },
   {
     _id: "5d2e798c8c4c740d685e1d3f",
@@ -206,7 +206,7 @@ const johnsEvents = [
     duration: 120,
     location: "Location 1",
     availableSeats: 100,
-    image: "https://via.placeholder.com/150.png?text=_",
+    image: "https://via.placeholder.com/150.png?text=_"
   },
   {
     _id: "5d2e7dd7ec0f970d68a71464",
@@ -219,6 +219,6 @@ const johnsEvents = [
     duration: 90,
     location: "Location 4",
     availableSeats: 0,
-    image: "https://via.placeholder.com/150.png?text=_",
-  },
+    image: "https://via.placeholder.com/150.png?text=_"
+  }
 ];
