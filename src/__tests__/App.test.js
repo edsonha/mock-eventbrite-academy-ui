@@ -23,6 +23,10 @@ describe("App", () => {
 });
 
 describe("render header", () => {
+  beforeEach(() => {
+    window.sessionStorage.clear();
+  });
+
   afterEach(() => {
     mockAxios.reset();
   });
@@ -100,7 +104,7 @@ describe("login modal should pop up when user clicks on register on event descri
 
   it("login modal should pop up when user clicks on register on event descriptons page and is not logged in", () => {
     const history = createMemoryHistory({
-      initialEntries: ["/event/5d2edb6e0217642ef2524581"]
+      initialEntries: ["/event/5d2edb6e0217642ef2524581"],
     });
 
     const { getByTestId } = render(

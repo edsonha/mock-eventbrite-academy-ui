@@ -5,7 +5,7 @@ import {
   CardSubtitle,
   Button,
   CardText,
-  Col
+  Col,
 } from "reactstrap";
 import { minToHour } from "../helper/minToHour";
 import moment from "moment";
@@ -20,7 +20,7 @@ class EventCard extends React.Component {
     this.state = {
       isLoginModalOpen: false,
       isSignupModalOpen: false,
-      isEventRegistrationModalOpen: false
+      isEventRegistrationModalOpen: false,
     };
   }
 
@@ -51,7 +51,7 @@ class EventCard extends React.Component {
       eventDescriptionPageHandler,
       isRegistered,
       updateRegisteredEvents,
-      eventDetail
+      eventDetail,
     } = this.props;
     const {
       image,
@@ -61,7 +61,8 @@ class EventCard extends React.Component {
       speaker,
       time,
       duration,
-      location
+      location,
+      isPastEvent = false,
     } = eventDetail;
     return (
       <Col xs="12" md="6">
@@ -104,16 +105,17 @@ class EventCard extends React.Component {
             >
               Learn More
             </Button>
-            {isRegistered ? (
-              <Button className="deregister-button">Deregister</Button>
-            ) : (
-              <Button
-                className="register-button"
-                onClick={this.checkLoginState}
-              >
-                Register
-              </Button>
-            )}
+            {!isPastEvent &&
+              (isRegistered ? (
+                <Button className="deregister-button">Deregister</Button>
+              ) : (
+                <Button
+                  className="register-button"
+                  onClick={this.checkLoginState}
+                >
+                  Register
+                </Button>
+              ))}
 
             <LoginModal
               isOpen={this.state.isLoginModalOpen}

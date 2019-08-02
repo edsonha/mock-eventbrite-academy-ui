@@ -85,7 +85,7 @@ describe("registering for events from event card", () => {
     await fireEvent.click(registerBtn);
 
     mockAxios.mockResponse({
-      data: { name: "Sally" }
+      data: { name: "Sally" },
     });
     expect(mockAxios).toHaveBeenCalledTimes(1);
 
@@ -119,14 +119,14 @@ describe("registering for events from event card", () => {
       data: {
         name: "John",
         registeredEvents: [],
-        jwtToken: mockJwtToken
-      }
+        jwtToken: mockJwtToken,
+      },
     });
 
     mockAxios.mockResponse({
       data: {
-        name: "John"
-      }
+        name: "John",
+      },
     });
 
     expect(mockAxios.post).toHaveBeenCalledTimes(1);
@@ -148,7 +148,7 @@ describe("registering for events from event card", () => {
     await fireEvent.click(registerBtn);
 
     mockAxios.mockResponse({
-      data: { name: "Sally" }
+      data: { name: "Sally" },
     });
 
     const cancelBtn = getByText("Cancel");
@@ -172,7 +172,7 @@ describe("registering for events from event card", () => {
     await fireEvent.click(registerBtn);
 
     mockAxios.mockResponse({
-      data: { name: "Sally" }
+      data: { name: "Sally" },
     });
 
     const closeBtn = getByText("×");
@@ -189,5 +189,27 @@ describe("registering for events from event card", () => {
 
     const deregisterBtn = getByText("Deregister");
     expect(deregisterBtn).toBeInTheDocument();
+  });
+
+  it("should not show register button if isPastEvent when card is registered", () => {
+    const eventData = Object.assign(mockEventsWithSeats[0]);
+    eventData.isPastEvent = true;
+    eventData.isRegistered = true;
+
+    const { queryByText } = render(<EventCard eventDetail={eventData} />);
+
+    expect(queryByText("Register")).not.toBeInTheDocument();
+    expect(queryByText("Deregister")).not.toBeInTheDocument();
+  });
+
+  it("should not show register button if isPastEvent when card is not registered", () => {
+    const eventData = Object.assign(mockEventsWithSeats[0]);
+    eventData.isPastEvent = true;
+    eventData.isRegistered = false;
+
+    const { queryByText } = render(<EventCard eventDetail={eventData} />);
+
+    expect(queryByText("Register")).not.toBeInTheDocument();
+    expect(queryByText("Deregister")).not.toBeInTheDocument();
   });
 });

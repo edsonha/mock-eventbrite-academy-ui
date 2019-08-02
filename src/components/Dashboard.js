@@ -87,7 +87,12 @@ const getUpcomingRegisteredEvents = events =>
   events.filter(event => moment.utc(event.time).toDate() - Date.now() > 0);
 
 const getHistoryEvents = events =>
-  events.filter(event => moment.utc(event.time).toDate() - Date.now() <= 0);
+  events
+    .filter(event => moment.utc(event.time).toDate() - Date.now() <= 0)
+    .map(event => {
+      event.isPastEvent = true;
+      return event;
+    });
 
 const EventCardSection = ({
   myEvents,

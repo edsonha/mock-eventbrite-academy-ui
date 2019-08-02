@@ -8,7 +8,7 @@ import {
   Label,
   Col,
   Input,
-  Row
+  Row,
 } from "reactstrap";
 import MessageBox from "./MessageBox";
 import "../styles/LoginModal.css";
@@ -21,13 +21,13 @@ class LoginModal extends React.Component {
       email: "",
       password: "",
       result: "",
-      messageBoxIsOpen: false
+      messageBoxIsOpen: false,
     };
   }
 
   onChange = event => {
     const {
-      target: { name, value }
+      target: { name, value },
     } = event;
     this.setState({ [name]: value });
   };
@@ -37,7 +37,7 @@ class LoginModal extends React.Component {
       email: "",
       password: "",
       result: "",
-      messageBoxIsOpen: false
+      messageBoxIsOpen: false,
     });
   };
 
@@ -46,7 +46,7 @@ class LoginModal extends React.Component {
     await axios
       .post(process.env.REACT_APP_REST_API_LOCATION + "/users/login", {
         email: this.state.email,
-        password: this.state.password
+        password: this.state.password,
       })
       .then(postRes => {
         jwtToken = postRes.data.jwtToken;
@@ -66,7 +66,7 @@ class LoginModal extends React.Component {
           url:
             process.env.REACT_APP_REST_API_LOCATION +
             "/profile/registeredevents",
-          headers: { Authorization: "Bearer " + jwtToken }
+          headers: { Authorization: "Bearer " + jwtToken },
         }).then(getRes => {
           const regEventId = getRes.data.map(event => event._id);
           this.props.updateRegisteredEvents(regEventId);
@@ -75,7 +75,7 @@ class LoginModal extends React.Component {
       .catch(err => {
         this.setState({
           result: err.response.data.message,
-          messageBoxIsOpen: true
+          messageBoxIsOpen: true,
         });
       });
   };
