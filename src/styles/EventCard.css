@@ -36,6 +36,11 @@
   padding: 2px 16px;
   height: 30px;
   width: 120px;
+  box-shadow: none;
+}
+
+.btn.btn-secondary.event-full-button:hover {
+  cursor: default;
 }
 
 .btn.btn-secondary.deregister-button {
