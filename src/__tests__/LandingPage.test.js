@@ -14,9 +14,7 @@ describe("ui", () => {
 
   it("should show landing page header when landing page is rendered", () => {
     const { getByText } = render(<LandingPage />);
-    expect(
-      getByText("Personal Finance Courses on Your Terms")
-    ).toBeInTheDocument();
+    expect(getByText("Finance Courses on Your Terms")).toBeInTheDocument();
   });
 
   it("should show landing page header when landing page is rendered", () => {
