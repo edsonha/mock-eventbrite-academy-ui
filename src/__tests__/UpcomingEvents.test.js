@@ -74,7 +74,7 @@ describe("Upcoming Events Component", () => {
     expect(getByText("Location 4")).toBeInTheDocument();
 
     expect(getAllByText(/1.5hr/i).length).toBe(2);
-    expect(getAllByText(/Sat, Aug 17th 2019, 6:00 pm/i).length).toBe(2);
+    expect(getAllByText(/Mon, Aug 17th 2020, 6:00 pm/i).length).toBe(2);
 
     expect(getAllByText("Register").length).toBe(2);
     expect(getAllByText("FULL").length).toBe(2);

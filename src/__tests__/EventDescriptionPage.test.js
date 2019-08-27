@@ -166,6 +166,7 @@ describe("Event Description Page", () => {
     expect(deregistrationMessage).toBeInTheDocument();
   });
 });
+
 describe("registering for event", () => {
   it("shoud show FULL button if event has no available seats", () => {
     const { getByText } = render(
@@ -175,7 +176,7 @@ describe("registering for event", () => {
       />
     );
 
-    mockAxios.mockResponse({ data: mockEventsWithSeats[1] });
+    mockAxios.mockResponse({ data: mockEventsWithSeats[3] });
 
     expect(getByText("FULL")).toBeInTheDocument();
   });
@@ -190,7 +191,7 @@ describe("registering for event", () => {
       />
     );
 
-    mockAxios.mockResponse({ data: mockEventsWithSeats[0] });
+    mockAxios.mockResponse({ data: mockEventsWithSeats[2] });
 
     fireEvent.click(getByText("Register"));
     fireEvent.click(getByText("RSVP"));
