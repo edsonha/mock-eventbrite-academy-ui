@@ -37,13 +37,13 @@ jobs:
   deploy:
     docker:
       - image: circleci/node:12.2.0
-    environment:
-      HEROKU_APP_NAME: stashaway-ui
+    # environment:
+    #   HEROKU_APP_NAME: stashaway-ui
     steps:
       - checkout
       - run:
-          name: Deploy to Heroku
-          command: git push https://heroku:$HEROKU_API_KEY@git.heroku.com/$HEROKU_APP_NAME.git master
+          name: Deploy to Netlify
+          command: git push https://github.com/edsonha/mock-eventbrite-academy-ui.git master
 
 workflows:
   version: 2
@@ -51,8 +51,8 @@ workflows:
     jobs:
       - test
       - build:
-         requires: 
-          - test
+          requires:
+            - test
       - deploy:
           requires:
             - build
